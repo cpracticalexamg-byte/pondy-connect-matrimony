@@ -1,0 +1,40 @@
+id,religion_id,name_en,name_ta
+none,all,Don't wish to specify,குறிப்பிட விரும்பவில்லை
+rc,christian,Roman Catholic,ரோமன் கத்தோலிக்கர்
+latin_catholic,christian,Latin Catholic,லத்தீன் கத்தோலிக்கர்
+csi,christian,CSI (Church of South India),சி.எஸ்.ஐ (தென்னிந்திய திருச்சபை)
+protestant,christian,Protestant,புராட்டஸ்டன்ட்
+pentecostal,christian,Pentecostal,பெந்தேகோஸ்தே
+born_again,christian,Born Again,மறுபிறப்படைந்த
+anglican,christian,Anglican / Episcopal,ஆங்லிகன் / எபிஸ்கோபல்
+anglo_indian,christian,Anglo-Indian,ஆங்கிலோ-இந்தியன்
+apostolic,christian,Apostolic,அப்போஸ்தலிக்க
+ag,christian,Assembly of God (AG),அசெம்பிளி ஆஃப் காட்
+baptist,christian,Baptist,பாப்டிஸ்ட்
+brethren,christian,Brethren,பிரதர்ன்
+calvinist,christian,Calvinist,கால்வினிஸ்ட்
+chaldean_syrian,christian,Chaldean Syrian (Assyrian),சால்டியன் சிரியன்
+church_of_christ,christian,Church of Christ,சர்ச் ஆஃப் கிரைஸ்ட்
+church_of_god,christian,Church of God,சர்ச் ஆஃப் காட்
+cni,christian,Church of North India (CNI),வட இந்திய திருச்சபை
+evangelical,christian,Evangelical,சுவிசேஷ
+jacobite,christian,Jacobite,யாக்கோபைட்
+lutheran,christian,Lutheran,லூத்தரன்
+marthoma,christian,Marthoma,மார்தோமா
+methodist,christian,Methodist,மெதடிஸ்ட்
+orthodox,christian,Orthodox,ஆர்த்தடாக்ஸ்
+presbyterian,christian,Presbyterian,பிரஸ்பைடீரியன்
+seventh_day_adventist,christian,Seventh-day Adventist,செவன்த்-டே அட்வென்டிஸ்ட்
+syrian_catholic,christian,Syrian Catholic,சிரியன் கத்தோலிக்கர்
+syro_malabar,christian,Syro-Malabar,சீரோ-மலபார்
+christian_others,christian,Christian – Others,கிறிஸ்தவர் – இதர
+sunni_hanafi,muslim_sunni,Hanafi,ஹனஃபி
+sunni_shafi,muslim_sunni,Shafi,ஷாஃபி
+sunni_others,muslim_sunni,Sunni – Others,சுன்னி – இதர
+shia_ithna,muslim_shia,Ithna Ashari,இத்னா அஷாரி
+shia_bohra,muslim_shia,Dawoodi Bohra,தாவூதி போஹ்ரா
+shia_others,muslim_shia,Shia – Others,ஷியா – இதர
+hindu_saivite,hindu,Saivite,சைவர்
+hindu_vaishnavite,hindu,Vaishnavite,வைணவர்
+hindu_smartha,hindu,Smartha,ஸ்மார்த்தர்
+hindu_others,hindu,Hindu – General / Others,இந்து – பொது / இதர

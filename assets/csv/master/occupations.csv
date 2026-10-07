@@ -1,0 +1,28 @@
+id,category,name_en,name_ta
+software_engineer,IT & Software,Software Engineer / Developer,மென்பொருள் பொறியாளர்
+tech_lead_architect,IT & Software,Tech Lead / Architect,தொழில்நுட்ப முன்னணி
+doctor,Healthcare,Doctor / Physician,மருத்துவர்
+surgeon,Healthcare,Surgeon,அறுவை சிகிச்சை நிபுணர்
+dentist,Healthcare,Dentist,பல் மருத்துவர்
+nurse_paramedic,Healthcare,Nurse / Paramedic,செவிலியர்
+bank_officer,Banking & Finance,Bank Officer / Manager,வங்கி அதிகாரி / மேலாளர்
+chartered_accountant,Banking & Finance,Chartered Accountant (CA),பட்டய கணக்காளர்
+financial_analyst,Banking & Finance,Financial Analyst,நிதி ஆய்வாளர்
+civil_services,Government,Civil Services / IAS / IPS / TNPSC,அரசு சிவில் பணிகள்
+govt_officer,Government,Govt Employee / Officer,அரசு ஊழியர் / அதிகாரி
+defence,Government,Defence / Armed Forces / Police,இராணுவம் / காவல்துறை
+professor_teacher,Education,Professor / Lecturer / Teacher,பேராசிரியர் / ஆசிரியர்
+business_owner,Business,Business Owner / Entrepreneur,தொழிலதிபர் / சுயதொழில்
+civil_engineer,Engineering,Civil Engineer,சிவில் பொறியாளர்
+mechanical_engineer,Engineering,Mechanical Engineer,மெக்கானிக்கல் பொறியாளர்
+electrical_engineer,Engineering,Electrical / Electronics Engineer,மின் பொறியாளர்
+architect,Design,Architect,கட்டிடக் கலைஞர்
+advocate_lawyer,Legal,Advocate / Lawyer / Legal Consultant,வழக்கறிஞர் / சட்ட ஆலோசகர்
+executive_manager,Corporate,Corporate Executive / Manager,கார்ப்பரேட் மேலாளர்
+hr_professional,Corporate,HR Professional,மனித வளத்துறை (HR)
+marketing_sales,Corporate,Marketing & Sales Professional,சந்தைப்படுத்தல் மற்றும் விற்பனை
+scientist_researcher,Science,Scientist / Researcher,விஞ்ஞானி / ஆராய்ச்சியாளர்
+agriculture_farmer,Agriculture,Agriculture / Farming,விவசாயம்
+student,Other,Student,மாணவர்
+not_working,Other,Not Working / Home Maker,வேலை செய்யவில்லை / இல்லத்தரசி
+other_occupation,Other,Other Occupation,இதர பணி

@@ -1,0 +1,23 @@
+id,category,name_en,name_ta
+be_btech,Engineering,B.E. / B.Tech,பி.இ / பி.டெக்
+me_mtech,Engineering,M.E. / M.Tech,எம்.இ / எம்.டெக்
+mbbs,Medicine,MBBS,எம்.பி.பி.எஸ்
+md_ms,Medicine,MD / MS,எம்.டி / எம்.எஸ்
+bds_mds,Medicine,BDS / MDS,பி.டி.எஸ் / எம்.டி.எஸ்
+bpharm_mpharm,Medicine,B.Pharm / M.Pharm,பி.பார்ம் / எம்.பார்ம்
+mba,Management,MBA / PGDM,எம்.பி.ஏ / பி.ஜி.டி.எம்
+bba_bbm,Management,BBA / BBM,பி.பி.ஏ / பி.பி.எம்
+ca_cs_icwa,Finance,CA / CS / ICWA,சி.ஏ / சி.எஸ் / ஐ.சி.டபிள்யூ.ஏ
+bcom,Finance,B.Com,பி.காம்
+mcom,Finance,M.Com,எம்.காம்
+bsc,Science,B.Sc,பி.எஸ்சி
+msc,Science,M.Sc,எம்.எஸ்சி
+bca_mca,Computers,BCA / MCA,பி.சி.ஏ / எம்.சி.ஏ
+llb_llm,Law,LLB / LLM / Law,சட்டம் (எல்.எல்.பி / எல்.எல்.எம்)
+barch,Architecture,B.Arch,பி.ஆர்க்
+phd,Doctorate,Ph.D / Doctorate,முனைவர் (பி.எச்.டி)
+bed_med,Education,B.Ed / M.Ed,பி.எட் / எம்.எட்
+diploma,Diploma,Diploma / Polytechnic,டிப்ளமோ / பாலிடெக்னிக்
+higher_secondary,School,Higher Secondary (12th),மேல்நிலைப் பள்ளி (12-ஆம் வகுப்பு)
+secondary,School,SSLC (10th),பத்தாம் வகுப்பு
+other_education,Other,Other Education,இதர கல்வி

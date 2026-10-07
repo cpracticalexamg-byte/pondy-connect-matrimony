@@ -1,0 +1,12 @@
+id,min_inr,max_inr,label_en,label_ta
+no_income,0,0,No Income / Not Working,வருமானம் இல்லை
+under_2_lakhs,0,200000,Under ₹ 2 Lakhs,₹ 2 லட்சத்திற்கு கீழ்
+2_to_3_lakhs,200000,300000,₹ 2 Lakhs to 3 Lakhs,₹ 2 லட்சம் முதல் 3 லட்சம்
+3_to_5_lakhs,300000,500000,₹ 3 Lakhs to 5 Lakhs,₹ 3 லட்சம் முதல் 5 லட்சம்
+5_to_7_lakhs,500000,700000,₹ 5 Lakhs to 7 Lakhs,₹ 5 லட்சம் முதல் 7 லட்சம்
+7_to_10_lakhs,700000,1000000,₹ 7 Lakhs to 10 Lakhs,₹ 7 லட்சம் முதல் 10 லட்சம்
+10_to_15_lakhs,1000000,1500000,₹ 10 Lakhs to 15 Lakhs,₹ 10 லட்சம் முதல் 15 லட்சம்
+15_to_25_lakhs,1500000,2500000,₹ 15 Lakhs to 25 Lakhs,₹ 15 லட்சம் முதல் 25 லட்சம்
+25_to_50_lakhs,2500000,5000000,₹ 25 Lakhs to 50 Lakhs,₹ 25 லட்சம் முதல் 50 லட்சம்
+50_lakhs_to_1_crore,5000000,10000000,₹ 50 Lakhs to 1 Crore,₹ 50 லட்சம் முதல் 1 கோடி
+above_1_crore,10000000,999999999,Above ₹ 1 Crore,₹ 1 கோடிக்கு மேல்

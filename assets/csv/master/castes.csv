@@ -1,0 +1,35 @@
+id,religion_id,division_id,name_en,name_ta
+caste_none,all,all,Don't wish to specify,குறிப்பிட விரும்பவில்லை
+vanniyar,hindu,all,Vanniyar / Padayachi,வன்னியர் / படையாட்சி
+mudaliar,hindu,all,Mudaliar (Agamudayar / Thuluva / Sengunthar),முதலியார்
+pillai,hindu,all,Pillai (Saiva / Karkatha / Tirunelveli),பிள்ளை
+nadar,hindu,all,Nadar,நாடார்
+brahmin_iyer,hindu,all,Brahmin – Iyer,பிராமணர் – ஐயர்
+brahmin_iyengar,hindu,all,Brahmin – Iyengar,பிராமணர் – ஐயங்கார்
+chettiar,hindu,all,Chettiar / Nagarathar,செட்டியார் / நகரத்தார்
+naidu,hindu,all,Naidu (Balija / Kamma),நாயுடு
+thevar,hindu,all,Thevar / Mukkulathor / Maravar,தேவர் / முக்குலத்தோர்
+gounder,hindu,all,Gounder (Kongu Vellalar),கவுண்டர்
+reddiar,hindu,all,Reddiar / Reddy,ரெட்டியார் / ரெட்டி
+yadava,hindu,all,Yadava / Konar,யாதவர் / கோனார்
+viswakarma,hindu,all,Viswakarma / Achari,விஸ்வகர்மா / ஆச்சாரி
+adi_dravidar,hindu,all,Adi Dravidar / Paraiyar,ஆதி திராவிடர்
+devendra_kula_vellalar,hindu,all,Devendra Kula Vellalar / Pallar,தேவேந்திர குல வேளாளர்
+meenavar,hindu,all,Meenavar / Parvatha Rajakulam / Pattinavar,மீனவர் / பட்டினவர்
+sengunthar,hindu,all,Sengunthar / Kaikolar,செங்குந்தர் / கைகோளர்
+sozhiya_vellalar,hindu,all,Sozhiya Vellalar,சோழிய வேளாளர்
+arunthathiyar,hindu,all,Arunthathiyar,அருந்ததியர்
+maruthuvar,hindu,all,Maruthuvar / Navithar,மருத்துவர் / நாவிதர்
+vannar,hindu,all,Vannar / Dhobi,வண்ணார்
+saurashtra,hindu,all,Saurashtra,சௌராஷ்டிரா
+jangam,hindu,all,Jangam / Veerasaiva,ஜங்கம் / வீரசைவர்
+hindu_caste_others,hindu,all,Others / Caste No Bar,இதர சாதி / சாதி தடையில்லை
+christian_nadar,christian,all,Christian – Nadar,கிறிஸ்தவ நாடார்
+christian_fernando,christian,all,Christian – Paravar / Fernando,கிறிஸ்தவ பரவர்
+christian_mudaliar,christian,all,Christian – Mudaliar / Pillai,கிறிஸ்தவ முதலியார் / பிள்ளை
+christian_adi_dravidar,christian,all,Christian – Adi Dravidar,கிறிஸ்தவ ஆதி திராவிடர்
+christian_caste_others,christian,all,Christian – Others / Caste No Bar,கிறிஸ்தவர் – இதர
+muslim_lebbai,muslim_sunni,all,Lebbai,லெப்பை
+muslim_marakayar,muslim_sunni,all,Marakayar,மரைக்காயர்
+muslim_rowther,muslim_sunni,all,Rowther,ராவுத்தர்
+muslim_caste_others,muslim_sunni,all,Muslim – Others / No Bar,முஸ்லிம் – இதர
