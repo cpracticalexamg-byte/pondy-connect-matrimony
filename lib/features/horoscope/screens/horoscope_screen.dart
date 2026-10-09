@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../data/repositories/repository_providers.dart';
 import '../../../domain/horoscope/horoscope_engine.dart';
 import '../../auth/providers/auth_state_provider.dart';
+import '../widgets/south_indian_chart_grid.dart';
 
 class HoroscopeScreen extends ConsumerStatefulWidget {
   final String? candidateId;
@@ -65,10 +67,13 @@ class _HoroscopeScreenState extends ConsumerState<HoroscopeScreen> {
       }
 
       _calculate();
-    } catch (_) {
+    } catch (e, stack) {
+      AppLogger.error('Failed to load horoscope profiles', tag: 'HoroscopeScreen', error: e, stackTrace: stack);
       _calculate();
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
@@ -206,7 +211,37 @@ class _HoroscopeScreenState extends ConsumerState<HoroscopeScreen> {
 
                   const SizedBox(height: 16),
 
-                  // 3. 10-Porutham Detailed Breakdown List
+                  // 3. Vedic Horoscope Raasi Chart
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.cardBorder),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Vedic Horoscope Chart (ராசி கட்டம்)', style: AppTypography.heading3.copyWith(fontSize: 16)),
+                        const SizedBox(height: 6),
+                        Text(
+                          'Positions: சந்(ம) = Bride Moon, சந்(வ) = Groom Moon',
+                          style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                        ),
+                        const SizedBox(height: 14),
+                        SouthIndianChartGrid(
+                          title: 'ராசி கட்டம்',
+                          subtitle: 'Moon Placements',
+                          planetsInHouses: _buildChartPlanets(),
+                          size: 280,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // 4. 10-Porutham Detailed Breakdown List
                   Text('Detailed 10-Porutham Analysis', style: AppTypography.heading3.copyWith(fontSize: 16)),
                   const SizedBox(height: 8),
 
@@ -307,5 +342,35 @@ class _HoroscopeScreenState extends ConsumerState<HoroscopeScreen> {
     final clean = raw.replaceAll('star_', '').replaceAll('_', ' ');
     if (clean.isEmpty) return '';
     return clean[0].toUpperCase() + clean.substring(1);
+  }
+
+  int _getRasiHouseNumber(String rasi) {
+    final clean = rasi.toLowerCase().replaceAll(' ', '');
+    if (clean.contains('mesh')) return 1;
+    if (clean.contains('rishab')) return 2;
+    if (clean.contains('mithun')) return 3;
+    if (clean.contains('kadag') || clean.contains('katak')) return 4;
+    if (clean.contains('sim')) return 5;
+    if (clean.contains('kanni')) return 6;
+    if (clean.contains('thula') || clean.contains('tula')) return 7;
+    if (clean.contains('viruch') || clean.contains('vris')) return 8;
+    if (clean.contains('dhanu')) return 9;
+    if (clean.contains('makar')) return 10;
+    if (clean.contains('kumb')) return 11;
+    if (clean.contains('meen')) return 12;
+    return 1;
+  }
+
+  Map<int, List<String>> _buildChartPlanets() {
+    final bHouse = _getRasiHouseNumber(_brideRasi);
+    final gHouse = _getRasiHouseNumber(_groomRasi);
+    final map = <int, List<String>>{};
+    if (bHouse == gHouse) {
+      map[bHouse] = ['சந்(ம)', 'சந்(வ)'];
+    } else {
+      map[bHouse] = ['சந்(ம)'];
+      map[gHouse] = ['சந்(வ)'];
+    }
+    return map;
   }
 }

@@ -1,0 +1,9 @@
+id,code,symbol,name_en,sort_order,is_active
+1,INR,₹,Indian Rupee,1,1
+2,USD,$,US Dollar,2,1
+3,AED,AED,UAE Dirham,3,1
+4,SGD,S$,Singapore Dollar,4,1
+5,GBP,£,British Pound,5,1
+6,CAD,C$,Canadian Dollar,6,1
+7,AUD,A$,Australian Dollar,7,1
+8,EUR,€,Euro,8,1

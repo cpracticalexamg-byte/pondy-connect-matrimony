@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../core/widgets/profile_avatar.dart';
 import '../../../data/repositories/repository_providers.dart';
 import '../../../domain/models/interest_model.dart';
@@ -57,13 +58,18 @@ class _InterestsScreenState extends ConsumerState<InterestsScreen> with SingleTi
         }
       }
 
-      setState(() {
-        _received = received;
-        _sent = sent;
-        _isLoading = false;
-      });
-    } catch (_) {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() {
+          _received = received;
+          _sent = sent;
+          _isLoading = false;
+        });
+      }
+    } catch (e, stack) {
+      AppLogger.error('Failed to load interests', tag: 'InterestsScreen', error: e, stackTrace: stack);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

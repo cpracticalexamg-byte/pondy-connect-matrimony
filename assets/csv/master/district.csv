@@ -1,0 +1,50 @@
+id,state_id,code,name_en,name_ta,sort_order,is_active
+1,1,puducherry,Puducherry,புதுச்சேரி,1,1
+2,1,karaikal,Karaikal,காரைக்கால்,2,1
+3,1,mahe,Mahe,மாஹே,3,1
+4,1,yanam,Yanam,ஏனாம்,4,1
+5,2,cuddalore,Cuddalore,கடலூர்,1,1
+6,2,villupuram,Villupuram,விழுப்புரம்,2,1
+7,2,chennai,Chennai,சென்னை,3,1
+8,2,chengalpattu,Chengalpattu,செங்கல்பட்டு,4,1
+9,2,kanchipuram,Kanchipuram,காஞ்சிபுரம்,5,1
+10,2,tiruvallur,Tiruvallur,திருவள்ளூர்,6,1
+11,2,vellore,Vellore,வேலூர்,7,1
+12,2,ranipet,Ranipet,ராணிப்பேட்டை,8,1
+13,2,tirupathur,Tirupathur,திருப்பத்தூர்,9,1
+14,2,tiruvannamalai,Tiruvannamalai,திருவண்ணாமலை,10,1
+15,2,dharmapuri,Dharmapuri,தருமபுரி,11,1
+16,2,krishnagiri,Krishnagiri,கிருஷ்ணகிரி,12,1
+17,2,salem,Salem,சேலம்,13,1
+18,2,namakkal,Namakkal,நாமக்கல்,14,1
+19,2,erode,Erode,ஈரோடு,15,1
+20,2,coimbatore,Coimbatore,கோயம்புத்தூர்,16,1
+21,2,tiruppur,Tiruppur,திருப்பூர்,17,1
+22,2,nilgiris,Nilgiris (Ooty),நீலகிரி,18,1
+23,2,thanjavur,Thanjavur,தஞ்சாவூர்,19,1
+24,2,thiruvarur,Thiruvarur,திருவாரூர்,20,1
+25,2,nagapattinam,Nagapattinam,நாகப்பட்டினம்,21,1
+26,2,mayiladuthurai,Mayiladuthurai,மயிலாடுதுறை,22,1
+27,2,tiruchirappalli,Tiruchirappalli (Trichy),திருச்சிராப்பள்ளி,23,1
+28,2,karur,Karur,கரூர்,24,1
+29,2,perambalur,Perambalur,பெரம்பலூர்,25,1
+30,2,ariyalur,Ariyalur,அரியலூர்,26,1
+31,2,pudukkottai,Pudukkottai,புதுக்கோட்டை,27,1
+32,2,madurai,Madurai,மதுரை,28,1
+33,2,dindigul,Dindigul,திண்டுக்கல்,29,1
+34,2,theni,Theni,தேனி,30,1
+35,2,virudhunagar,Virudhunagar,விருதுநகர்,31,1
+36,2,sivagangai,Sivagangai,சிவகங்கை,32,1
+37,2,ramanathapuram,Ramanathapuram,ராமநாதபுரம்,33,1
+38,2,tirunelveli,Tirunelveli,திருநெல்வேலி,34,1
+39,2,tenkasi,Tenkasi,தென்காசி,35,1
+40,2,thoothukudi,Thoothukudi (Tuticorin),தூத்துக்குடி,36,1
+41,2,kanniyakumari,Kanniyakumari (Nagercoil),கன்னியாகுமரி,37,1
+42,2,kallakurichi,Kallakurichi,கள்ளக்குறிச்சி,38,1
+43,3,bengaluru_urban,Bengaluru Urban,பெங்களூர்,1,1
+44,4,thiruvananthapuram,Thiruvananthapuram,திருவனந்தபுரம்,1,1
+45,4,ernakulam_kochi,Ernakulam (Kochi),கொச்சி,2,1
+46,5,chittoor,Chittoor,சித்தூர்,1,1
+47,6,hyderabad,Hyderabad,ஹைதராபாத்,1,1
+48,7,mumbai_city,Mumbai,மும்பை,1,1
+49,8,new_delhi,New Delhi,புது டெல்லி,1,1

@@ -1,0 +1,6 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,never_married,Never Married,திருமணம் ஆகாதவர்,1,1
+2,widowed,Widowed,துணையை இழந்தவர்,2,1
+3,divorced,Divorced,விவாகரத்து பெற்றவர்,3,1
+4,awaiting_divorce,Awaiting Divorce,விவாகரத்து கோரியவர்,4,1
+5,annulled,Annulled,செல்லாததாக்கப்பட்ட திருமணம்,5,1

@@ -21,11 +21,23 @@ class _Step5AdditionalScreenState extends ConsumerState<Step5AdditionalScreen> {
   List<MasterItem> _familyTypes = [];
   List<MasterItem> _familyValues = [];
   List<MasterItem> _diets = [];
+  late final TextEditingController _fatherOccupationController;
+  late final TextEditingController _motherOccupationController;
 
   @override
   void initState() {
     super.initState();
+    final reg = ref.read(registrationProvider);
+    _fatherOccupationController = TextEditingController(text: reg.fatherOccupation);
+    _motherOccupationController = TextEditingController(text: reg.motherOccupation);
     _loadMasters();
+  }
+
+  @override
+  void dispose() {
+    _fatherOccupationController.dispose();
+    _motherOccupationController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadMasters() async {
@@ -158,7 +170,7 @@ class _Step5AdditionalScreenState extends ConsumerState<Step5AdditionalScreen> {
 
           // Parents occupation
           TextField(
-            controller: TextEditingController(text: reg.fatherOccupation),
+            controller: _fatherOccupationController,
             decoration: const InputDecoration(
               labelText: "Father's Occupation (Optional)",
               hintText: 'e.g. Business, Retired Govt Employee, Teacher',
@@ -170,7 +182,7 @@ class _Step5AdditionalScreenState extends ConsumerState<Step5AdditionalScreen> {
           const SizedBox(height: 16),
 
           TextField(
-            controller: TextEditingController(text: reg.motherOccupation),
+            controller: _motherOccupationController,
             decoration: const InputDecoration(
               labelText: "Mother's Occupation (Optional)",
               hintText: 'e.g. Homemaker, Professor, Bank Officer',

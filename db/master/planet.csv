@@ -1,0 +1,11 @@
+id,code,symbol,name_en,name_ta,sort_order
+1,sun,Su,Sun (Suriyan),சூரியன்,1
+2,moon,Mo,Moon (Chandran),சந்திரன்,2
+3,mars,Ma,Mars (Sevvai),செவ்வாய்,3
+4,mercury,Me,Mercury (Budhan),புதன்,4
+5,jupiter,Ju,Jupiter (Guru),குரு,5
+6,venus,Ve,Venus (Sukran),சுக்கிரன்,6
+7,saturn,Sa,Saturn (Sani),சனி,7
+8,rahu,Ra,Rahu,ராகு,8
+9,kethu,Ke,Kethu,கேது,9
+10,lagna,La,Lagnam (Ascendant),லக்னம்,10

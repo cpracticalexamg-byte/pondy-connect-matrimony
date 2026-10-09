@@ -161,4 +161,64 @@ void main() {
     final id2 = await store.nextId(CsvSchema.profilesTable, 'profile_id', 'PC', 6);
     expect(id2, 'PC000002');
   });
+
+  test('CsvStore rollback on transaction failure restores previous state', () async {
+    await store.insert(CsvSchema.usersTable, {
+      'user_id': 'USR000100',
+      'mobile': '+91 99999 00001',
+      'email': 'rollback.test@example.com',
+      'password_hash': 'hash',
+      'created_at': DateTime.now().toIso8601String(),
+    });
+
+    final before = await store.readAll(CsvSchema.usersTable);
+    expect(before.length, 1);
+
+    expect(
+      () => store.runInTransaction([CsvSchema.usersTable], () async {
+        await store.insert(CsvSchema.usersTable, {
+          'user_id': 'USR000101',
+          'mobile': '+91 99999 00002',
+          'email': 'will_fail@example.com',
+          'password_hash': 'hash',
+          'created_at': DateTime.now().toIso8601String(),
+        });
+
+        // Deliberately throw error inside transaction
+        throw Exception('Simulated mid-transaction failure');
+      }),
+      throwsA(isA<Exception>()),
+    );
+
+    // Verify rollback restored initial state
+    final after = await store.readAll(CsvSchema.usersTable);
+    expect(after.length, 1);
+    expect(after.first['user_id'], 'USR000100');
+  });
+
+  test('CsvStore pagination works correctly with page and pageSize', () async {
+    for (int i = 1; i <= 15; i++) {
+      await store.insert(CsvSchema.notificationsTable, {
+        'notif_id': 'PAGE_$i',
+        'profile_id': 'PC000001',
+        'type': 'system',
+        'title': 'Page item $i',
+        'created_at': DateTime.now().toIso8601String(),
+        'is_read': 'false',
+      });
+    }
+
+    final page1 = await store.readPage(CsvSchema.notificationsTable, page: 1, pageSize: 5);
+    expect(page1.length, 5);
+    expect(page1.first['notif_id'], 'PAGE_1');
+    expect(page1.last['notif_id'], 'PAGE_5');
+
+    final page3 = await store.readPage(CsvSchema.notificationsTable, page: 3, pageSize: 5);
+    expect(page3.length, 5);
+    expect(page3.first['notif_id'], 'PAGE_11');
+    expect(page3.last['notif_id'], 'PAGE_15');
+
+    final page4 = await store.readPage(CsvSchema.notificationsTable, page: 4, pageSize: 5);
+    expect(page4.isEmpty, true);
+  });
 }

@@ -21,11 +21,23 @@ class _Step3LocationScreenState extends ConsumerState<Step3LocationScreen> {
   final List<String> _countries = ['India', 'United States', 'United Arab Emirates', 'Singapore', 'Malaysia', 'United Kingdom', 'Other'];
   final List<String> _states = ['Puducherry', 'Tamil Nadu', 'Karnataka', 'Kerala', 'Andhra Pradesh', 'Telangana', 'Maharashtra', 'Other'];
   List<MasterItem> _districts = [];
+  late final TextEditingController _cityController;
+  late final TextEditingController _citizenshipController;
 
   @override
   void initState() {
     super.initState();
+    final reg = ref.read(registrationProvider);
+    _cityController = TextEditingController(text: reg.city);
+    _citizenshipController = TextEditingController(text: reg.citizenship);
     _loadDistricts();
+  }
+
+  @override
+  void dispose() {
+    _cityController.dispose();
+    _citizenshipController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadDistricts() async {
@@ -161,7 +173,7 @@ class _Step3LocationScreenState extends ConsumerState<Step3LocationScreen> {
 
           // City
           TextField(
-            controller: TextEditingController(text: reg.city),
+            controller: _cityController,
             decoration: const InputDecoration(
               labelText: 'City / Town',
               hintText: 'e.g. Puducherry, Oulgaret, Heritage Town, Karaikal',
@@ -174,7 +186,7 @@ class _Step3LocationScreenState extends ConsumerState<Step3LocationScreen> {
 
           // Citizenship
           TextField(
-            controller: TextEditingController(text: reg.citizenship),
+            controller: _citizenshipController,
             decoration: const InputDecoration(
               labelText: 'Citizenship',
               hintText: 'e.g. Indian, French, etc.',

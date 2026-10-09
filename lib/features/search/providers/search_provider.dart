@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../data/repositories/profile_repository.dart';
 import '../../../data/repositories/repository_providers.dart';
 import '../../../domain/matching/matching_engine.dart';
@@ -182,7 +183,8 @@ class SearchNotifier extends StateNotifier<SearchState> {
       matches.sort((a, b) => b.score.compareTo(a.score));
 
       state = state.copyWith(results: matches, isLoading: false);
-    } catch (_) {
+    } catch (e, stack) {
+      AppLogger.error('Search filtering failed', tag: 'SearchNotifier', error: e, stackTrace: stack);
       state = state.copyWith(isLoading: false);
     }
   }

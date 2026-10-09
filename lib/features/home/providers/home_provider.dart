@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../data/repositories/interest_repository.dart';
 import '../../../data/repositories/notification_repository.dart';
 import '../../../data/repositories/profile_repository.dart';
@@ -83,11 +84,7 @@ class HomeNotifier extends StateNotifier<HomeDashboardData> {
     try {
       final authState = _ref.read(authStateProvider);
       ProfileModel? myProfile = authState.profile;
-      final allProfiles = await _profileRepo.getAllProfiles(includeDemo: true);
-
-      if (myProfile == null && allProfiles.isNotEmpty) {
-        myProfile = allProfiles.first;
-      }
+      final allProfiles = await _profileRepo.getAllProfiles(includeDemo: false);
 
       final profileId = myProfile?.profileId ?? '';
 
@@ -96,15 +93,17 @@ class HomeNotifier extends StateNotifier<HomeDashboardData> {
       if (profileId.isNotEmpty) {
         prefs = await _profileRepo.getPartnerPrefs(profileId);
       }
-      prefs ??= PartnerPrefModel(
-        profileId: profileId,
-        religion: myProfile?.religion ?? 'Hindu',
-        district: myProfile?.district ?? 'Puducherry',
-      );
+      if (prefs == null && myProfile != null) {
+        prefs = PartnerPrefModel(
+          profileId: profileId,
+          religion: myProfile.religion.isNotEmpty ? myProfile.religion : 'hindu',
+          district: myProfile.district.isNotEmpty ? myProfile.district : 'puducherry',
+        );
+      }
 
       // Compute matches
       List<MatchResult> matches = [];
-      if (myProfile != null) {
+      if (myProfile != null && prefs != null) {
         matches = MatchingEngine.instance.findMatches(
           myProfile: myProfile,
           myPrefs: prefs,
@@ -143,7 +142,8 @@ class HomeNotifier extends StateNotifier<HomeDashboardData> {
         nearbyMatches: nearby,
         successStories: stories,
       );
-    } catch (_) {
+    } catch (e, stack) {
+      AppLogger.error('Failed to refresh dashboard', tag: 'HomeNotifier', error: e, stackTrace: stack);
       state = state.copyWith(isLoading: false);
     }
   }

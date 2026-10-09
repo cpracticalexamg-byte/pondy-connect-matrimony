@@ -1,0 +1,1 @@
+horoscope_id,profile_id,nakshatra_id,padam,rasi_id,lagnam_id,dosham_id,dasa_id,dasa_balance_years,dasa_balance_months,dasa_balance_days,time_of_birth,place_of_birth,chart_raasi_json,chart_amsam_json,horoscope_match_required,created_at,updated_at,deleted_at,row_version

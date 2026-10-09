@@ -41,44 +41,6 @@ class _TeaserStripState extends State<TeaserStrip> {
   bool _isUserTouching = false;
   final NumberFormat _fmt = NumberFormat('#,##,###');
 
-  static const List<TeaserProfileItem> _defaultSampleProfiles = [
-    TeaserProfileItem(
-      ageHeight: "26 yrs, 5' 5\"",
-      city: 'Puducherry',
-      religionDivision: 'Hindu, Mudaliar',
-      occupation: 'Software Engineer',
-      avatarInitials: 'PM',
-    ),
-    TeaserProfileItem(
-      ageHeight: "28 yrs, 5' 9\"",
-      city: 'Karaikal',
-      religionDivision: 'Christian, RC',
-      occupation: 'Bank Manager',
-      avatarInitials: 'AR',
-    ),
-    TeaserProfileItem(
-      ageHeight: "24 yrs, 5' 3\"",
-      city: 'Chennai',
-      religionDivision: 'Hindu, Vanniyar',
-      occupation: 'Chartered Accountant',
-      avatarInitials: 'SK',
-    ),
-    TeaserProfileItem(
-      ageHeight: "29 yrs, 5' 11\"",
-      city: 'Puducherry',
-      religionDivision: 'Muslim, Sunni',
-      occupation: 'Civil Engineer',
-      avatarInitials: 'FA',
-    ),
-    TeaserProfileItem(
-      ageHeight: "27 yrs, 5' 4\"",
-      city: 'Villupuram',
-      religionDivision: 'Hindu, Brahmin',
-      occupation: 'Doctor (MBBS)',
-      avatarInitials: 'VN',
-    ),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -112,9 +74,11 @@ class _TeaserStripState extends State<TeaserStrip> {
 
   @override
   Widget build(BuildContext context) {
-    final list = widget.sampleProfiles.isNotEmpty
-        ? widget.sampleProfiles
-        : _defaultSampleProfiles;
+    if (widget.sampleProfiles.isEmpty) {
+      return const SizedBox.shrink();
+    }
+
+    final list = widget.sampleProfiles;
 
     // Multiply list for endless marquee illusion
     final infiniteList = [...list, ...list, ...list, ...list];

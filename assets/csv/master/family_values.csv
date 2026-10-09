@@ -1,4 +1,5 @@
-id,name_en,name_ta
-traditional,Traditional,பாரம்பரியம்
-moderate,Moderate,மிதமான
-liberal,Liberal,சுதந்திர மனப்பான்மை
+id,code,name_en,name_ta,sort_order,is_active
+1,orthodox,Orthodox,பழமைவாத குடும்பம்,1,1
+2,traditional,Traditional,பாரம்பரிய குடும்பம்,2,1
+3,moderate,Moderate,மிதமான குடும்பம்,3,1
+4,liberal,Liberal,நவீன / சுதந்திர குடும்பம்,4,1

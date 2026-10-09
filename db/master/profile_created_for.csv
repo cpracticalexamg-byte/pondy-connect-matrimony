@@ -1,0 +1,8 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,myself,Myself,எனக்காக,1,1
+2,son,Son,மகன்,2,1
+3,daughter,Daughter,மகள்,3,1
+4,brother,Brother,சகோதரன்,4,1
+5,sister,Sister,சகோதரி,5,1
+6,friend,Friend,நண்பர்,6,1
+7,relative,Relative,உறவினர்,7,1

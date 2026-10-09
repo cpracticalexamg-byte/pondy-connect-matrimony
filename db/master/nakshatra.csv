@@ -1,0 +1,28 @@
+id,code,name_en,name_ta,gana,yoni_animal,rajju,sort_order,is_active
+1,ashwini,Ashwini,அசுவினி,Deva,Horse,Pada,1,1
+2,bharani,Bharani,பரணி,Manushya,Elephant,Kati,2,1
+3,krittika,Krittika / Karthigai,கார்த்திகை,Rakshasa,Sheep,Udara,3,1
+4,rohini,Rohini,ரோகிணி,Manushya,Serpent,Kantha,4,1
+5,mrigashira,Mrigashira / Mirugasirisham,மிருகசீரிஷம்,Deva,Serpent,Shiro,5,1
+6,arudra,Thiruvathirai / Arudra,திருவாதிரை,Manushya,Dog,Kantha,6,1
+7,punarvasu,Punarvasu / Punarpoosam,புனர்பூசம்,Deva,Cat,Udara,7,1
+8,pushya,Pushya / Poosam,பூசம்,Deva,Sheep,Kati,8,1
+9,ashlesha,Ashlesha / Aayilyam,ஆயில்யம்,Rakshasa,Cat,Pada,9,1
+10,magha,Magha / Makam,மகம்,Rakshasa,Rat,Pada,10,1
+11,purva_phalguni,Purva Phalguni / Pooram,பூரம்,Manushya,Rat,Kati,11,1
+12,uttara_phalguni,Uttara Phalguni / Uthiram,உத்திரம்,Manushya,Bull,Udara,12,1
+13,hasta,Hasta / Hastham,அஸ்தம்,Deva,Buffalo,Kantha,13,1
+14,chitra,Chitra / Chithirai,சித்திரை,Rakshasa,Tiger,Shiro,14,1
+15,swati,Swati / Swathi,சுவாதி,Deva,Buffalo,Kantha,15,1
+16,vishakha,Vishakha / Visakam,விசாகம்,Rakshasa,Tiger,Udara,16,1
+17,anuradha,Anuradha / Anusham,அனுஷம்,Deva,Deer,Kati,17,1
+18,jyeshtha,Jyeshtha / Kettai,கேட்டை,Rakshasa,Deer,Pada,18,1
+19,moola,Moola / Moolam,மூலம்,Rakshasa,Dog,Pada,19,1
+20,purvashadha,Purvashadha / Pooradam,பூராடம்,Manushya,Monkey,Kati,20,1
+21,uttarashadha,Uttarashadha / Uthiradam,உத்திராடம்,Manushya,Mongoose,Udara,21,1
+22,shravana,Shravana / Thiruvonam,திருவோணம்,Deva,Monkey,Kantha,22,1
+23,dhanishta,Dhanishta / Avittam,அவிட்டம்,Rakshasa,Lion,Shiro,23,1
+24,shatabhisha,Shatabhisha / Sadhayam,சதயம்,Rakshasa,Horse,Kantha,24,1
+25,purva_bhadrapada,Purva Bhadrapada / Poorattathi,பூரட்டாதி,Manushya,Lion,Udara,25,1
+26,uttara_bhadrapada,Uttara Bhadrapada / Uthirattathi,உத்திரட்டாதி,Manushya,Cow,Kati,26,1
+27,revati,Revati / Revathi,ரேவதி,Deva,Elephant,Pada,27,1

@@ -1,5 +1,6 @@
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
+import '../../core/utils/app_logger.dart';
 import '../../domain/models/plan_model.dart';
 import '../csv/csv_schema.dart';
 import '../csv/csv_store.dart';
@@ -35,7 +36,8 @@ class CsvPlanRepository implements PlanRepository {
         plans.add(PlanModel.fromMap(map));
       }
       return plans;
-    } catch (_) {
+    } catch (e, stack) {
+      AppLogger.error('Failed to load plans from master CSV', tag: 'PlanRepository', error: e, stackTrace: stack);
       return [];
     }
   }

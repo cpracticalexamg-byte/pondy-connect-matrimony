@@ -1,0 +1,9 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,none,No Dosham (செவ்வாய் தோஷமில்லை),தோஷமில்லை,1,1
+2,chevvai_sevvai,Chevvai Dosham (Sevvai / Manglik),செவ்வாய் தோஷம்,2,1
+3,rahu_kethu,Rahu-Kethu / Sarpa Dosham,ராகு-கேது தோஷம்,3,1
+4,kalathra,Kalathra Dosham,களத்திர தோஷம்,4,1
+5,pitru,Pitru Dosham,பித்ரு தோஷம்,5,1
+6,naga,Naga Dosham,நாக தோஷம்,6,1
+7,paapa_samyam,Paapa Samyam (Balanced Dosham),பாப சாம்யம்,7,1
+8,dont_know,Don't Know,தெரியாது,8,1

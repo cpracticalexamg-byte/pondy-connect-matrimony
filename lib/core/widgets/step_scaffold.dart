@@ -34,7 +34,7 @@ class StepScaffold extends StatelessWidget {
     this.onBack,
     this.showBack = true,
     this.showTeaser = false,
-    this.matchCount = 3400,
+    this.matchCount = 0,
     this.teaserProfiles = const [],
     this.bottomExtra,
   });

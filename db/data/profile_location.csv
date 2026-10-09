@@ -1,0 +1,1 @@
+location_id,profile_id,country_id,state_id,district_id,city_id,citizenship_id,residency_status_id,native_district_id,willing_to_relocate,created_at,updated_at,deleted_at,row_version

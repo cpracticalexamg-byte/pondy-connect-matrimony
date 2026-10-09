@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../data/repositories/repository_providers.dart';
 import '../../../domain/models/notification_model.dart';
 import '../../auth/providers/auth_state_provider.dart';
@@ -32,12 +33,17 @@ class _NotificationsScreenState extends ConsumerState<NotificationsScreen> {
       final notifRepo = ref.read(notificationRepoProvider);
 
       final list = profileId.isNotEmpty ? await notifRepo.getNotifications(profileId) : <NotificationModel>[];
-      setState(() {
-        _notifications = list;
-        _isLoading = false;
-      });
-    } catch (_) {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() {
+          _notifications = list;
+          _isLoading = false;
+        });
+      }
+    } catch (e, stack) {
+      AppLogger.error('Failed to load notifications', tag: 'NotificationsScreen', error: e, stackTrace: stack);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

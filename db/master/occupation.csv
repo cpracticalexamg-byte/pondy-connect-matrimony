@@ -1,0 +1,32 @@
+id,category_id,code,name_en,name_ta,sort_order,is_active
+1,1,software_engineer,Software Engineer / Developer,மென்பொருள் பொறியாளர்,1,1
+2,1,data_scientist,Data Scientist / AI Specialist,தரவு விஞ்ஞானி / AI வல்லுநர்,2,1
+3,1,qa_devops,QA Automation / DevOps Engineer,DevOps / QA பொறியாளர்,3,1
+4,1,product_manager,Product Manager / Project Lead,தயாரிப்பு மேலாளர்,4,1
+5,1,systems_analyst,IT Consultant / Business Analyst,ஐ.டி ஆலோசகர்,5,1
+6,2,doctor,Doctor / Surgeon (MBBS / MD / MS),மருத்துவர் / அறுவை சிகிச்சை நிபுணர்,6,1
+7,2,dentist,Dentist (BDS / MDS),பல் மருத்துவர்,7,1
+8,2,pharmacist,Pharmacist,மருந்தாளுநர்,8,1
+9,2,nurse,Registered Nurse,செவிலியர்,9,1
+10,2,physiotherapist,Physiotherapist,பிசியோதெரபிஸ்ட்,10,1
+11,3,civil_engineer,Civil Engineer,சிவில் பொறியாளர்,11,1
+12,3,mechanical_engineer,Mechanical Engineer,மெக்கானிக்கல் பொறியாளர்,12,1
+13,3,electrical_engineer,Electrical / Electronics Engineer,மின் பொறியாளர்,13,1
+14,3,architect,Architect / Interior Designer,கட்டிடக் கலைஞர்,14,1
+15,4,bank_officer,Bank Officer / Branch Manager,வங்கி அதிகாரி / கிளை மேலாளர்,15,1
+16,4,chartered_accountant,Chartered Accountant (CA),பட்டய கணக்காளர் (CA),16,1
+17,4,financial_analyst,Financial Analyst / Investment Banker,நிதி ஆய்வாளர்,17,1
+18,5,civil_servant,Civil Servant (IAS / IPS / IFS / Group 1),சிவில் சர்வீசஸ் அதிகாரி,18,1
+19,5,govt_officer,Govt Employee / PSU Officer,அரசு ஊழியர் / அதிகாரி,19,1
+20,5,defence_personnel,Defence (Army / Navy / Air Force / Police),இராணுவம் / காவல்துறை,20,1
+21,6,professor,Professor / College Lecturer,கல்லூரி பேராசிரியர்,21,1
+22,6,school_teacher,School Teacher / Educator,பள்ளி ஆசிரியர்,22,1
+23,6,researcher_scientist,Scientist / Research Scholar,விஞ்ஞானி / ஆய்வாளர்,23,1
+24,7,business_owner,Business Owner / Entrepreneur,தொழிலதிபர் / சுயதொழில்,24,1
+25,7,corporate_executive,Corporate Executive / HR Manager,கார்ப்பரேட் மேலாளர் / HR,25,1
+26,7,marketing_sales,Sales & Marketing Manager,விற்பனை & சந்தைப்படுத்தல்,26,1
+27,8,advocate_lawyer,Advocate / High Court Lawyer,வழக்கறிஞர்,27,1
+28,11,homemaker,Home Maker,இல்லத்தரசி,28,1
+29,11,student,Student,மாணவர்,29,1
+30,11,not_working,Not Working,வேலை செய்யவில்லை,30,1
+31,11,other_occupation,Other Occupation,இதர பணி,31,1

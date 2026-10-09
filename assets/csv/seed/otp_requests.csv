@@ -1,0 +1,1 @@
+request_id,mobile,otp_hash,attempts,is_verified,lockout_until,expires_at,created_at

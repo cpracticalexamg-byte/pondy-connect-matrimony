@@ -1,0 +1,13 @@
+id,category,code,name_en,name_ta,sort_order,is_active
+1,Creative,music_listening,Listening to Music,இசை கேட்பது,1,1
+2,Creative,reading_books,Reading Books,புத்தகம் வாசிப்பு,2,1
+3,Creative,photography,Photography,புகைப்படக்கலை,3,1
+4,Creative,drawing_painting,Drawing & Painting,ஓவியம் வரைதல்,4,1
+5,Active,travel_roadtrips,Travel & Road Trips,பயணங்கள்,5,1
+6,Active,cooking_baking,Cooking & Baking,சமையல் கலை,6,1
+7,Active,yoga_fitness,Yoga & Fitness,யோகா & உடற்பயிற்சி,7,1
+8,Active,cricket_sports,Cricket & Sports,விளையாட்டு,8,1
+9,Entertainment,movies_series,Movies & Web Series,திரைப்படங்கள்,9,1
+10,Lifestyle,gardening_nature,Gardening & Nature,தோட்டக்கலை,10,1
+11,Lifestyle,pets_animals,Pets & Animals,செல்லப்பிராணிகள்,11,1
+12,Lifestyle,volunteering,Volunteering & Social Work,சமூக சேவை,12,1

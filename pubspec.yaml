@@ -75,3 +75,22 @@ flutter:
     - assets/icons/
     - assets/avatars/
     - assets/fonts/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app_icon_1024.png"
+  min_sdk_android: 24
+  adaptive_icon_background: "#FFFBF7"
+  adaptive_icon_foreground: "assets/icons/app_icon_foreground.png"
+  adaptive_icon_monochrome: "assets/icons/app_icon_monochrome.png"
+  remove_alpha_ios: true
+
+flutter_native_splash:
+  color: "#FFFBF7"
+  image: "assets/icons/splash_logo.png"
+  android_12:
+    image: "assets/icons/splash_logo.png"
+    icon_background_color: "#FFFBF7"
+    color: "#FFFBF7"
+  fullscreen: true

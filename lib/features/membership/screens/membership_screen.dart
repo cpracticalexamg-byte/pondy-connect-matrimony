@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../data/repositories/repository_providers.dart';
 import '../../../domain/models/plan_model.dart';
@@ -31,12 +32,17 @@ class _MembershipScreenState extends ConsumerState<MembershipScreen> {
     try {
       final repo = ref.read(planRepoProvider);
       final plans = await repo.getPlans();
-      setState(() {
-        _plans = plans;
-        _isLoading = false;
-      });
-    } catch (_) {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() {
+          _plans = plans;
+          _isLoading = false;
+        });
+      }
+    } catch (e, stack) {
+      AppLogger.error('Failed to load membership plans', tag: 'MembershipScreen', error: e, stackTrace: stack);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

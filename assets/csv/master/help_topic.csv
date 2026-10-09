@@ -1,0 +1,6 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,registration_help,Registration & Account Verification,பதிவு & கணக்கு சரிபார்ப்பு,1,1
+2,horoscope_porutham,10-Porutham & Horoscope Matching,ஜாதகப் பொருத்தம்,2,1
+3,photo_privacy,Photo & Profile Privacy Controls,புகைப்பட பாதுகாப்பு,3,1
+4,membership_plans,Membership Upgrade & Benefits,உறுப்பினர் திட்டங்கள்,4,1
+5,safety_grievance,Safety Tips & Grievance Redressal,பாதுகாப்பு & புகார் தீர்வு,5,1

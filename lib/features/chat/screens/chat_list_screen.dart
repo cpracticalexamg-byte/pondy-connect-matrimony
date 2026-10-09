@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../core/widgets/profile_avatar.dart';
 import '../../../data/repositories/chat_repository.dart';
 import '../../../data/repositories/repository_providers.dart';
@@ -56,12 +57,17 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
         });
       }
 
-      setState(() {
-        _threads = threads;
-        _isLoading = false;
-      });
-    } catch (_) {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() {
+          _threads = threads;
+          _isLoading = false;
+        });
+      }
+    } catch (e, stack) {
+      AppLogger.error('Failed to load chat threads', tag: 'ChatListScreen', error: e, stackTrace: stack);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

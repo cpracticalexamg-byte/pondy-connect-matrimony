@@ -1,0 +1,25 @@
+id,level_id,code,group_name,name_en,name_ta,sort_order,is_active
+1,1,be_btech,Engineering & Technology,B.E. / B.Tech,பி.இ. / பி.டெக்,1,1
+2,1,barch,Engineering & Technology,B.Arch,பி.ஆர்க்,2,1
+3,1,bca_bsc_it,Computers & IT,BCA / B.Sc (Computer Science / IT),பி.சி.ஏ / பி.எஸ்.சி (ஐ.டி),3,1
+4,2,me_mtech,Engineering & Technology,M.E. / M.Tech,எம்.இ. / எம்.டெக்,4,1
+5,2,mca_msc_it,Computers & IT,MCA / M.Sc (IT / CS),எம்.சி.ஏ / எம்.எஸ்.சி,5,1
+6,2,ms_engg,Engineering & Technology,M.S. (Engineering / Overseas),எம்.எஸ். (பொறியியல்),6,1
+7,4,mbbs,Medicine,MBBS,எம்.பி.பி.எஸ் (MBBS),7,1
+8,4,bds,Medicine,BDS (Dental),பி.டி.எஸ் (பல் மருத்துவம்),8,1
+9,4,md_ms,Medicine,MD / MS (Medical Specialty),எம்.டி / எம்.எஸ் (மருத்துவம்),9,1
+10,4,bams_bhms_bsms,Medicine,BSMS (Siddha) / BAMS / BHMS,சித்த / ஆயுர்வேத மருத்துவம்,10,1
+11,4,bpharm_mpharm,Healthcare,B.Pharm / M.Pharm / Pharm.D,மருந்தியல் (Pharmacy),11,1
+12,4,nursing_bpt,Healthcare,B.Sc Nursing / BPT (Physiotherapy),செவிலியர் / பிசியோதெரபி,12,1
+13,2,mba_pgdm,Management,MBA / PGDM,எம்.பி.ஏ (MBA),13,1
+14,1,bba_bms,Management,BBA / BBM / BMS,பி.பி.ஏ (BBA),14,1
+15,1,bcom,Commerce,B.Com,பி.காம் (B.Com),15,1
+16,2,mcom,Commerce,M.Com,எம்.காம் (M.Com),16,1
+17,5,ca_cs_cma,Finance,CA / CS / ICWA (CMA) / CFA,பட்டய கணக்காளர் (CA/CS),17,1
+18,1,ba_bsc,Arts & Science,B.A. / B.Sc,பி.ஏ / பி.எஸ்.சி,18,1
+19,2,ma_msc,Arts & Science,M.A. / M.Sc,எம்.ஏ / எம்.எஸ்.சி,19,1
+20,2,bed_med,Education,B.Ed / M.Ed,பி.எட் / எம்.எட்,20,1
+21,6,llb_bl,Law,BL / LLB / LLM,சட்டப் படிப்பு (LLB),21,1
+22,3,phd,Research,Ph.D / Post-Doctorate,முனைவர் பட்டம் (Ph.D),22,1
+23,7,diploma_polytechnic,Vocational,Diploma / ITI,டிப்ளமோ / பாலிடெக்னிக்,23,1
+24,8,higher_secondary,School,Higher Secondary (+2) / High School,மேல்நிலைக் கல்வி (+2),24,1

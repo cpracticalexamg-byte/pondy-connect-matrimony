@@ -1,0 +1,7 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,fake_profile,Fake / Impersonation Profile,போலி சுயவிவரம்,1,1
+2,inappropriate_photo,Inappropriate or Stolen Photo,பொருத்தமற்ற புகைப்படம்,2,1
+3,abusive_behaviour,Abusive or Offensive Behaviour,தவறான நடத்தை,3,1
+4,money_scam,Asking for Money or Financial Scam,பணம் கேட்டல் / மோசடி,4,1
+5,already_married,Already Married,ஏற்கனவே திருமணம் ஆனவர்,5,1
+6,incorrect_details,Incorrect / False Contact Details,தவறான தகவல்கள்,6,1

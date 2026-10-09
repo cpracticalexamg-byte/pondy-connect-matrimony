@@ -1,0 +1,5 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,locomotor,Locomotor Disability,உடல் இயக்க குறைபாடு,1,1
+2,visual,Visual Impairment,பார்வை குறைபாடு,2,1
+3,hearing_speech,Hearing & Speech Impairment,செவித்திறன் / பேச்சு குறைபாடு,3,1
+4,other,Other Disability,இதர குறைபாடு,4,1

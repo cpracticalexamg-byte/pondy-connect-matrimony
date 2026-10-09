@@ -19,6 +19,7 @@ class OtpVerificationScreen extends ConsumerStatefulWidget {
 class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   final List<TextEditingController> _controllers = List.generate(6, (_) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
+  final List<FocusNode> _keyboardFocusNodes = List.generate(6, (_) => FocusNode());
 
   int _resendSeconds = 30;
   Timer? _timer;
@@ -31,7 +32,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
   }
 
   void _startTimer() {
-    _resendSeconds = 30;
+    _resendSeconds = AppConfig.otpResendSeconds;
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_resendSeconds > 0) {
@@ -54,6 +55,9 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
     }
     for (final f in _focusNodes) {
       f.dispose();
+    }
+    for (final k in _keyboardFocusNodes) {
+      k.dispose();
     }
     super.dispose();
   }
@@ -175,7 +179,7 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                     width: 48,
                     height: 56,
                     child: RawKeyboardListener(
-                      focusNode: FocusNode(),
+                      focusNode: _keyboardFocusNodes[idx],
                       onKey: (event) {
                         if (event is RawKeyDownEvent &&
                             event.logicalKey == LogicalKeyboardKey.backspace &&
@@ -215,6 +219,31 @@ class _OtpVerificationScreenState extends ConsumerState<OtpVerificationScreen> {
                   );
                 }),
               ),
+
+              if (AppConfig.showOtpTestHint) ...[
+                const SizedBox(height: 12),
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFEF3C7),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: const Color(0x80F59E0B)),
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.info_outline, size: 14, color: Color(0xFFB45309)),
+                        SizedBox(width: 6),
+                        Text(
+                          'Test Mode: Use code ${AppConfig.testOtpCode}',
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFFB45309)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
 
               if (_errorMessage != null) ...[
                 const SizedBox(height: 12),

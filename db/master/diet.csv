@@ -1,0 +1,6 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,veg,Vegetarian,சைவம்,1,1
+2,non_veg,Non-Vegetarian,அசைவம்,2,1
+3,eggetarian,Eggetarian,முட்டை மட்டும் உண்பவர்,3,1
+4,jain,Jain Diet,சைன உணவு,4,1
+5,vegan,Vegan,முழு தாவர உணவு,5,1

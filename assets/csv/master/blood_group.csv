@@ -1,0 +1,9 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,a_pos,A+,A+,1,1
+2,a_neg,A−,A−,2,1
+3,b_pos,B+,B+,3,1
+4,b_neg,B−,B−,4,1
+5,o_pos,O+,O+,5,1
+6,o_neg,O−,O−,6,1
+7,ab_pos,AB+,AB+,7,1
+8,ab_neg,AB−,AB−,8,1

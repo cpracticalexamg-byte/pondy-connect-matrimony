@@ -14,6 +14,9 @@ class AppColors {
   static const Color bgCream = Color(0xFFF4F5F9);
   static const Color cardBorder = Color(0xFFE5E7EB);
   static const Color dividerColor = Color(0xFFE5E7EB);
+  static const Color maroon = Color(0xFF881337);
+  static const Color maroonBorder = Color(0xFFB45309);
+  static const Color maroonText = Color(0xFF78350F);
 
   // Progress Bar Gradient
   static const Color progressStart = Color(0xFF0E9F3E);

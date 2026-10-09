@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../domain/models/user_model.dart';
 import '../csv/csv_schema.dart';
 import '../csv/csv_store.dart';
+import '../services/otp/otp_service.dart';
 
 abstract class AuthRepository {
   Future<UserModel?> getCurrentUser();
@@ -15,13 +16,17 @@ abstract class AuthRepository {
   Future<void> setPassword(String userId, String password);
   Future<void> logout();
   Future<void> setCurrentUser(UserModel user);
+  Future<void> deleteAccount({required String userId, required String reason});
 }
 
 class CsvAuthRepository implements AuthRepository {
   final CsvStore _store;
+  final OtpService _otpService;
   static const String _prefCurrentUserIdKey = 'current_user_id';
 
-  CsvAuthRepository({CsvStore? store}) : _store = store ?? CsvStore.instance;
+  CsvAuthRepository({CsvStore? store, OtpService? otpService})
+      : _store = store ?? CsvStore.instance,
+        _otpService = otpService ?? FakeOtpService(store: store ?? CsvStore.instance);
 
   String _generateSalt() {
     final rnd = Random.secure();
@@ -56,55 +61,20 @@ class CsvAuthRepository implements AuthRepository {
 
   @override
   Future<String> requestOtp(String mobile) async {
-    // Generate 6 digit OTP
-    final rnd = Random();
-    final otp = (100000 + rnd.nextInt(900000)).toString();
-    final salt = _generateSalt();
-    final hash = _hashWithSalt(otp, salt);
-    final expiry = DateTime.now().add(const Duration(minutes: 10)).toIso8601String();
-
-    // Store in otp_codes table
-    await _store.delete(CsvSchema.otpCodesTable, (row) => row['mobile'] == mobile);
-    await _store.insert(CsvSchema.otpCodesTable, {
-      'mobile': mobile,
-      'otp_hash': '$salt:$hash',
-      'expires_at': expiry,
-      'attempts': '0',
-    });
-
-    return otp;
+    final result = await _otpService.sendOtp(mobile);
+    return result.when(
+      success: (data) => data.testCode ?? '123456',
+      failure: (err) => throw Exception(err.message),
+    );
   }
 
   @override
   Future<bool> verifyOtp(String mobile, String otp) async {
-    // Master dev OTP for easy testing
-    if (otp == '123456') return true;
-
-    final rows = await _store.query(
-      CsvSchema.otpCodesTable,
-      (row) => row['mobile'] == mobile,
+    final result = await _otpService.verifyOtp(mobile, otp);
+    return result.when(
+      success: (valid) => valid,
+      failure: (_) => false,
     );
-    if (rows.isEmpty) return false;
-
-    final data = rows.first;
-    final expiry = DateTime.tryParse(data['expires_at'] ?? '');
-    if (expiry != null && DateTime.now().isAfter(expiry)) {
-      return false;
-    }
-
-    final stored = data['otp_hash'] ?? '';
-    final parts = stored.split(':');
-    if (parts.length != 2) return false;
-
-    final salt = parts[0];
-    final expectedHash = parts[1];
-    final testHash = _hashWithSalt(otp, salt);
-
-    final isValid = testHash == expectedHash;
-    if (isValid) {
-      await _store.delete(CsvSchema.otpCodesTable, (row) => row['mobile'] == mobile);
-    }
-    return isValid;
   }
 
   @override
@@ -176,5 +146,64 @@ class CsvAuthRepository implements AuthRepository {
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_prefCurrentUserIdKey);
+  }
+
+  @override
+  Future<void> deleteAccount({required String userId, required String reason}) async {
+    final now = DateTime.now().toIso8601String();
+
+    // 1. Soft-delete user record
+    await _store.update(
+      CsvSchema.usersTable,
+      {
+        'status': 'deleted',
+        'deleted_at': now,
+        'updated_at': now,
+      },
+      (row) => row['user_id'] == userId,
+    );
+
+    // 2. Soft-delete / deactivate matching profile
+    await _store.update(
+      CsvSchema.profilesTable,
+      {
+        'is_active': '0',
+        'about_me': '[Account Deleted by User]',
+        'updated_at': now,
+      },
+      (row) => row['user_id'] == userId,
+    );
+
+    // 3. Revoke consent in consents table
+    try {
+      final nextConsentId = await _store.nextId(CsvSchema.consentsTable, 'consent_id', 'CNS', 6);
+      await _store.insert(CsvSchema.consentsTable, {
+        'consent_id': nextConsentId,
+        'user_id': userId,
+        'terms_version': 'v2.0_dpdp2023',
+        'privacy_version': 'v2.0_dpdp2023',
+        'sensitive_data_consent': '0',
+        'photo_visibility_consent': 'revoked',
+        'accepted_at': now,
+      });
+    } catch (_) {}
+
+    // 4. Record audit log
+    try {
+      final nextAuditId = await _store.nextId(CsvSchema.auditLogTable, 'id', 'AUD', 6);
+      await _store.insert(CsvSchema.auditLogTable, {
+        'id': nextAuditId,
+        'table_name': CsvSchema.usersTable,
+        'record_id': userId,
+        'action': 'DELETE_ACCOUNT',
+        'changed_by': userId,
+        'changed_at': now,
+        'old_value': 'status:active',
+        'new_value': 'status:deleted,reason:$reason',
+      });
+    } catch (_) {}
+
+    // 5. Purge local session
+    await logout();
   }
 }

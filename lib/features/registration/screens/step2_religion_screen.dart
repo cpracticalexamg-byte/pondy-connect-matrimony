@@ -26,11 +26,20 @@ class _Step2ReligionScreenState extends ConsumerState<Step2ReligionScreen> {
   List<MasterItem> _stars = [];
   List<MasterItem> _rasis = [];
   List<MasterItem> _doshams = [];
+  late final TextEditingController _gothramController;
 
   @override
   void initState() {
     super.initState();
+    final reg = ref.read(registrationProvider);
+    _gothramController = TextEditingController(text: reg.gothram);
     _loadMasters();
+  }
+
+  @override
+  void dispose() {
+    _gothramController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadMasters() async {
@@ -156,6 +165,11 @@ class _Step2ReligionScreenState extends ConsumerState<Step2ReligionScreen> {
     );
     if (chosen != null) {
       ref.read(registrationProvider.notifier).updateReligion(star: chosen);
+      final starItem = _stars.firstWhere((s) => s.id == chosen, orElse: () => const MasterItem(id: '', nameEn: '', nameTa: ''));
+      final rasiIds = (starItem.extras['rasi_ids'] as List<dynamic>?)?.cast<String>() ?? [];
+      if (rasiIds.length == 1 && rasiIds.first.isNotEmpty) {
+        ref.read(registrationProvider.notifier).updateReligion(rasi: rasiIds.first);
+      }
     }
   }
 
@@ -317,7 +331,7 @@ class _Step2ReligionScreenState extends ConsumerState<Step2ReligionScreen> {
 
             // Gothram
             TextField(
-              controller: TextEditingController(text: reg.gothram),
+              controller: _gothramController,
               decoration: const InputDecoration(
                 labelText: 'Gothram (Optional)',
                 hintText: 'e.g. Shiva, Vishnu, etc.',

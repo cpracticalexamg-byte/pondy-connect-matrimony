@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../core/widgets/profile_avatar.dart';
 import '../../../data/repositories/chat_repository.dart';
 import '../../../data/repositories/repository_providers.dart';
@@ -25,6 +26,7 @@ class _ChatConversationScreenState extends ConsumerState<ChatConversationScreen>
   ProfileModel? _partnerProfile;
   List<MessageModel> _messages = [];
   bool _isLoading = true;
+  bool _isPolling = false;
   Timer? _pollingTimer;
 
   @override
@@ -61,32 +63,45 @@ class _ChatConversationScreenState extends ConsumerState<ChatConversationScreen>
         await chatRepo.markThreadRead(threadId, myProfileId);
       }
 
-      setState(() {
-        _partnerProfile = partner;
-        _messages = msgs;
-        _isLoading = false;
-      });
-
-      _scrollToBottom();
-    } catch (_) {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() {
+          _partnerProfile = partner;
+          _messages = msgs;
+          _isLoading = false;
+        });
+        _scrollToBottom();
+      }
+    } catch (e, stack) {
+      AppLogger.error('Failed to load conversation', tag: 'ChatConversationScreen', error: e, stackTrace: stack);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 
   Future<void> _pollNewMessages() async {
-    final authState = ref.read(authStateProvider);
-    final myProfileId = authState.profile?.profileId ?? '';
-    if (myProfileId.isEmpty) return;
+    if (_isPolling || !mounted) return;
+    _isPolling = true;
 
-    final chatRepo = ref.read(chatRepoProvider);
-    final threadId = (chatRepo as CsvChatRepository).getThreadId(myProfileId, widget.partnerProfileId);
-    final msgs = await chatRepo.getMessages(threadId);
+    try {
+      final authState = ref.read(authStateProvider);
+      final myProfileId = authState.profile?.profileId ?? '';
+      if (myProfileId.isEmpty) return;
 
-    if (msgs.length != _messages.length) {
-      setState(() {
-        _messages = msgs;
-      });
-      _scrollToBottom();
+      final chatRepo = ref.read(chatRepoProvider);
+      final threadId = (chatRepo as CsvChatRepository).getThreadId(myProfileId, widget.partnerProfileId);
+      final msgs = await chatRepo.getMessages(threadId);
+
+      if (mounted && msgs.length != _messages.length) {
+        setState(() {
+          _messages = msgs;
+        });
+        _scrollToBottom();
+      }
+    } catch (e, stack) {
+      AppLogger.warning('Polling new messages failed', tag: 'ChatConversationScreen', error: e, stackTrace: stack);
+    } finally {
+      _isPolling = false;
     }
   }
 
@@ -340,14 +355,11 @@ class _ChatConversationScreenState extends ConsumerState<ChatConversationScreen>
 
   String _formatTime(String isoString) {
     if (isoString.isEmpty) return '';
-    try {
-      final dt = DateTime.parse(isoString);
-      final hour = dt.hour > 12 ? dt.hour - 12 : (dt.hour == 0 ? 12 : dt.hour);
-      final ampm = dt.hour >= 12 ? 'PM' : 'AM';
-      final min = dt.minute.toString().padLeft(2, '0');
-      return '$hour:$min $ampm';
-    } catch (_) {
-      return '';
-    }
+    final dt = DateTime.tryParse(isoString);
+    if (dt == null) return '';
+    final hour = dt.hour > 12 ? dt.hour - 12 : (dt.hour == 0 ? 12 : dt.hour);
+    final ampm = dt.hour >= 12 ? 'PM' : 'AM';
+    final min = dt.minute.toString().padLeft(2, '0');
+    return '$hour:$min $ampm';
   }
 }

@@ -255,23 +255,70 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   }
 
   void _showDeleteDialog(BuildContext context) {
+    String selectedReason = 'Found my match on Pondy Connect';
+    final reasons = [
+      'Found my match on Pondy Connect',
+      'Found match elsewhere',
+      'Privacy concerns',
+      'Taking a break',
+      'Other reason',
+    ];
+
     showDialog(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Delete Account?'),
-        content: const Text('This action is irreversible. All your messages, interests and profile data will be permanently removed.'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            onPressed: () async {
-              await ref.read(authStateProvider.notifier).logout();
-              if (ctx.mounted) Navigator.pop(ctx);
-              if (context.mounted) context.go('/login');
-            },
-            child: const Text('Confirm Delete'),
+      builder: (ctx) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: const Text('Delete Account? (கணக்கை நீக்குதல்)', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Per DPDP Act 2023, this will permanently deactivate your profile, purge your active sessions, and remove your contact information.',
+                style: TextStyle(fontSize: 12, color: Colors.black87),
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                'Please select a reason:',
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 6),
+              ...reasons.map((r) => RadioListTile<String>(
+                dense: true,
+                contentPadding: EdgeInsets.zero,
+                title: Text(r, style: const TextStyle(fontSize: 12)),
+                value: r,
+                groupValue: selectedReason,
+                activeColor: Colors.red,
+                onChanged: (val) {
+                  if (val != null) {
+                    setDialogState(() => selectedReason = val);
+                  }
+                },
+              )),
+            ],
           ),
-        ],
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () async {
+                final success = await ref.read(authStateProvider.notifier).deleteAccount(reason: selectedReason);
+                if (ctx.mounted) Navigator.pop(ctx);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(success ? 'Your account has been deleted.' : 'Account deletion failed.'),
+                      backgroundColor: success ? Colors.green : Colors.red,
+                    ),
+                  );
+                  context.go('/login');
+                }
+              },
+              child: const Text('Confirm Delete', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        ),
       ),
     );
   }

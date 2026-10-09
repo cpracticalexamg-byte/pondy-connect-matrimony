@@ -1,0 +1,1 @@
+message_id,conversation_id,from_profile_id,to_profile_id,text,msg_type,sent_at,delivered_at,read_at,deleted_at,row_version

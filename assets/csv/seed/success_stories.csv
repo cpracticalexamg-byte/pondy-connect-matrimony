@@ -1,4 +1,1 @@
-story_id,groom,bride,location,story,photo,wedding_date,is_demo
-STORY1,Senthil Nathan (PC000102),Divya Priya (PC000145),Puducherry,We found each other through Pondy Connect Matrimony. Both our families in Pondy connected within a week and our wedding was solemnized beautifully at Heritage Town!,story_1.png,2026-02-14,true
-STORY2,Karthik Raja (PC000215),Keerthana (PC000340),Karaikal,Matching by Puducherry native roots and 10-Porutham made it very seamless for our parents. Truly grateful to the platform.,story_2.png,2026-05-20,true
-STORY3,Dr. Vignesh (PC000088),Dr. Meenakshi (PC000099),Villupuram,"Both of us being doctors from neighbouring districts, Pondy Connect gave us the exact cultural and career alignment we were searching for.",story_3.png,2026-08-10,true
+story_id,groom_name,bride_name,wedding_date,location,story,photo_blob_path,is_sample,is_approved,created_at

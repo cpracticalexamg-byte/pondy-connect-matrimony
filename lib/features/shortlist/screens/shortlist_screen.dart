@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../core/widgets/profile_avatar.dart';
 import '../../../data/repositories/repository_providers.dart';
 import '../../../domain/models/profile_model.dart';
@@ -34,12 +35,17 @@ class _ShortlistScreenState extends ConsumerState<ShortlistScreen> {
       final shortlistRepo = ref.read(shortlistRepoProvider);
 
       final list = myProfileId.isNotEmpty ? await shortlistRepo.getShortlistedProfiles(myProfileId) : <ProfileModel>[];
-      setState(() {
-        _shortlisted = list;
-        _isLoading = false;
-      });
-    } catch (_) {
-      setState(() => _isLoading = false);
+      if (mounted) {
+        setState(() {
+          _shortlisted = list;
+          _isLoading = false;
+        });
+      }
+    } catch (e, stack) {
+      AppLogger.error('Failed to load shortlisted profiles', tag: 'ShortlistScreen', error: e, stackTrace: stack);
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
     }
   }
 

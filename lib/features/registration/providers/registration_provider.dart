@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../data/csv/csv_schema.dart';
 import '../../../data/csv/csv_store.dart';
 import '../../../data/repositories/profile_repository.dart';
@@ -298,7 +299,9 @@ class RegistrationNotifier extends StateNotifier<RegistrationState> {
           annualIncomeRange: map['annualIncomeRange']?.toString(),
           aboutMe: map['aboutMe']?.toString(),
         );
-      } catch (_) {}
+      } catch (e, stack) {
+        AppLogger.warning('Failed to restore registration draft', tag: 'RegistrationProvider', error: e, stackTrace: stack);
+      }
     }
     _recomputeMatchCount();
   }
@@ -532,8 +535,10 @@ class RegistrationNotifier extends StateNotifier<RegistrationState> {
         return true;
       });
 
-      state = state.copyWith(realTimeMatchCount: rows.length.clamp(12, 4500));
-    } catch (_) {}
+      state = state.copyWith(realTimeMatchCount: rows.length);
+    } catch (e, stack) {
+      AppLogger.warning('Failed to compute real-time matches', tag: 'RegistrationProvider', error: e, stackTrace: stack);
+    }
   }
 
   /// Finalize registration: creates real Profile in profiles.csv
@@ -613,7 +618,8 @@ class RegistrationNotifier extends StateNotifier<RegistrationState> {
 
       await _ref.read(authStateProvider.notifier).checkCurrentUser();
       return profileId;
-    } catch (e) {
+    } catch (e, stack) {
+      AppLogger.error('Failed to finalize registration profile', tag: 'RegistrationProvider', error: e, stackTrace: stack);
       state = state.copyWith(isLoading: false);
       return null;
     }

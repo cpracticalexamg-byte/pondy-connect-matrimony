@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart';
+import '../../core/utils/app_logger.dart';
 
 class MasterItem {
   final String id;
@@ -29,8 +31,27 @@ class MasterDataRepository {
     }
 
     try {
-      final raw = await rootBundle.loadString('assets/csv/master/$filename');
-      final rows = const CsvToListConverter(shouldParseNumbers: false).convert(raw);
+      String raw = '';
+      final file = File('assets/csv/master/$filename');
+      if (await file.exists()) {
+        raw = await file.readAsString();
+      } else {
+        final dbFile = File('db/master/$filename');
+        if (await dbFile.exists()) {
+          raw = await dbFile.readAsString();
+        } else {
+          raw = await rootBundle.loadString('assets/csv/master/$filename');
+        }
+      }
+
+      if (raw.trim().isEmpty) {
+        try {
+          raw = await rootBundle.loadString('assets/csv/master/$filename');
+        } catch (_) {}
+      }
+
+      final normalized = raw.replaceAll('\r\n', '\n').replaceAll('\r', '\n');
+      final rows = const CsvToListConverter(eol: '\n', shouldParseNumbers: false).convert(normalized);
       if (rows.isEmpty) return [];
 
       final headers = rows.first.map((e) => e.toString().trim()).toList();
@@ -48,7 +69,8 @@ class MasterDataRepository {
 
       _cache[filename] = items;
       return items;
-    } catch (_) {
+    } catch (e, stack) {
+      AppLogger.error('Failed to load master CSV $filename', tag: 'MasterDataRepository', error: e, stackTrace: stack);
       return [];
     }
   }
@@ -179,7 +201,174 @@ class MasterDataRepository {
     return _loadMaster('diet.csv', (m) => MasterItem(id: m['id'] ?? '', nameEn: m['name_en'] ?? '', nameTa: m['name_ta'] ?? ''));
   }
 
+  static const Map<String, String> _casteIdToCode = {
+    '1': 'mudaliar',
+    '2': 'kongu_vellalar_gounder',
+    '3': 'vanniyar',
+    '4': 'nadar',
+    '5': 'thevar_mukkulathor',
+    '6': 'pillai_saiva',
+    '7': 'brahmin_iyer',
+    '8': 'brahmin_iyengar',
+    '9': 'chettiar_nattukottai',
+    '10': 'chettiar_general',
+    '11': 'yadava_konar',
+    '12': 'viswakarma',
+    '13': 'naidu_balija',
+    '14': 'reddy_reddiar',
+    '15': 'adi_dravidar',
+    '16': 'devendra_kula_vellalar',
+    '17': 'arunthathiyar',
+    '18': 'meenavar_pattanavar',
+    '19': 'paravar_bharathar',
+    '20': 'saurashtra',
+    '21': 'senai_thalaivar',
+    '22': 'mutharaiyar',
+    '23': 'rajaka_vannar',
+    '24': 'maruthuvar_navithar',
+  };
+
+  static const Map<String, String> _casteCodeToId = {
+    'mudaliar': '1',
+    'kongu_vellalar_gounder': '2',
+    'vanniyar': '3',
+    'nadar': '4',
+    'thevar_mukkulathor': '5',
+    'pillai_saiva': '6',
+    'brahmin_iyer': '7',
+    'brahmin_iyengar': '8',
+    'chettiar_nattukottai': '9',
+    'chettiar_general': '10',
+    'yadava_konar': '11',
+    'viswakarma': '12',
+    'naidu_balija': '13',
+    'reddy_reddiar': '14',
+    'adi_dravidar': '15',
+    'devendra_kula_vellalar': '16',
+    'arunthathiyar': '17',
+    'meenavar_pattanavar': '18',
+    'paravar_bharathar': '19',
+    'saurashtra': '20',
+    'senai_thalaivar': '21',
+    'mutharaiyar': '22',
+    'rajaka_vannar': '23',
+    'maruthuvar_navithar': '24',
+  };
+
   Future<List<MasterItem>> getEmploymentTypes() {
-    return _loadMaster('employment_types.csv', (m) => MasterItem(id: m['id'] ?? '', nameEn: m['name_en'] ?? '', nameTa: m['name_ta'] ?? ''));
+    return _loadMaster('employment_type.csv', (m) => MasterItem(id: m['id'] ?? '', nameEn: m['name_en'] ?? '', nameTa: m['name_ta'] ?? ''));
+  }
+
+  Future<List<MasterItem>> getSubcastes({String? casteId}) async {
+    final list = await _loadMaster('sub_caste.csv', (m) {
+      final rawCasteId = m['caste_id'] ?? '';
+      final code = _casteIdToCode[rawCasteId] ?? rawCasteId;
+      return MasterItem(
+        id: m['code'] ?? m['id'] ?? '',
+        nameEn: m['name_en'] ?? '',
+        nameTa: m['name_ta'] ?? '',
+        extras: {
+          'caste_id': code,
+          'numeric_caste_id': rawCasteId,
+        },
+      );
+    });
+    if (casteId == null || casteId.isEmpty) return list;
+    final normalizedCasteCode = _casteIdToCode[casteId] ?? casteId;
+    final normalizedCasteId = _casteCodeToId[casteId] ?? casteId;
+    return list.where((item) =>
+      item.extras['caste_id'] == normalizedCasteCode ||
+      item.extras['numeric_caste_id'] == normalizedCasteId ||
+      item.id == 'subcaste_none'
+    ).toList();
+  }
+
+  Future<List<MasterItem>> getCountries() {
+    return _loadMaster('country.csv', (m) => MasterItem(
+      id: (m['iso3']?.isNotEmpty ?? false) ? m['iso3']! : (m['id'] ?? ''),
+      nameEn: m['name_en'] ?? '',
+      nameTa: m['name_ta'] ?? '',
+      extras: {
+        'id': m['id'] ?? '',
+        'iso2': m['iso2'] ?? '',
+        'iso3': m['iso3'] ?? '',
+        'dial_code': m['dial_code'] ?? '',
+        'currency_code': m['currency_code'] ?? '',
+      },
+    ));
+  }
+
+  Future<List<MasterItem>> getStates({String? countryId}) async {
+    final list = await _loadMaster('state.csv', (m) {
+      final rawCountryId = m['country_id'] ?? '';
+      final countryIso3 = rawCountryId == '1' ? 'IND' : rawCountryId;
+      return MasterItem(
+        id: (m['code']?.isNotEmpty ?? false) ? m['code']! : (m['id'] ?? ''),
+        nameEn: m['name_en'] ?? '',
+        nameTa: m['name_ta'] ?? '',
+        extras: {
+          'id': m['id'] ?? '',
+          'code': m['code'] ?? '',
+          'country_id': countryIso3,
+          'numeric_country_id': rawCountryId,
+        },
+      );
+    });
+    if (countryId == null || countryId.isEmpty) return list;
+    return list.where((item) =>
+      item.extras['country_id'] == countryId ||
+      item.extras['numeric_country_id'] == countryId
+    ).toList();
+  }
+
+  Future<List<MasterItem>> getCities({String? districtId}) async {
+    final list = await _loadMaster('city.csv', (m) => MasterItem(
+      id: m['code'] ?? m['id'] ?? '',
+      nameEn: m['name_en'] ?? '',
+      nameTa: m['name_ta'] ?? '',
+      extras: {
+        'id': m['id'] ?? '',
+        'district_id': m['district_id'] ?? '',
+        'code': m['code'] ?? '',
+      },
+    ));
+    if (districtId == null || districtId.isEmpty) return list;
+    return list.where((item) => item.extras['district_id'] == districtId).toList();
+  }
+
+  Future<List<MasterItem>> getPondicherryCommunes() async {
+    final cities = await getCities(districtId: '1');
+    return cities.map((c) {
+      String nameEn = c.nameEn;
+      if (c.id == 'ozhukarai' || c.nameEn.toLowerCase().contains('ozhukarai')) {
+        nameEn = 'Oulgaret (Ozhukarai)';
+      }
+      return MasterItem(
+        id: c.id,
+        nameEn: nameEn,
+        nameTa: c.nameTa,
+        extras: {
+          'region': 'Puducherry',
+          'type': (c.id == 'puducherry_town' || c.id == 'ozhukarai') ? 'Municipality' : 'Commune',
+        },
+      );
+    }).toList();
+  }
+
+  Future<List<MasterItem>> getHobbies() {
+    return _loadMaster('hobby_interest.csv', (m) => MasterItem(
+      id: m['id'] ?? '',
+      nameEn: m['name_en'] ?? '',
+      nameTa: m['name_ta'] ?? '',
+      extras: {'category': m['category'] ?? ''},
+    ));
+  }
+
+  Future<List<MasterItem>> getLanguages() {
+    return _loadMaster('language_known.csv', (m) => MasterItem(
+      id: m['id'] ?? '',
+      nameEn: m['name_en'] ?? '',
+      nameTa: m['name_ta'] ?? '',
+    ));
   }
 }

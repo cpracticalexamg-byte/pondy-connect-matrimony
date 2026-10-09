@@ -1,0 +1,46 @@
+id,religion_id,code,name_en,name_ta,sort_order,is_active
+1,1,hindu_shaivam,Shaivam,சைவம்,1,1
+2,1,hindu_vaishnavam,Vaishnavam,வைணவம்,2,1
+3,1,hindu_smartha,Smartha,ஸ்மார்த்தம்,3,1
+4,1,hindu_others,Others,இதர பிரிவுகள்,4,1
+5,2,sunni_hanafi,Hanafi,ஹனஃபி,1,1
+6,2,sunni_shafi,Shafi,ஷாஃபி,2,1
+7,2,sunni_maliki,Maliki,மாலிகி,3,1
+8,2,sunni_hanbali,Hanbali,ஹன்பலி,4,1
+9,2,sunni_ahle_hadith,Ahle Hadith,அஹ்லே ஹதீஸ்,5,1
+10,2,sunni_deobandi,Deobandi,தேவ்பந்தி,6,1
+11,2,sunni_barelvi,Barelvi,பரேல்வி,7,1
+12,2,sunni_others,Others,இதர பிரிவுகள்,8,1
+13,3,shia_ithna_asharia,Ithna Asharia (Twelver),இத்னா அஷாரியா,1,1
+14,3,shia_ismailia,Ismailia,இஸ்மாயிலியா,2,1
+15,3,shia_dawoodi_bohra,Dawoodi Bohra,தாவூதி போஹ்ரா,3,1
+16,3,shia_khoja,Khoja,கோஜா,4,1
+17,3,shia_others,Others,இதர பிரிவுகள்,5,1
+18,5,rc_latin,Roman Catholic (Latin Catholic),ரோமன் கத்தோலிக்கர் (லத்தீன்),1,1
+19,5,rc_syro_malabar,Syro-Malabar Catholic,சீரோ-மலபார் கத்தோலிக்கர்,2,1
+20,5,csi,Church of South India (CSI),தென்னிந்திய திருச்சபை (CSI),3,1
+21,5,cni,Church of North India (CNI),வடஇந்திய திருச்சபை (CNI),4,1
+22,5,anglican,Anglican / Episcopal,ஆங்கிலிகன்,5,1
+23,5,pentecostal,Pentecostal,பெந்தேகோஸ்தே,6,1
+24,5,assemblies_of_god,Assembly of God (AG),அசெம்பிளி ஆப் காட்,7,1
+25,5,baptist,Baptist,பாப்டிஸ்ட்,8,1
+26,5,lutheran,Lutheran (TELC / ALC),லூத்தரன்,9,1
+27,5,methodist,Methodist,மெதடிஸ்ட்,10,1
+28,5,presbyterian,Presbyterian,பிரஸ்பைடீரியன்,11,1
+29,5,salvation_army,Salvation Army,இரட்சணிய சேனை,12,1
+30,5,seventh_day_adventist,Seventh-day Adventist,ஏழாம் நாள் அட்வென்டிஸ்ட்,13,1
+31,5,born_again,Born Again,மறுபிறப்படைந்த கிறிஸ்தவர்,14,1
+32,5,evangelical,Evangelical,சுவிசேஷ கிறிஸ்தவர்,15,1
+33,5,jacobite,Jacobite Syrian,யாக்கோபாய கிறிஸ்தவர்,16,1
+34,5,orthodox,Malankara Orthodox,மலங்கரா ஆர்த்தடாக்ஸ்,17,1
+35,5,marthoma,Marthoma,மார்தோமா,18,1
+36,5,christian_others,Christian – Others,இதர கிறிஸ்தவர்,19,1
+37,6,sikh_jat,Jat Sikh,ஜாட் சீக்கியர்,1,1
+38,6,sikh_ramgarhia,Ramgarhia,ராம்கரியா,2,1
+39,6,sikh_khatri,Khatri,கத்ரி,3,1
+40,6,sikh_others,Others,இதர பிரிவுகள்,4,1
+41,7,jain_terapanthi,Terapanthi,தேராபந்தி,1,1
+42,8,jain_murtipujaka,Murtipujaka,மூர்த்திபூஜக,2,1
+43,11,buddhist_theravada,Theravada,தேரவாதம்,1,1
+44,11,buddhist_mahayana,Mahayana,மகாயானம்,2,1
+45,11,buddhist_navayana,Navayana (Ambedkarite),நவயானம்,3,1

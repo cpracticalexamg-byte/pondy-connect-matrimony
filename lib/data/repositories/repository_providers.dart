@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../services/otp/otp_service_provider.dart';
 import 'auth_repository.dart';
 import 'chat_repository.dart';
 import 'interest_repository.dart';
@@ -11,7 +12,8 @@ import 'shortlist_repository.dart';
 import 'story_repository.dart';
 
 final authRepoProvider = Provider<AuthRepository>((ref) {
-  return CsvAuthRepository();
+  final otpService = ref.watch(otpServiceProvider);
+  return CsvAuthRepository(otpService: otpService);
 });
 
 final profileRepoProvider = Provider<ProfileRepository>((ref) {

@@ -23,11 +23,23 @@ class _Step4ProfessionalScreenState extends ConsumerState<Step4ProfessionalScree
   List<MasterItem> _occupations = [];
   List<MasterItem> _employmentTypes = [];
   List<MasterItem> _incomeRanges = [];
+  late final TextEditingController _educationDetailController;
+  late final TextEditingController _employerController;
 
   @override
   void initState() {
     super.initState();
+    final reg = ref.read(registrationProvider);
+    _educationDetailController = TextEditingController(text: reg.educationDetail);
+    _employerController = TextEditingController(text: reg.employer);
     _loadMasters();
+  }
+
+  @override
+  void dispose() {
+    _educationDetailController.dispose();
+    _employerController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadMasters() async {
@@ -155,7 +167,7 @@ class _Step4ProfessionalScreenState extends ConsumerState<Step4ProfessionalScree
 
           // Education detail
           TextField(
-            controller: TextEditingController(text: reg.educationDetail),
+            controller: _educationDetailController,
             decoration: const InputDecoration(
               labelText: 'College / Degree Specialization (Optional)',
               hintText: 'e.g. Pondicherry Engineering College (PEC), Computer Science',
@@ -202,7 +214,7 @@ class _Step4ProfessionalScreenState extends ConsumerState<Step4ProfessionalScree
             const SizedBox(height: 18),
 
             TextField(
-              controller: TextEditingController(text: reg.employer),
+              controller: _employerController,
               decoration: const InputDecoration(
                 labelText: 'Employer / Company Name (Optional)',
                 hintText: 'e.g. JIPMER, TCS, HCL, Govt of Puducherry, etc.',

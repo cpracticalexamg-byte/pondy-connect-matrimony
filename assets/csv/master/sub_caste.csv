@@ -1,0 +1,25 @@
+id,caste_id,code,name_en,name_ta,sort_order,is_active
+1,7,iyer_vadama,Vadama,வடமா,1,1
+2,7,iyer_brahacharanam,Brahacharanam,பிருகச்சரணம்,2,1
+3,7,iyer_vathima,Vathima,வாத்திமா,3,1
+4,7,iyer_ashtasahasram,Ashtasahasram,அஷ்டசஹஸ்ரம்,4,1
+5,7,iyer_chozhiya,Chozhiya,சோழியர்,5,1
+6,8,iyengar_vadakalai,Vadakalai,வடகலை,1,1
+7,8,iyengar_thenkalai,Thenkalai,தென்கலை,2,1
+8,1,mudaliar_sengunthar,Sengunthar / Kaikolar,செங்குந்தர் / கைகோளர்,1,1
+9,1,mudaliar_saiva,Saiva Mudaliar,சைவ முதலியார்,2,1
+10,1,mudaliar_thondaimandala,Thondaimandala Vellalar,தொண்டைமண்டல வேளாளர்,3,1
+11,1,mudaliar_agamudaya,Agamudaya Mudaliar,அகமுடைய முதலியார்,4,1
+12,6,pillai_saiva,Saiva Pillai,சைவ பிள்ளை,1,1
+13,6,pillai_karkathar,Karkathar,கார்காத்த வேளாளர்,2,1
+14,6,pillai_nanjil,Nanjil Nattu Vellalar,நாஞ்சில் நாட்டு வேளாளர்,3,1
+15,6,pillai_tirunelveli,Tirunelveli Saiva Pillai,திருநெல்வேலி சைவ பிள்ளை,4,1
+16,3,vanniyar_padayachi,Padayachi,படையாட்சி,1,1
+17,3,vanniyar_gounder,Vanniya Gounder,வன்னிய கவுண்டர்,2,1
+18,3,vanniyar_naicker,Naicker,நாயக்கர்,3,1
+19,5,thevar_kallar,Kallar,கள்ளர்,1,1
+20,5,thevar_maravar,Maravar,மறவர்,2,1
+21,5,thevar_agamudayar,Agamudayar,அகமுடையார்,3,1
+22,9,nagarathar,Nagarathar,நகரத்தார்,1,1
+23,10,vaniya_chettiar,Vaniya Chettiar,வாணிய செட்டியார்,2,1
+24,10,devanga_chettiar,Devanga Chettiar,தேவாங்க செட்டியார்,3,1

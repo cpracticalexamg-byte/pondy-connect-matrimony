@@ -1,0 +1,38 @@
+id,district_id,code,name_en,name_ta,sort_order,is_active
+1,1,puducherry_town,Puducherry City,புதுச்சேரி நகரம்,1,1
+2,1,ozhukarai,Ozhukarai,உழவர்கரை,2,1
+3,1,villianur,Villianur,வில்லியனூர்,3,1
+4,1,ariyankuppam,Ariyankuppam,அரியாங்குப்பம்,4,1
+5,1,bahour,Bahour,பாகூர்,5,1
+6,1,nettapakkam,Nettapakkam,நெட்டப்பாக்கம்,6,1
+7,1,mannadipet,Mannadipet,மண்ணாடிப்பட்டு,7,1
+8,1,thirubuvanai,Thirubuvanai,திருபுவனை,8,1
+9,1,auroville,Auroville,ஆரோவில்,9,1
+10,1,kalapet,Kalapet,காலாப்பட்டு,10,1
+11,1,lawspet,Lawspet,லாஸ்பேட்டை,11,1
+12,1,muthialpet,Muthialpet,முத்தியால்பேட்டை,12,1
+13,1,reddiarpalayam,Reddiarpalayam,ரெட்டியார்பாளையம்,13,1
+14,2,karaikal_town,Karaikal Town,காரைக்கால் நகரம்,1,1
+15,2,kottucherry,Kottucherry,கோட்டுச்சேரி,2,1
+16,2,nedungadu,Nedungadu,நெடுங்காடு,3,1
+17,2,thirunallar,Thirunallar,திருநள்ளாறு,4,1
+18,2,neravy,Neravy,நிரவி,5,1
+19,2,tr_pattinam,T.R. Pattinam,தி.ரா. பட்டினம்,6,1
+20,3,mahe_town,Mahe,மாஹே,1,1
+21,4,yanam_town,Yanam,ஏனாம்,1,1
+22,5,cuddalore_town,Cuddalore,கடலூர்,1,1
+23,5,panruti,Panruti,பண்ருட்டி,2,1
+24,5,chidambaram,Chidambaram,சிதம்பரம்,3,1
+25,5,vriddhachalam,Vriddhachalam,விருத்தாச்சலம்,4,1
+26,5,neiveli,Neyveli,நெய்வேலி,5,1
+27,6,villupuram_town,Villupuram,விழுப்புரம்,1,1
+28,6,tindivanam,Tindivanam,திண்டிவனம்,2,1
+29,6,gingee,Gingee (Senji),செஞ்சி,3,1
+30,7,chennai_city,Chennai,சென்னை,1,1
+31,16,coimbatore_city,Coimbatore,கோயம்புத்தூர்,1,1
+32,32,madurai_city,Madurai,மதுரை,1,1
+33,27,trichy_city,Tiruchirappalli (Trichy),திருச்சி,1,1
+34,17,salem_city,Salem,சேலம்,1,1
+35,38,tirunelveli_city,Tirunelveli,திருநெல்வேலி,1,1
+36,40,thoothukudi_city,Thoothukudi,தூத்துக்குடி,1,1
+37,43,bengaluru_city,Bengaluru,பெங்களூர்,1,1

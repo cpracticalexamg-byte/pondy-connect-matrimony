@@ -1,0 +1,6 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,very_fair,Very Fair,மிகவும் சிவப்பு,1,1
+2,fair,Fair,சிவப்பு,2,1
+3,wheatish,Wheatish,மாநிறம்,3,1
+4,wheatish_brown,Wheatish Brown,மாநிற பழுப்பு,4,1
+5,dark,Dark,கருமை,5,1

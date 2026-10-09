@@ -1,0 +1,15 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,hindu,Hindu,இந்து,1,1
+2,muslim_sunni,Muslim – Sunni,முஸ்லிம் – சுன்னி,2,1
+3,muslim_shia,Muslim – Shia,முஸ்லிம் – ஷியா,3,1
+4,muslim_others,Muslim – Others,முஸ்லிம் – இதர,4,1
+5,christian,Christian,கிறிஸ்தவர்,5,1
+6,sikh,Sikh,சீக்கியர்,6,1
+7,jain_digambar,Jain – Digambar,சைனம் – திகம்பரர்,7,1
+8,jain_shwetambar,Jain – Shwetambar,சைனம் – ஸ்வேதாம்பரர்,8,1
+9,jain_others,Jain – Others,சைனம் – இதர,9,1
+10,parsi,Parsi,பார்சி,10,1
+11,buddhist,Buddhist,பௌத்தர்,11,1
+12,jewish,Jewish,யூதர்,12,1
+13,inter_religion,Inter-Religion,மதங்கடந்த,13,1
+14,no_religion,No Religion / Spiritual,மதமற்றவர் / ஆன்மீகவாதி,14,1

@@ -1,0 +1,19 @@
+id,iso2,iso3,dial_code,currency_code,name_en,name_ta,sort_order,is_active
+1,IN,IND,+91,INR,India,இந்தியா,1,1
+2,US,USA,+1,USD,United States,அமெரிக்கா,2,1
+3,AE,ARE,+971,AED,United Arab Emirates,ஐக்கிய அரபு அமீரகம்,3,1
+4,SG,SGP,+65,SGD,Singapore,சிங்கப்பூர்,4,1
+5,MY,MYS,+60,MYR,Malaysia,மலேசியா,5,1
+6,GB,GBR,+44,GBP,United Kingdom,இங்கிலாந்து,6,1
+7,CA,CAN,+1,CAD,Canada,கனடா,7,1
+8,AU,AUS,+61,AUD,Australia,ஆஸ்திரேலியா,8,1
+9,QA,QAT,+974,QAR,Qatar,கத்தார்,9,1
+10,KW,KWT,+965,KWD,Kuwait,குவைத்,10,1
+11,SA,SAU,+966,SAR,Saudi Arabia,சவுதி அரேபியா,11,1
+12,OM,OMN,+968,OMR,Oman,ஓமன்,12,1
+13,BH,BHR,+973,BHD,Bahrain,பஹ்ரைன்,13,1
+14,LK,LKA,+94,LKR,Sri Lanka,இலங்கை,14,1
+15,FR,FRA,+33,EUR,France,பிரான்ஸ்,15,1
+16,DE,DEU,+49,EUR,Germany,ஜெர்மனி,16,1
+17,NZ,NZL,+64,NZD,New Zealand,நியூசிலாந்து,17,1
+18,ZA,ZAF,+27,ZAR,South Africa,தென்னாப்பிரிக்கா,18,1

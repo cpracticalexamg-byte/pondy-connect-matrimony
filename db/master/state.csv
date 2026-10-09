@@ -1,0 +1,46 @@
+id,country_id,code,name_en,name_ta,sort_order,is_active
+1,1,PY,Puducherry,புதுச்சேரி,1,1
+2,1,TN,Tamil Nadu,தமிழ்நாடு,2,1
+3,1,KA,Karnataka,கர்நாடகா,3,1
+4,1,KL,Kerala,கேரளா,4,1
+5,1,AP,Andhra Pradesh,ஆந்திர பிரதேசம்,5,1
+6,1,TG,Telangana,தெலுங்கானா,6,1
+7,1,MH,Maharashtra,மகாராஷ்டிரா,7,1
+8,1,DL,Delhi,டெல்லி,8,1
+9,1,GJ,Gujarat,குஜராத்,9,1
+10,1,UP,Uttar Pradesh,உத்தர பிரதேசம்,10,1
+11,1,WB,West Bengal,மேற்கு வங்காளம்,11,1
+12,1,RJ,Rajasthan,ராஜஸ்தான்,12,1
+13,1,MP,Madhya Pradesh,மத்திய பிரதேசம்,13,1
+14,1,PB,Punjab,பஞ்சாப்,14,1
+15,1,HR,Haryana,ஹரியானா,15,1
+16,1,BR,Bihar,பீகார்,16,1
+17,1,OR,Odisha,ஒடிசா,17,1
+18,1,AS,Assam,அஸ்ஸாம்,18,1
+19,1,JK,Jammu & Kashmir,ஜம்மு & காஷ்மீர்,19,1
+20,1,GA,Goa,கோவா,20,1
+21,1,HP,Himachal Pradesh,இமாச்சல பிரதேசம்,21,1
+22,1,UK,Uttarakhand,உத்தரகாண்ட்,22,1
+23,1,JH,Jharkhand,ஜார்க்கண்ட்,23,1
+24,1,CT,Chhattisgarh,சத்தீஸ்கர்,24,1
+25,1,CH,Chandigarh,சண்டிகர்,25,1
+26,1,AN,Andaman & Nicobar Islands,அந்தமான் & நிக்கோபார்,26,1
+27,1,LD,Ladakh,லடாக்,27,1
+28,1,MN,Manipur,மணிப்பூர்,28,1
+29,1,ML,Meghalaya,மேகாலயா,29,1
+30,1,MZ,Mizoram,மிசோரம்,30,1
+31,1,NL,Nagaland,நாகாலாந்து,31,1
+32,1,SK,Sikkim,சிக்கிம்,32,1
+33,1,TR,Tripura,திரிபுரா,33,1
+34,1,AR,Arunachal Pradesh,அருணாச்சல பிரதேசம்,34,1
+35,1,DH,Dadra and Nagar Haveli and Daman and Diu,தாத்ரா & நகர் ஹவேலி,35,1
+36,1,LK,Lakshadweep,லட்சத்தீவு,36,1
+37,2,US_CA,California (USA),கலிபோர்னியா (USA),37,1
+38,2,US_TX,Texas (USA),டெக்சாஸ் (USA),38,1
+39,2,US_NY,New York (USA),நியூயார்க் (USA),39,1
+40,2,US_NJ,New Jersey (USA),நியூஜெர்சி (USA),40,1
+41,3,AE_DU,Dubai (UAE),துபாய் (UAE),41,1
+42,3,AE_AZ,Abu Dhabi (UAE),அபுதாபி (UAE),42,1
+43,4,SG_SG,Singapore,சிங்கப்பூர்,43,1
+44,5,MY_KL,Kuala Lumpur / Selangor,கோலாலம்பூர்,44,1
+45,6,GB_LN,Greater London (UK),லண்டன் (UK),45,1

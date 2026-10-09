@@ -1,0 +1,2 @@
+# Logical Blob Paths Manifest for Azure Blob Storage Migration
+blob_id,entity_type,entity_id,logical_blob_path,content_type,privacy_level

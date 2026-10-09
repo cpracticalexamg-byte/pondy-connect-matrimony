@@ -1,0 +1,9 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,private,Private Sector,தனியார் துறை,1,1
+2,government,Government / Public Sector (PSU),அரசுப் பணி / அரசுத்துறை,2,1
+3,business_owner,Business Owner / Entrepreneur,சுயதொழில் / தொழிலதிபர்,3,1
+4,self_employed,Self Employed Professional,சுயதொழில் வல்லுநர்,4,1
+5,civil_services,Civil Services (IAS / IPS / IRS / TNPSC),சிவில் சர்வீசஸ்,5,1
+6,defence,Defence / Police / Paramilitary,இராணுவம் / காவல்துறை,6,1
+7,not_working,Not Working,வேலை செய்யவில்லை,7,1
+8,student,Student,மாணவர்,8,1

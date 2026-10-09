@@ -1,0 +1,13 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,mesham,Mesham (Aries),மேஷம்,1,1
+2,rishabam,Rishabam (Taurus),ரிஷபம்,2,1
+3,mithunam,Mithunam (Gemini),மிதுனம்,3,1
+4,kadagam,Kadagam (Cancer),கடகம்,4,1
+5,simmam,Simmam (Leo),சிம்மம்,5,1
+6,kanni,Kanni (Virgo),கன்னி,6,1
+7,thulam,Thulam (Libra),துலாம்,7,1
+8,viruchigam,Viruchigam (Scorpio),விருச்சிகம்,8,1
+9,dhanusu,Dhanusu (Sagittarius),தனுசு,9,1
+10,makaram,Makaram (Capricorn),மகரம்,10,1
+11,kumbam,Kumbam (Aquarius),கும்பம்,11,1
+12,meenam,Meenam (Pisces),மீனம்,12,1

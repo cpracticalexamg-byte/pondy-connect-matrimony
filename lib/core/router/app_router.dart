@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../features/admin/admin_screen.dart';
+import '../../features/auth/providers/auth_state_provider.dart';
 import '../../features/auth/screens/login_screen.dart';
 import '../../features/auth/screens/otp_verification_screen.dart';
 import '../../features/auth/screens/register_screen_0.dart';
@@ -24,6 +26,7 @@ import '../../features/registration/screens/step5_additional_screen.dart';
 import '../../features/settings/screens/settings_screen.dart';
 import '../../features/shortlist/screens/shortlist_screen.dart';
 import '../../features/splash/splash_screen.dart';
+import 'route_redirect.dart';
 
 // Helper for horizontal slide transition (300ms easeOutCubic)
 CustomTransitionPage<void> buildSlidePage({
@@ -66,14 +69,13 @@ CustomTransitionPage<void> buildFadePage({
   );
 }
 
-final GoRouter appRouter = GoRouter(
-  initialLocation: '/',
-  routes: [
-    GoRoute(
-      path: '/',
-      name: 'splash',
-      builder: (context, state) => const SplashScreen(),
-    ),
+final List<RouteBase> appRoutes = [
+  GoRoute(
+    path: '/',
+    name: 'splash',
+    builder: (context, state) => const SplashScreen(),
+  ),
+
     GoRoute(
       path: '/onboarding',
       name: 'onboarding',
@@ -326,5 +328,34 @@ final GoRouter appRouter = GoRouter(
         child: const AdminScreen(),
       ),
     ),
-  ],
+  ];
+
+final routerProvider = Provider<GoRouter>((ref) {
+  return GoRouter(
+    initialLocation: '/',
+    routes: appRoutes,
+    redirect: (context, state) {
+      final isSplash = ref.read(splashCompletedProvider);
+      final auth = ref.read(authStateProvider);
+      final hasProfile = auth.profile != null && auth.profile!.profileId.isNotEmpty;
+
+      return RouteRedirect.evaluate(
+        location: state.matchedLocation,
+        isSplashComplete: isSplash,
+        hasSeenOnboarding: true, // evaluated by splash after reading prefs
+        isAuthenticated: auth.isAuthenticated,
+        hasCompletedProfile: hasProfile,
+        registrationResumeStep: '/register/step1',
+      );
+    },
+  );
+});
+
+final GoRouter appRouter = GoRouter(
+  initialLocation: '/',
+  routes: appRoutes,
+  redirect: (context, state) {
+    return null;
+  },
 );
+

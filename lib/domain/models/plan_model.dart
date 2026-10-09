@@ -1,4 +1,5 @@
 import 'dart:convert';
+import '../../core/utils/app_logger.dart';
 
 class PlanModel {
   final String planId;
@@ -40,7 +41,9 @@ class PlanModel {
         if (decoded['features'] is List) {
           feats = (decoded['features'] as List).map((e) => e.toString()).toList();
         }
-      } catch (_) {}
+      } catch (e) {
+        AppLogger.warning('Failed to parse features_json for plan ${map['plan_id']}', tag: 'PlanModel', error: e);
+      }
     }
 
     return PlanModel(

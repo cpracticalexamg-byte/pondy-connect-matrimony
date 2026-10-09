@@ -1,0 +1,10 @@
+id,code,name_en,name_ta,duration_years,sort_order
+1,ketu,Ketu Dasa,கேது திசை,7,1
+2,venus,Venus (Sukra) Dasa,சுக்கிர திசை,20,2
+3,sun,Sun (Surya) Dasa,சூரிய திசை,6,3
+4,moon,Moon (Chandra) Dasa,சந்திர திசை,10,4
+5,mars,Mars (Chevvai) Dasa,செவ்வாய் திசை,7,5
+6,rahu,Rahu Dasa,ராகு திசை,18,6
+7,jupiter,Jupiter (Guru) Dasa,குரு திசை,16,7
+8,saturn,Saturn (Sani) Dasa,சனி திசை,19,8
+9,mercury,Mercury (Budha) Dasa,புத திசை,17,9

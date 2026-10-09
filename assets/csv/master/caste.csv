@@ -1,0 +1,63 @@
+id,religion_id,division_id,code,name_en,name_ta,reservation_category,source,sort_order,is_active
+1,1,0,mudaliar,Mudaliar,முதலியார்,BC,TN-BCC,1,1
+2,1,0,kongu_vellalar_gounder,Kongu Vellalar / Gounder,கொங்கு வேளாளர் / கவுண்டர்,BC,TN-BCC,2,1
+3,1,0,vanniyar,Vanniyar (Padayachi / Palli),வன்னியர் (படையாட்சி / பள்ளி),MBC,TN-MBCC,3,1
+4,1,0,nadar,Nadar,நாடார்,BC,TN-BCC,4,1
+5,1,0,thevar_mukkulathor,"Thevar / Mukkulathor (Kallar, Maravar, Agamudayar)","தேவர் / முக்குலத்தோர் (கள்ளர், மறவர், அகமுடையார்)",BC/DNC,TN-BCC,5,1
+6,1,0,pillai_saiva,Pillai – Saiva / Vellalar,பிள்ளை – சைவ பிள்ளை / வேளாளர்,BC,TN-BCC,6,1
+7,1,0,brahmin_iyer,Brahmin – Iyer,பிராமணர் – ஐயர்,OC,MatrimonyTaxonomy,7,1
+8,1,0,brahmin_iyengar,Brahmin – Iyengar,பிராமணர் – ஐயங்கார்,OC,MatrimonyTaxonomy,8,1
+9,1,0,chettiar_nattukottai,Chettiar – Nattukottai / Nagarathar,செட்டியார் – நாட்டுக்கோட்டை / நகரத்தார்,OC,MatrimonyTaxonomy,9,1
+10,1,0,chettiar_general,Chettiar (Vaniya / Kasukkara / Beri / Devanga),செட்டியார் (வாணிய / காசுக்கார / தேவாங்க),BC,TN-BCC,10,1
+11,1,0,yadava_konar,Yadava / Konar / Idaiyar,யாதவர் / கோனார் / இடையர்,BC,TN-BCC,11,1
+12,1,0,viswakarma,Viswakarma / Asari / Kammalar,விஸ்வகர்மா / ஆசாரி / கம்மாளர்,BC,TN-BCC,12,1
+13,1,0,naidu_balija,Naidu (Balija / Kavara / Gavara),நாயுடு (பலிஜா / கவரா / கவரா),BC,TN-BCC,13,1
+14,1,0,reddy_reddiar,Reddy / Reddiar,ரெட்டி / ரெட்டியார்,BC,TN-BCC,14,1
+15,1,0,adi_dravidar,Adi Dravidar (Paraiyar),ஆதி திராவிடர் (பறையர்),SC,TN-ADTW,15,1
+16,1,0,devendra_kula_vellalar,Devendra Kula Vellalar (Pallar),தேவேந்திர குல வேளாளர் (பள்ளர்),SC,TN-ADTW,16,1
+17,1,0,arunthathiyar,Arunthathiyar (Chakkiliyan / Madiga),அருந்ததியர் (சக்கிலியர் / மாதிகா),SCA,TN-ADTW,17,1
+18,1,0,meenavar_pattanavar,Meenavar / Pattanavar,மீனவர் / பட்டணவர்,MBC,TN-MBCC,18,1
+19,1,0,paravar_bharathar,Paravar / Bharathar,பரவர் / பரதவர்,MBC,TN-MBCC,19,1
+20,1,0,saurashtra,Saurashtra (Pattunulkarar),சௌராஷ்ட்ரா (பட்டுநூல்காரர்),BC,TN-BCC,20,1
+21,1,0,senai_thalaivar,Senai Thalaivar (Elai Vaniyar),சேனைத் தலைவர் (இலை வாணியர்),BC,TN-BCC,21,1
+22,1,0,mutharaiyar,Mutharaiyar / Ambalakarar / Muthuraja,முத்தரையர் / அம்பலக்காரர்,MBC,TN-MBCC,22,1
+23,1,0,rajaka_vannar,Rajaka / Vannar,ராஜகா / வண்ணார்,MBC,TN-MBCC,23,1
+24,1,0,maruthuvar_navithar,Maruthuvar / Navithar,மருத்துவர் / நாவிதர்,MBC,TN-MBCC,24,1
+25,1,0,boyar_oddar,Boyar / Oddar,போயர் / ஒட்டர்,MBC,TN-MBCC,25,1
+26,1,0,kuyavar_kulalar,Kuyavar / Kulalar (Velar),குயவர் / குலாலர் (வேளார்),MBC,TN-MBCC,26,1
+27,1,0,vettuva_gounder,Vettuva Gounder,வேட்டுவ கவுண்டர்,BC,TN-BCC,27,1
+28,1,0,udayar_parkavakulam,Udayar / Parkavakulam (Nainar / Nathaman),உடையார் / பார்கவகுலம்,BC,TN-BCC,28,1
+29,1,0,sozhiya_vellalar,Sozhiya Vellalar,சோழிய வேளாளர்,BC,TN-BCC,29,1
+30,1,0,irular_tribal,Irular / ST Communities,இருளர் / பழங்குடியினர்,ST,TN-ADTW,30,1
+31,1,0,brahmin_madhva,Brahmin – Madhva,பிராமணர் – மாத்வர்,OC,MatrimonyTaxonomy,31,1
+32,1,0,kamma_naidu,Kamma,கம்மா,OC/BC,MatrimonyTaxonomy,32,1
+33,1,0,kapu,Kapu,காபு,OC/BC,MatrimonyTaxonomy,33,1
+34,1,0,nair,Nair,நாயர்,OC,MatrimonyTaxonomy,34,1
+35,1,0,ezhava_thiyya,Ezhava / Thiyya,ஈழவா / திய்யா,OBC,MatrimonyTaxonomy,35,1
+36,1,0,lingayat,Lingayat,லிங்காயத்,OBC,MatrimonyTaxonomy,36,1
+37,1,0,vokkaliga,Vokkaliga,வொக்கலிகர்,OBC,MatrimonyTaxonomy,37,1
+38,1,0,arya_vysya,Arya Vysya,ஆர்ய வைசியர்,OC,MatrimonyTaxonomy,38,1
+39,1,0,marwari,Marwari,மார்வாடி,OC,MatrimonyTaxonomy,39,1
+40,1,0,gujarati,Gujarati,குஜராத்தி,OC,MatrimonyTaxonomy,40,1
+41,1,0,rajput,Rajput,ராஜபுத்திரர்,OC,MatrimonyTaxonomy,41,1
+42,1,0,caste_none,Caste No Bar / Any Caste,சாதி தடையில்லை,OC,AppStandard,42,1
+43,5,0,christian_nadar,Christian – Nadar,கிறிஸ்தவ நாடார்,BC,TN-BCC,43,1
+44,5,0,christian_paravar,Christian – Paravar / Bharathar / Fernando,கிறிஸ்தவ பரவர் / பரதவர்,MBC,TN-MBCC,44,1
+45,5,0,christian_latin_catholic,Christian – Latin Catholic,லத்தீன் கத்தோலிக்கர்,BC,TN-BCC,45,1
+46,5,0,christian_adi_dravidar,Christian – Adi Dravidar,கிறிஸ்தவ ஆதி திராவிடர்,BC,TN-BCC,46,1
+47,5,0,christian_vellalar,Christian – Pillai / Vellalar,கிறிஸ்தவ பிள்ளை / வேளாளர்,BC,TN-BCC,47,1
+48,5,0,christian_mudaliar,Christian – Mudaliar,கிறிஸ்தவ முதலியார்,BC,TN-BCC,48,1
+49,5,0,christian_vanniyar,Christian – Vanniyar,கிறிஸ்தவ வன்னியர்,MBC,TN-MBCC,49,1
+50,5,0,christian_chettiar,Christian – Chettiar,கிறிஸ்தவ செட்டியார்,BC,TN-BCC,50,1
+51,5,0,christian_thevar,Christian – Thevar / Mukkulathor,கிறிஸ்தவ தேவர்,BC,TN-BCC,51,1
+52,5,0,christian_anglo_indian,Christian – Anglo-Indian,ஆங்கிலோ-இந்தியர்,BC,TN-BCC,52,1
+53,5,0,christian_others,Christian – Others,இதர கிறிஸ்தவ சமூகம்,BC,TN-BCC,53,1
+54,2,0,muslim_labbai,Muslim – Labbai,முஸ்லிம் – லப்பை,BCM,TN-BCCM,54,1
+55,2,0,muslim_rowther,Muslim – Rowther,முஸ்லிம் – ராவுத்தர்,BCM,TN-BCCM,55,1
+56,2,0,muslim_marakkayar,Muslim – Marakkayar,முஸ்லிம் – மரைக்காயர்,BCM,TN-BCCM,56,1
+57,2,0,muslim_dakhni,Muslim – Dakhni / Urdu Speaking,முஸ்லிம் – தக்னி / உருது,BCM,TN-BCCM,57,1
+58,2,0,muslim_sheikh,Muslim – Sheikh,முஸ்லிம் – ஷேக்,BCM,TN-BCCM,58,1
+59,2,0,muslim_syed,Muslim – Syed,முஸ்லிம் – சையது,BCM,TN-BCCM,59,1
+60,2,0,muslim_pathan,Muslim – Pathan,முஸ்லிம் – பதான்,BCM,TN-BCCM,60,1
+61,2,0,muslim_kayalar,Muslim – Kayalar,முஸ்லிம் – காயலர்,BCM,TN-BCCM,61,1
+62,2,0,muslim_others,Muslim – Others,இதர முஸ்லிம் சமூகம்,BCM,TN-BCCM,62,1

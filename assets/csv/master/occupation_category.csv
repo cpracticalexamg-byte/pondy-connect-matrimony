@@ -1,0 +1,12 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,it_software,IT & Software,மென்பொருள் & ஐ.டி,1,1
+2,medical_healthcare,Medical & Healthcare,மருத்துவம் & நலம்,2,1
+3,engineering,Core Engineering & Architecture,பொறியியல் துறை,3,1
+4,banking_finance,"Banking, Finance & Insurance",வங்கி & நிதித் துறை,4,1
+5,government_defence,Government & Defence Services,அரசு & பாதுகாப்பு பணி,5,1
+6,education_training,Education & Academia,கல்வி & பயிற்சி,6,1
+7,business_corporate,Business & Corporate Management,வணிகம் & கார்ப்பரேட்,7,1
+8,legal_services,Legal Services,சட்டப் பணிகள்,8,1
+9,media_creative,"Media, Arts & Creative",ஊடகம் & கலை,9,1
+10,hospitality_aviation,"Hospitality, Tourism & Aviation",விருந்தோம்பல் & விமானத்துறை,10,1
+11,other_occupations,Others,இதர பணிகள்,11,1

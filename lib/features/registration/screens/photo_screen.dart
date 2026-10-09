@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/utils/app_logger.dart';
 import '../../../core/widgets/step_scaffold.dart';
 import '../providers/registration_provider.dart';
 
@@ -35,7 +36,14 @@ class _PhotoScreenState extends ConsumerState<PhotoScreen> {
       if (xFile != null) {
         ref.read(registrationProvider.notifier).updatePhoto(xFile.path, privacy: _selectedPrivacy);
       }
-    } catch (_) {}
+    } catch (e, stack) {
+      AppLogger.error('Failed to pick image from $source', tag: 'PhotoScreen', error: e, stackTrace: stack);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not open image picker. Please check device permissions.')),
+        );
+      }
+    }
   }
 
   void _showImagePickerSheet() {

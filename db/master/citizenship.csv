@@ -1,0 +1,6 @@
+id,code,name_en,name_ta,sort_order,is_active
+1,indian,Indian Citizen,இந்திய குடிமகன்,1,1
+2,nri,Non-Resident Indian (NRI),வெளிநாடு வாழ் இந்தியர்,2,1
+3,oci,Overseas Citizen of India (OCI),ஓவர்சீஸ் சிட்டிசன் (OCI),3,1
+4,pio,Person of Indian Origin (PIO),இந்திய வம்சாவளி (PIO),4,1
+5,foreign_national,Foreign National,வெளிநாட்டு பிரஜை,5,1

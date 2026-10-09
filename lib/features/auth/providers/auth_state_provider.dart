@@ -174,4 +174,18 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     await _authRepo.logout();
     state = const AuthState();
   }
+
+  Future<bool> deleteAccount({required String reason}) async {
+    final userId = state.user?.userId;
+    if (userId == null) return false;
+    state = state.copyWith(isLoading: true, error: null);
+    try {
+      await _authRepo.deleteAccount(userId: userId, reason: reason);
+      state = const AuthState();
+      return true;
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: e.toString());
+      return false;
+    }
+  }
 }
