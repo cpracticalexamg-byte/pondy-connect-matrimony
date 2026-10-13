@@ -11,6 +11,7 @@ import '../../../core/widgets/profile_avatar.dart';
 import '../../../data/repositories/repository_providers.dart';
 import '../../../domain/entitlements/entitlements_engine.dart';
 import '../../../domain/entitlements/entitlements_model.dart';
+import '../../../domain/location/location_service.dart';
 import '../../../domain/matching/matching_engine.dart';
 import '../../../domain/models/partner_pref_model.dart';
 import '../../../domain/models/profile_model.dart';
@@ -752,6 +753,41 @@ class _ProfileDetailScreenState extends ConsumerState<ProfileDetailScreen> {
                     const Icon(Icons.location_on_outlined, size: 14, color: AppColors.textSecondary),
                     const SizedBox(width: 4),
                     Text('${p.city}, ${p.district}', style: const TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+                    Builder(
+                      builder: (_) {
+                        final distStr = LocationService.instance.getFormattedDistance(
+                          p.profileId,
+                          targetDistrict: p.district,
+                          targetCity: p.city,
+                        );
+                        if (distStr == null) return const SizedBox.shrink();
+
+                        return Container(
+                          margin: const EdgeInsets.only(left: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
+                            borderRadius: BorderRadius.circular(6),
+                            border: Border.all(color: Colors.blue.shade200),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.near_me, size: 10, color: Colors.blue.shade700),
+                              const SizedBox(width: 3),
+                              Text(
+                                distStr,
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.blue.shade800,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ],

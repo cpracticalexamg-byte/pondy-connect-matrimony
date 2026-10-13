@@ -48,6 +48,7 @@ ProfileModel _createSampleProfile({
     state: 'puducherry',
     district: district,
     city: city,
+    citizenship: citizenship,
     diet: 'vegetarian',
     star: star,
     rasi: rasi,
@@ -447,7 +448,6 @@ void main() {
 
       String toggledCode = '';
       bool sameProfTriggered = false;
-      bool moreTriggered = false;
 
       await tester.pumpWidget(
         MaterialApp(
@@ -456,7 +456,7 @@ void main() {
               selectedOccupations: const {'doctor'},
               onToggleOccupation: (code) => toggledCode = code,
               onSameProfession: () => sameProfTriggered = true,
-              onMore: () => moreTriggered = true,
+              onMore: () {},
             ),
           ),
         ),

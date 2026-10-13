@@ -6,6 +6,7 @@ import '../../../data/repositories/interest_repository.dart';
 import '../../../data/repositories/profile_repository.dart';
 import '../../../data/repositories/repository_providers.dart';
 import '../../../data/repositories/shortlist_repository.dart';
+import '../../../domain/location/location_service.dart';
 import '../../../domain/matching/matching_engine.dart';
 import '../../../domain/matching/queries/matching_queries.dart';
 import '../../../domain/models/partner_pref_model.dart';
@@ -266,6 +267,13 @@ class MatchesState {
         if (filterCriteria.motherTongue != null && filterCriteria.motherTongue != 'all' && p.motherTongue.toLowerCase() != filterCriteria.motherTongue!.toLowerCase()) return false;
         if (filterCriteria.diet != null && filterCriteria.diet != 'all' && p.diet.toLowerCase() != filterCriteria.diet!.toLowerCase()) return false;
         if (filterCriteria.district != null && filterCriteria.district != 'all' && p.district.toLowerCase() != filterCriteria.district!.toLowerCase()) return false;
+        if (filterCriteria.distanceRadiusKm != null) {
+          final dist = LocationService.instance.getDistanceToCandidate(
+            p.profileId,
+            targetDistrict: p.district,
+          );
+          if (dist != null && dist > filterCriteria.distanceRadiusKm!) return false;
+        }
         if (filterCriteria.hasHoroscope == true && (p.star.isEmpty || p.star == 'none')) return false;
         return true;
       }).toList();
@@ -287,11 +295,19 @@ class MatchesState {
         });
         break;
       case 'distance':
-        // Nearer locations first
+        // Nearer locations first using real Haversine distance
         sorted.sort((a, b) {
-          final aNearby = a.profile.district.toLowerCase() == 'puducherry' ? 0 : 1;
-          final bNearby = b.profile.district.toLowerCase() == 'puducherry' ? 0 : 1;
-          return aNearby.compareTo(bNearby);
+          final distA = LocationService.instance.getDistanceToCandidate(
+                a.profile.profileId,
+                targetDistrict: a.profile.district,
+              ) ??
+              99999.0;
+          final distB = LocationService.instance.getDistanceToCandidate(
+                b.profile.profileId,
+                targetDistrict: b.profile.district,
+              ) ??
+              99999.0;
+          return distA.compareTo(distB);
         });
         break;
       case 'best_match':

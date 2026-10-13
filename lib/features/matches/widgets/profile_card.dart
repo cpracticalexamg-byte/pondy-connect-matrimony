@@ -3,6 +3,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/pondy_watermark.dart';
+import '../../../domain/location/location_service.dart';
 import '../../../domain/matching/matching_engine.dart';
 import '../../../domain/models/profile_model.dart';
 import '../../profile/widgets/contact_paywall_sheet.dart';
@@ -320,29 +321,41 @@ class ProfileCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                      // Distance Chip demo
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade50,
-                          borderRadius: BorderRadius.circular(6),
-                          border: Border.all(color: Colors.blue.shade200),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.near_me, size: 10, color: Colors.blue.shade700),
-                            const SizedBox(width: 3),
-                            Text(
-                              profile.district.toLowerCase() == 'puducherry' ? '0.8 km away' : 'Near Pondy',
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.blue.shade800,
-                              ),
+                      // Distance Chip
+                      Builder(
+                        builder: (_) {
+                          final distStr = LocationService.instance.getFormattedDistance(
+                            profile.profileId,
+                            targetDistrict: profile.district,
+                            targetCity: profile.city,
+                          );
+                          if (distStr == null) return const SizedBox.shrink();
+
+                          return Container(
+                            margin: const EdgeInsets.only(left: 6),
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.blue.shade50,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(color: Colors.blue.shade200),
                             ),
-                          ],
-                        ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.near_me, size: 10, color: Colors.blue.shade700),
+                                const SizedBox(width: 3),
+                                Text(
+                                  distStr,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.blue.shade800,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

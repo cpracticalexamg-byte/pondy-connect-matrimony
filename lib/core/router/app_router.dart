@@ -10,6 +10,7 @@ import '../../features/chat/screens/chat_conversation_screen.dart';
 import '../../features/home/screens/main_shell.dart';
 import '../../features/horoscope/screens/horoscope_screen.dart';
 import '../../features/interests/screens/interests_screen.dart';
+import '../../features/location/screens/privacy_location_screen.dart';
 import '../../features/membership/screens/membership_screen.dart';
 import '../../features/notifications/screens/notifications_screen.dart';
 import '../../features/onboarding/onboarding_screen.dart';
@@ -334,6 +335,15 @@ final List<RouteBase> appRoutes = [
         context: context,
         state: state,
         child: const SettingsScreen(),
+      ),
+    ),
+    GoRoute(
+      path: '/privacy-location',
+      name: 'privacy_location',
+      pageBuilder: (context, state) => buildSlidePage(
+        context: context,
+        state: state,
+        child: const PrivacyLocationScreen(),
       ),
     ),
     GoRoute(

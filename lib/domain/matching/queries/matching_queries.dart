@@ -271,8 +271,8 @@ class MatchingQueries {
       final citizenship = c.citizenship.toLowerCase();
       final city = c.city.toLowerCase();
       final about = c.aboutMe.toLowerCase();
-      return (country.isNotEmpty && country != 'india') ||
-          (citizenship.isNotEmpty && citizenship != 'indian') ||
+      return (country.isNotEmpty && country != 'india' && country != 'in') ||
+          (citizenship.isNotEmpty && citizenship != 'indian' && citizenship != 'india' && citizenship != 'in') ||
           city.contains('singapore') ||
           city.contains('london') ||
           city.contains('dubai') ||
