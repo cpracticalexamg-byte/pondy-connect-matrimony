@@ -295,7 +295,24 @@ final List<RouteBase> appRoutes = [
       pageBuilder: (context, state) => buildSlidePage(
         context: context,
         state: state,
-        child: const MembershipScreen(),
+        child: MembershipScreen(
+          source: state.uri.queryParameters['source'],
+          field: state.uri.queryParameters['field'],
+          profileId: state.uri.queryParameters['profile'],
+        ),
+      ),
+    ),
+    GoRoute(
+      path: '/upgrade',
+      name: 'upgrade',
+      pageBuilder: (context, state) => buildSlidePage(
+        context: context,
+        state: state,
+        child: MembershipScreen(
+          source: state.uri.queryParameters['source'],
+          field: state.uri.queryParameters['field'],
+          profileId: state.uri.queryParameters['profile'],
+        ),
       ),
     ),
     GoRoute(

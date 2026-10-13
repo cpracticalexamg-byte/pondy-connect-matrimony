@@ -1,4 +1,4 @@
-import 'package:csv/csv.dart';
+import 'dart:convert';
 import 'package:flutter/services.dart';
 import '../../core/utils/app_logger.dart';
 import '../../domain/models/plan_model.dart';
@@ -7,8 +7,10 @@ import '../csv/csv_store.dart';
 
 abstract class PlanRepository {
   Future<List<PlanModel>> getPlans();
+  Future<List<PlanModel>> getRegularPlans();
+  Future<List<PlanModel>> getExclusivePlans();
   Future<PlanModel?> getPlanById(String planId);
-  Future<bool> subscribeUser(String userId, String planId, String paymentRef);
+  Future<PlanModel?> getPlanByCode(String code);
 }
 
 class CsvPlanRepository implements PlanRepository {
@@ -19,65 +21,86 @@ class CsvPlanRepository implements PlanRepository {
   @override
   Future<List<PlanModel>> getPlans() async {
     try {
-      final raw = await rootBundle.loadString('assets/csv/master/plans.csv');
-      final rows = const CsvToListConverter(shouldParseNumbers: false).convert(raw);
-      if (rows.isEmpty) return [];
+      final rows = await _store.query(
+        CsvSchema.plansTable,
+        (r) => (r['is_active'] ?? '1') == '1' || (r['is_active'] ?? '').toLowerCase() == 'true',
+      );
 
-      final headers = rows.first.map((e) => e.toString().trim()).toList();
+      if (rows.isNotEmpty) {
+        final list = rows.map((m) => PlanModel.fromMap(m)).toList();
+        list.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+        return list;
+      }
+
+      // Fallback from asset if table query is empty
+      final raw = await rootBundle.loadString('assets/csv/seed/plans.csv');
+      final lines = const LineSplitter().convert(raw);
+      if (lines.length <= 1) return [];
+
+      final headers = lines.first.split(',').map((e) => e.trim()).toList();
       final plans = <PlanModel>[];
 
-      for (int i = 1; i < rows.length; i++) {
-        final row = rows[i];
-        if (row.isEmpty || (row.length == 1 && row.first.toString().trim().isEmpty)) continue;
+      for (int i = 1; i < lines.length; i++) {
+        final line = lines[i];
+        if (line.trim().isEmpty) continue;
+        // Simple CSV splitter handling quotes
+        final parts = _parseCsvLine(line);
         final map = <String, String>{};
         for (int j = 0; j < headers.length; j++) {
-          map[headers[j]] = j < row.length ? row[j].toString().trim() : '';
+          map[headers[j]] = j < parts.length ? parts[j].trim() : '';
         }
         plans.add(PlanModel.fromMap(map));
       }
+      plans.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
       return plans;
     } catch (e, stack) {
-      AppLogger.error('Failed to load plans from master CSV', tag: 'PlanRepository', error: e, stackTrace: stack);
+      AppLogger.error('Failed to load plans', tag: 'PlanRepository', error: e, stackTrace: stack);
       return [];
     }
   }
 
   @override
+  Future<List<PlanModel>> getRegularPlans() async {
+    final all = await getPlans();
+    return all.where((p) => !p.isExclusive).toList();
+  }
+
+  @override
+  Future<List<PlanModel>> getExclusivePlans() async {
+    final all = await getPlans();
+    return all.where((p) => p.isExclusive).toList();
+  }
+
+  @override
   Future<PlanModel?> getPlanById(String planId) async {
     final plans = await getPlans();
-    final matches = plans.where((p) => p.planId == planId);
+    final matches = plans.where((p) => p.planId == planId || p.code == planId);
     return matches.isNotEmpty ? matches.first : null;
   }
 
   @override
-  Future<bool> subscribeUser(String userId, String planId, String paymentRef) async {
-    final plan = await getPlanById(planId);
-    if (plan == null) return false;
+  Future<PlanModel?> getPlanByCode(String code) async {
+    final plans = await getPlans();
+    final matches = plans.where((p) => p.code == code);
+    return matches.isNotEmpty ? matches.first : null;
+  }
 
-    final subId = await _store.nextId(CsvSchema.subscriptionsTable, 'sub_id', 'SUB', 6);
-    final now = DateTime.now();
-    final expiry = now.add(Duration(days: plan.durationMonths * 30));
-
-    await _store.insert(CsvSchema.subscriptionsTable, {
-      'sub_id': subId,
-      'user_id': userId,
-      'plan_id': planId,
-      'started_at': now.toIso8601String(),
-      'expires_at': expiry.toIso8601String(),
-      'payment_ref': paymentRef,
-      'status': 'active',
-    });
-
-    // Update user row
-    await _store.update(
-      CsvSchema.usersTable,
-      {
-        'plan_id': planId,
-        'plan_expiry': expiry.toIso8601String(),
-      },
-      (r) => r['user_id'] == userId,
-    );
-
-    return true;
+  List<String> _parseCsvLine(String line) {
+    final result = <String>[];
+    final buffer = StringBuffer();
+    bool inQuotes = false;
+    for (int i = 0; i < line.length; i++) {
+      final ch = line[i];
+      if (ch == '"') {
+        inQuotes = !inQuotes;
+      } else if (ch == ',' && !inQuotes) {
+        result.add(buffer.toString());
+        buffer.clear();
+      } else {
+        buffer.write(ch);
+      }
+    }
+    result.add(buffer.toString());
+    return result;
   }
 }
