@@ -1,1 +1,7 @@
-plan_id,code,name,price_inr,duration_months,contacts_view_limit,chat_enabled,highlight,horoscope_match,features_json,sort_order,is_active
+plan_id,code,name,tier,price_inr,list_price,promo_start,promo_end,duration_days,duration_months,contact_view_limit,daily_contact_cap,unlimited_messages,unlimited_horoscope,verified_photo_access,is_best_value,is_exclusive,ends_on_marriage,features_json,sort_order,is_active
+plan_gold_3m,gold_3m,Gold · 3 Months,gold,999,0,,,90,3,40,40,1,1,0,0,0,0,"[""40 contacts"",""Unlimited chat"",""Horoscope""]",1,1
+plan_prime_gold_3m,prime_gold_3m,Prime Gold · 3 Months,prime_gold,1999,0,,,90,3,-1,50,1,1,1,0,0,0,"[""Unlimited contacts*"",""Unlimited chat"",""Horoscope"",""Verified photos""]",2,1
+plan_prime_till_marry,prime_till_marry,Prime – Till U Marry,till_u_marry,4999,0,,,730,24,-1,50,1,1,1,1,0,1,"[""Longest validity"",""Unlimited contacts*"",""Unlimited chat"",""Horoscope"",""Verified photos""]",3,1
+plan_boost_15,highlighter_15d,Profile Highlighter · 15 Days,highlighter,199,0,,,15,0,0,0,0,0,0,0,1,0,"[""Featured at top for 15 days""]",4,1
+plan_boost_45,highlighter_45d,Profile Highlighter · 45 Days,highlighter,499,0,,,45,0,0,0,0,0,0,0,1,0,"[""Featured at top for 45 days""]",5,1
+plan_boost_90,highlighter_90d,Profile Highlighter · 90 Days,highlighter,899,0,,,90,0,0,0,0,0,0,0,1,0,"[""Featured at top for 90 days""]",6,1

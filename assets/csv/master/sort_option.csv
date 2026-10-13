@@ -1,0 +1,6 @@
+id,code,name_en,name_ta,description_en,description_ta,sort_order
+1,last_active,Last active,கடைசியாகச் செயல்பட்டவர்,Members who recently logged in shown first,சமீபத்தில் உள்நுழைந்த உறுப்பினர்கள் முதலில்,1
+2,date_created,Date created,பதிவு செய்த தேதி,Recently created profiles first,சமீபத்தில் பதிவு செய்த வரன்கள் முதலில்,2
+3,distance,Distance,தொலைவு,Nearby profiles first,அருகில் உள்ள வரன்கள் முதலில்,3
+4,latest_photos,Latest photos,புதிய புகைப்படங்கள்,Members who recently added photos first,சமீபத்தில் புகைப்படம் சேர்த்த வரன்கள் முதலில்,4
+5,best_match,Best match %,சிறந்த பொருத்தம் %,Profiles matching your preferences first,உங்கள் விருப்பங்களுக்கு அதிகம் பொருந்தும் வரன்கள்,5

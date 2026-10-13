@@ -1,11 +1,11 @@
 # Pondy Connect Matrimony — Database Audit Report V2
 
-**Audit Date:** 2026-10-13T07:23:06.691604Z  
+**Audit Date:** 2026-10-13T07:33:09.055406Z  
 **Target:** Production-Ready V2 Database Quality Verification  
 
 | Table Name | Expected Columns | Actual Columns | Rows | PK Unique | Integrity Status |
 |---|---|---|---|---|---|
-| `schema_meta` | 4 | 4 | 0 | Pass | PASSED ✅ |
+| `schema_meta` | 4 | 4 | 2 | Pass | PASSED ✅ |
 | `users` | 12 | 12 | 20 | Pass | PASSED ✅ |
 | `user_sessions` | 8 | 8 | 0 | Pass | PASSED ✅ |
 | `otp_requests` | 8 | 8 | 0 | Pass | PASSED ✅ |
@@ -26,11 +26,11 @@
 | `messages` | 11 | 11 | 0 | Pass | PASSED ✅ |
 | `shortlists` | 4 | 4 | 0 | Pass | PASSED ✅ |
 | `profile_views` | 4 | 4 | 0 | Pass | PASSED ✅ |
-| `contact_views` | 4 | 4 | 0 | Pass | PASSED ✅ |
+| `contact_views` | 5 | 5 | 0 | Pass | PASSED ✅ |
 | `blocks` | 4 | 4 | 0 | Pass | PASSED ✅ |
 | `reports` | 8 | 8 | 0 | Pass | PASSED ✅ |
 | `notifications` | 9 | 9 | 0 | Pass | PASSED ✅ |
-| `plans` | 12 | 12 | 0 | Pass | PASSED ✅ |
+| `plans` | 21 | 21 | 6 | Pass | PASSED ✅ |
 | `subscriptions` | 9 | 9 | 0 | Pass | PASSED ✅ |
 | `payments` | 9 | 9 | 0 | Pass | PASSED ✅ |
 | `verification_requests` | 8 | 8 | 0 | Pass | PASSED ✅ |
@@ -39,10 +39,22 @@
 | `consents` | 7 | 7 | 0 | Pass | PASSED ✅ |
 | `app_settings` | 3 | 3 | 0 | Pass | PASSED ✅ |
 | `audit_log` | 7 | 7 | 0 | Pass | PASSED ✅ |
+| `daily_recommendations` | 7 | 7 | 0 | Pass | PASSED ✅ |
+| `hidden_profiles` | 3 | 3 | 0 | Pass | PASSED ✅ |
+| `profile_locations` | 7 | 7 | 0 | Pass | PASSED ✅ |
+| `user_filter_state` | 6 | 6 | 0 | Pass | PASSED ✅ |
+| `user_filter_occupations` | 5 | 5 | 0 | Pass | PASSED ✅ |
+| `saved_searches` | 5 | 5 | 0 | Pass | PASSED ✅ |
+| `field_visibility` | 5 | 5 | 17 | Pass | PASSED ✅ |
+| `exclusive_boosts` | 5 | 5 | 0 | Pass | PASSED ✅ |
+| `invoices` | 9 | 9 | 0 | Pass | PASSED ✅ |
+| `profile_photo_requests` | 6 | 6 | 0 | Pass | PASSED ✅ |
+| `app_open_log` | 4 | 4 | 0 | Pass | PASSED ✅ |
+| `notification_settings` | 8 | 8 | 0 | Pass | PASSED ✅ |
 
 ## Master Data Reference Integrity
 
-Total Master Tables: **48**  
+Total Master Tables: **55**  
 Master Tables Quality Check: **All Unique Keys & Non-Empty Tamil Text Verified** ✅
 
 ## Audit Summary

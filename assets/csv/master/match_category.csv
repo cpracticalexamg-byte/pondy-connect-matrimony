@@ -1,0 +1,18 @@
+id,code,section,name_en,name_ta,subtitle_en,subtitle_ta,icon_code,sort_order
+1,shortlisted_you,activity,Shortlisted you,உங்களை தேர்வு செய்தவர்கள்,Profiles that added you to shortlist,உங்களை தேர்வு பட்டியலில் சேர்த்த வரன்கள்,bookmark,1
+2,viewed_you,activity,Viewed you,உங்களைப் பார்த்தவர்கள்,Profiles that viewed your profile,உங்கள் சுயவிவரத்தைப் பார்வையிட்ட வரன்கள்,visibility,2
+3,shortlisted_by_you,activity,Shortlisted by you,நீங்கள் தேர்வு செய்தவர்கள்,Profiles you added to shortlist,நீங்கள் தேர்வு பட்டியலில் சேர்த்த வரன்கள்,bookmark_border,3
+4,viewed_by_you,activity,Viewed by you,நீங்கள் பார்த்தவர்கள்,Profiles you have viewed,நீங்கள் பார்வையிட்ட வரன்கள்,remove_red_eye,4
+5,newly_joined,recent_and_nearby,Newly joined,புதிதாக இணைந்தவர்கள்,Joined within the last 30 days,கடந்த 30 நாட்களில் இணைந்தவர்கள்,fiber_new,5
+6,nearby_matches,recent_and_nearby,Nearby matches,அருகில் உள்ள வரன்கள்,Matches near your location,உங்கள் இருப்பிடத்திற்கு அருகில் உள்ள வரன்கள்,near_me,6
+7,photo_matches,profile_details,Photo matches,புகைப்பட வரன்கள்,Profiles with photos added,புகைப்படம் சேர்த்த வரன்கள்,photo_camera,7
+8,horoscope_matches,profile_details,Matches with horoscope,ஜாதகம் உள்ள வரன்கள்,Profiles that have added horoscope,ஜாதகம் சேர்த்த வரன்கள்,auto_awesome,8
+9,star_matches,astrological,Star matches,நட்சத்திரப் பொருத்தம்,Compatible star sign,பொருத்தமான நட்சத்திர வரன்கள்,stars,9
+10,porutham_10_matches,astrological,Horoscope matches,ஜாதகப் பொருத்தம்,Horoscope matching yours (10-porutham threshold),உங்கள் ஜாதகத்துடன் பொருந்தும் வரன்கள்,brightness_7,10
+11,mutual_matches,looking_for_you,Mutual matches,இருவழிப் பொருத்தம்,Their profile matches your preferences and vice versa,இருவரும் ஒருவருக்கொருவர் பொருந்தும் வரன்கள்,swap_horiz,11
+12,looking_for_you,looking_for_you,Looking for you,உங்களை தேடுபவர்கள்,Their preferences match your profile,அவர்களின் எதிர்பார்ப்புகளுக்கு பொருந்தும் நீங்கள்,person_search,12
+13,education_pref,preferences,Education preference,கல்வி விருப்பம்,Matches based on your education preferences,உங்கள் கல்வி விருப்பத்திற்கு ஏற்ற வரன்கள்,school,13
+14,professional_pref,preferences,Professional preference,தொழில் விருப்பம்,Matches based on your occupation preferences,உங்கள் தொழில் விருப்பத்திற்கு ஏற்ற வரன்கள்,work,14
+15,location_pref,preferences,City/location preference,இருப்பிட விருப்பம்,Matches in your preferred locations,உங்கள் இருப்பிட விருப்பத்திற்கு ஏற்ற வரன்கள்,location_city,15
+16,nri_matches,preferences,NRI matches,வெளிநாட்டு வரன்கள்,Matches living outside India,வெளிநாட்டில் வசிக்கும் வரன்கள்,flight,16
+17,verified_matches,profile_details,Verified matches,சரிபார்க்கப்பட்ட வரன்கள்,Government ID verified profiles,அரசு அடையாளச் சான்று சரிபார்க்கப்பட்ட வரன்கள்,verified,17

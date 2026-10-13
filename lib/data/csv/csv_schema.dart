@@ -1,5 +1,5 @@
 class CsvSchema {
-  static const int currentVersion = 2;
+  static const int currentVersion = 3;
 
   // Table name constants
   static const String metaTable = 'schema_meta';
@@ -36,6 +36,20 @@ class CsvSchema {
   static const String consentsTable = 'consents';
   static const String appSettingsTable = 'app_settings';
   static const String auditLogTable = 'audit_log';
+
+  // V3 New Tables
+  static const String dailyRecommendationsTable = 'daily_recommendations';
+  static const String hiddenProfilesTable = 'hidden_profiles';
+  static const String profileLocationsTable = 'profile_locations';
+  static const String userFilterStateTable = 'user_filter_state';
+  static const String userFilterOccupationsTable = 'user_filter_occupations';
+  static const String savedSearchesTable = 'saved_searches';
+  static const String fieldVisibilityTable = 'field_visibility';
+  static const String exclusiveBoostsTable = 'exclusive_boosts';
+  static const String invoicesTable = 'invoices';
+  static const String profilePhotoRequestsTable = 'profile_photo_requests';
+  static const String appOpenLogTable = 'app_open_log';
+  static const String notificationSettingsTable = 'notification_settings';
 
   // Backwards compatibility aliases
   static const String viewsTableV1 = 'views';
@@ -137,7 +151,7 @@ class CsvSchema {
       'id', 'viewer_profile_id', 'viewed_profile_id', 'viewed_at'
     ],
     contactViewsTable: [
-      'id', 'viewer_profile_id', 'viewed_profile_id', 'viewed_at'
+      'id', 'viewer_profile_id', 'viewed_profile_id', 'quota_window_id', 'viewed_at'
     ],
     blocksTable: [
       'id', 'blocker_profile_id', 'blocked_profile_id', 'created_at'
@@ -151,16 +165,18 @@ class CsvSchema {
       'is_read', 'created_at', 'deleted_at'
     ],
     plansTable: [
-      'plan_id', 'code', 'name', 'price_inr', 'duration_months',
-      'contacts_view_limit', 'chat_enabled', 'highlight', 'horoscope_match',
-      'features_json', 'sort_order', 'is_active'
+      'plan_id', 'code', 'name', 'tier', 'price_inr', 'list_price',
+      'promo_start', 'promo_end', 'duration_days', 'duration_months',
+      'contact_view_limit', 'daily_contact_cap', 'unlimited_messages',
+      'unlimited_horoscope', 'verified_photo_access', 'is_best_value',
+      'is_exclusive', 'ends_on_marriage', 'features_json', 'sort_order', 'is_active'
     ],
     subscriptionsTable: [
       'subscription_id', 'user_id', 'plan_id', 'started_at', 'expires_at',
       'payment_ref', 'status', 'created_at', 'updated_at'
     ],
     paymentsTable: [
-      'payment_id', 'user_id', 'plan_id', 'amount_minor', 'currency', 'gateway',
+      'payment_id', 'user_id', 'plan_id', 'amount_inr', 'currency', 'gateway',
       'gateway_ref', 'status', 'created_at'
     ],
     verificationRequestsTable: [
@@ -184,6 +200,44 @@ class CsvSchema {
     ],
     auditLogTable: [
       'log_id', 'actor_id', 'action', 'entity', 'entity_id', 'details', 'created_at'
+    ],
+    dailyRecommendationsTable: [
+      'rec_id', 'user_profile_id', 'profile_id', 'rec_date', 'position', 'status', 'acted_at'
+    ],
+    hiddenProfilesTable: [
+      'hider_profile_id', 'hidden_profile_id', 'created_at'
+    ],
+    profileLocationsTable: [
+      'profile_id', 'lat_coarse', 'lng_coarse', 'geohash5', 'share_mode', 'source', 'updated_at'
+    ],
+    userFilterStateTable: [
+      'user_id', 'scope', 'filters_json_normalised', 'sort_code', 'occupation_codes', 'updated_at'
+    ],
+    userFilterOccupationsTable: [
+      'id', 'user_id', 'scope', 'occupation_code', 'created_at'
+    ],
+    savedSearchesTable: [
+      'search_id', 'user_profile_id', 'name', 'filters_json', 'created_at'
+    ],
+    fieldVisibilityTable: [
+      'field_code', 'free', 'gold', 'prime_gold', 'till_u_marry'
+    ],
+    exclusiveBoostsTable: [
+      'boost_id', 'profile_id', 'plan_id', 'starts_at', 'ends_at'
+    ],
+    invoicesTable: [
+      'invoice_id', 'payment_id', 'user_profile_id', 'invoice_number',
+      'base_amount', 'gst_amount', 'total_amount', 'buyer_state', 'created_at'
+    ],
+    profilePhotoRequestsTable: [
+      'request_id', 'requester_profile_id', 'target_profile_id', 'status', 'created_at', 'updated_at'
+    ],
+    appOpenLogTable: [
+      'log_id', 'user_profile_id', 'open_date', 'opened_at'
+    ],
+    notificationSettingsTable: [
+      'user_profile_id', 'daily_recommendations', 'interests', 'messages',
+      'shortlists', 'profile_views', 'marketing', 'updated_at'
     ],
   };
 }

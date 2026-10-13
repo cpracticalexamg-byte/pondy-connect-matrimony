@@ -1,0 +1,6 @@
+id,code,radius_km,name_en,name_ta,sort_order
+1,5km,5,5 km,5 கி.மீ,1
+2,10km,10,10 km,10 கி.மீ,2
+3,25km,25,25 km,25 கி.மீ,3
+4,50km,50,50 km,50 கி.மீ,4
+5,100km,100,100 km,100 கி.மீ,5

@@ -1,0 +1,10 @@
+id,code,name_en,name_ta,category_codes,occupation_codes,sort_order
+1,doctor,Doctor,மருத்துவர்,medical_healthcare,doctor;dentist,1
+2,techie,Techie (IT & Software),மென்பொருள் (IT),it_software,software_engineer;data_scientist;qa_devops;product_manager;systems_analyst,2
+3,advocate,Advocate (Legal),வழக்கறிஞர்,legal_services,advocate_lawyer,3
+4,engineer,Engineer,பொறியாளர்,engineering,civil_engineer;mechanical_engineer;electrical_engineer;architect,4
+5,professor,Teacher / Professor,ஆசிரியர் / பேராசிரியர்,education_training,professor;school_teacher,5
+6,ca,Chartered Accountant,ஆடிட்டர் (CA),banking_finance,chartered_accountant,6
+7,business,Business,தொழிலதிபர்,business_corporate,business_owner,7
+8,government,Government,அரசு ஊழியர்,government_defence,civil_servant;govt_officer,8
+9,defence,Defence,பாதுகாப்புப் படை,government_defence,defence_personnel,9

@@ -1,0 +1,4 @@
+id,code,name_en,name_ta,description_en,description_ta,sort_order
+1,paid_members,Visible to paid members,கட்டண உறுப்பினர்களுக்குத் தெரியும்,Contact visible to active paid members,செயலில் உள்ள கட்டண உறுப்பினர்களுக்கு தெரியும்,1
+2,accepted_interest,Only after accepted interest,விருப்பம் ஏற்ற பிறகு மட்டும்,Visible only after you accept their interest,நீங்கள் அவர்களின் விருப்பத்தை ஏற்ற பிறகு மட்டுமே,2
+3,hidden,Hidden from all,எவருக்கும் தெரியாது,Contact remains completely hidden,தொடர்பு எண் முழுமையாக மறைக்கப்பட்டுள்ளது,3

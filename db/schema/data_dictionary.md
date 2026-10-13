@@ -73,3 +73,45 @@
 - `profile_id` (FK -> profiles.profile_id).
 - `blob_path` (string): Logical path `profiles/{profile_id}/photos/{photo_id}.jpg`.
 - `is_primary` (bit 0/1): Exactly one primary photo per profile.
+
+---
+
+## 3. V3 Enhanced Entities & Privacy
+
+### `plans`
+- `plan_id` (PK, string): e.g. `plan_gold_3m`, `plan_prime_gold_3m`, `plan_prime_till_marry`.
+- `code` (Unique, string): e.g. `gold_3m`, `prime_gold_3m`, `prime_till_marry`, `highlighter_15d`.
+- `tier` (string): `gold`, `prime_gold`, `till_u_marry`, `highlighter`.
+- `price_inr` (int): Genuine base cost in INR.
+- `list_price` (int): Prior price if promo active, 0 otherwise.
+- `contact_view_limit` (int): 40 for Gold, -1 for unlimited with daily fair use.
+- `daily_contact_cap` (int): Max daily revealed numbers (e.g. 50).
+- `verified_photo_access` (bit): Unlocks government-verified member photos.
+- `is_best_value` (bit): Visual highlight pill.
+
+### `daily_recommendations`
+- `rec_id` (PK, string): Deterministic daily recommendation entry.
+- `user_profile_id`, `profile_id`: Viewer and candidate.
+- `rec_date` (date): Local calendar date of recommendation.
+- `position` (int 1-8): Order in card stack.
+- `status` (string): 'shown', 'skipped', 'interest_sent', 'dont_show', 'shortlisted'.
+
+### `profile_locations` (Privacy-first spatial data)
+- `profile_id` (PK, FK -> profiles.profile_id).
+- `lat_coarse`, `lng_coarse` (float): Coarse 300-500m grid centroid with jitter. **Raw GPS coordinates are never stored.**
+- `geohash5` (string): Precision 5 geohash for spatial indexing.
+- `share_mode` (string): 'precise', 'approx', 'hidden'.
+- `source` (string): 'gps', 'manual'.
+
+### `hidden_profiles`
+- `hider_profile_id`, `hidden_profile_id`: Profiles hidden via "Don't Show" everywhere in app.
+
+### `field_visibility`
+- Dynamic plan-based field locking matrix for free, gold, prime_gold, till_u_marry.
+
+### `user_filter_state` & `user_filter_occupations`
+- Normalised persistence of filter sheets, sort options, and quick occupation chips.
+
+### `invoices` & `payments`
+- Financial compliance tracking for payments, GST split, and invoice generation.
+

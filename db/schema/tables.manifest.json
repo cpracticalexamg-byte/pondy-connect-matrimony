@@ -1,5 +1,5 @@
 {
-  "schema_version": "2.0.0",
+  "schema_version": "3.0.0",
   "engine": "Azure SQL Database / SQL Server compatible",
   "tables": {
     "schema_meta": {
@@ -205,7 +205,7 @@
       ]
     },
     "contact_views": {
-      "columns": ["id", "viewer_profile_id", "viewed_profile_id", "viewed_at"],
+      "columns": ["id", "viewer_profile_id", "viewed_profile_id", "quota_window_id", "viewed_at"],
       "pk": ["id"],
       "fks": [
         {"column": "viewer_profile_id", "ref_table": "profiles", "ref_column": "profile_id"},
@@ -243,9 +243,11 @@
     },
     "plans": {
       "columns": [
-        "plan_id", "code", "name", "price_inr", "duration_months",
-        "contacts_view_limit", "chat_enabled", "highlight", "horoscope_match",
-        "features_json", "sort_order", "is_active"
+        "plan_id", "code", "name", "tier", "price_inr", "list_price",
+        "promo_start", "promo_end", "duration_days", "duration_months",
+        "contact_view_limit", "daily_contact_cap", "unlimited_messages",
+        "unlimited_horoscope", "verified_photo_access", "is_best_value",
+        "is_exclusive", "ends_on_marriage", "features_json", "sort_order", "is_active"
       ],
       "pk": ["plan_id"],
       "unique": ["code"]
@@ -263,7 +265,7 @@
     },
     "payments": {
       "columns": [
-        "payment_id", "user_id", "plan_id", "amount_minor", "currency", "gateway",
+        "payment_id", "user_id", "plan_id", "amount_inr", "currency", "gateway",
         "gateway_ref", "status", "created_at"
       ],
       "pk": ["payment_id"],
@@ -311,6 +313,93 @@
       "columns": ["log_id", "actor_id", "action", "entity", "entity_id", "details", "created_at"],
       "pk": ["log_id"],
       "indexes": ["actor_id", "entity", "created_at"]
+    },
+    "daily_recommendations": {
+      "columns": ["rec_id", "user_profile_id", "profile_id", "rec_date", "position", "status", "acted_at"],
+      "pk": ["rec_id"],
+      "unique": ["user_profile_id", "rec_date", "profile_id"],
+      "fks": [
+        {"column": "user_profile_id", "ref_table": "profiles", "ref_column": "profile_id"},
+        {"column": "profile_id", "ref_table": "profiles", "ref_column": "profile_id"}
+      ],
+      "indexes": ["user_profile_id", "rec_date", "status"]
+    },
+    "hidden_profiles": {
+      "columns": ["hider_profile_id", "hidden_profile_id", "created_at"],
+      "pk": ["hider_profile_id", "hidden_profile_id"],
+      "unique": ["hider_profile_id", "hidden_profile_id"],
+      "fks": [
+        {"column": "hider_profile_id", "ref_table": "profiles", "ref_column": "profile_id"},
+        {"column": "hidden_profile_id", "ref_table": "profiles", "ref_column": "profile_id"}
+      ]
+    },
+    "profile_locations": {
+      "columns": ["profile_id", "lat_coarse", "lng_coarse", "geohash5", "share_mode", "source", "updated_at"],
+      "pk": ["profile_id"],
+      "fks": [{"column": "profile_id", "ref_table": "profiles", "ref_column": "profile_id"}],
+      "indexes": ["geohash5", "share_mode"]
+    },
+    "user_filter_state": {
+      "columns": ["user_id", "scope", "filters_json_normalised", "sort_code", "occupation_codes", "updated_at"],
+      "pk": ["user_id", "scope"]
+    },
+    "user_filter_occupations": {
+      "columns": ["id", "user_id", "scope", "occupation_code", "created_at"],
+      "pk": ["id"],
+      "indexes": ["user_id", "scope", "occupation_code"]
+    },
+    "saved_searches": {
+      "columns": ["search_id", "user_profile_id", "name", "filters_json", "created_at"],
+      "pk": ["search_id"],
+      "fks": [{"column": "user_profile_id", "ref_table": "profiles", "ref_column": "profile_id"}]
+    },
+    "field_visibility": {
+      "columns": ["field_code", "free", "gold", "prime_gold", "till_u_marry"],
+      "pk": ["field_code"]
+    },
+    "exclusive_boosts": {
+      "columns": ["boost_id", "profile_id", "plan_id", "starts_at", "ends_at"],
+      "pk": ["boost_id"],
+      "fks": [
+        {"column": "profile_id", "ref_table": "profiles", "ref_column": "profile_id"},
+        {"column": "plan_id", "ref_table": "plans", "ref_column": "plan_id"}
+      ],
+      "indexes": ["profile_id", "ends_at"]
+    },
+    "invoices": {
+      "columns": [
+        "invoice_id", "payment_id", "user_profile_id", "invoice_number",
+        "base_amount", "gst_amount", "total_amount", "buyer_state", "created_at"
+      ],
+      "pk": ["invoice_id"],
+      "unique": ["invoice_number"],
+      "fks": [
+        {"column": "payment_id", "ref_table": "payments", "ref_column": "payment_id"},
+        {"column": "user_profile_id", "ref_table": "profiles", "ref_column": "profile_id"}
+      ]
+    },
+    "profile_photo_requests": {
+      "columns": ["request_id", "requester_profile_id", "target_profile_id", "status", "created_at", "updated_at"],
+      "pk": ["request_id"],
+      "unique": ["requester_profile_id", "target_profile_id"],
+      "fks": [
+        {"column": "requester_profile_id", "ref_table": "profiles", "ref_column": "profile_id"},
+        {"column": "target_profile_id", "ref_table": "profiles", "ref_column": "profile_id"}
+      ]
+    },
+    "app_open_log": {
+      "columns": ["log_id", "user_profile_id", "open_date", "opened_at"],
+      "pk": ["log_id"],
+      "unique": ["user_profile_id", "open_date"],
+      "fks": [{"column": "user_profile_id", "ref_table": "profiles", "ref_column": "profile_id"}]
+    },
+    "notification_settings": {
+      "columns": [
+        "user_profile_id", "daily_recommendations", "interests", "messages",
+        "shortlists", "profile_views", "marketing", "updated_at"
+      ],
+      "pk": ["user_profile_id"],
+      "fks": [{"column": "user_profile_id", "ref_table": "profiles", "ref_column": "profile_id"}]
     }
   }
 }

@@ -1,0 +1,6 @@
+id,code,name_en,name_ta,min_minutes,max_minutes,sort_order
+1,online_now,Online now,இப்போது ஆன்லைனில்,0,15,1
+2,few_hours,Last seen few hours ago,சில மணி நேரங்களுக்கு முன்,16,360,2
+3,today,Last seen today,இன்று பார்த்தார்,361,1440,3
+4,this_week,Last seen this week,இந்த வாரம் பார்த்தார்,1441,10080,4
+5,long_ago,Last seen long ago,பல நாட்களுக்கு முன்,10081,999999,5

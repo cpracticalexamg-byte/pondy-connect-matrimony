@@ -286,17 +286,42 @@ CREATE TABLE reports (
     [resolved_at] DATETIMEOFFSET NULL
 );
 
+-- Views
+CREATE TABLE profile_views (
+    [id] NVARCHAR(36) NOT NULL PRIMARY KEY,
+    [viewer_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [viewed_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [viewed_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
+);
+
+CREATE TABLE contact_views (
+    [id] NVARCHAR(36) NOT NULL PRIMARY KEY,
+    [viewer_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [viewed_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [quota_window_id] NVARCHAR(36) NULL,
+    [viewed_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
+);
+
 -- Plans & Subscriptions
 CREATE TABLE plans (
-    [plan_id] INT NOT NULL PRIMARY KEY,
+    [plan_id] NVARCHAR(36) NOT NULL PRIMARY KEY,
     [code] NVARCHAR(32) NOT NULL UNIQUE,
     [name] NVARCHAR(64) NOT NULL,
+    [tier] NVARCHAR(32) NOT NULL DEFAULT 'gold',
     [price_inr] INT NOT NULL,
-    [duration_months] INT NOT NULL,
-    [contacts_view_limit] INT NOT NULL,
-    [chat_enabled] BIT NOT NULL DEFAULT 0,
-    [highlight] BIT NOT NULL DEFAULT 0,
-    [horoscope_match] BIT NOT NULL DEFAULT 1,
+    [list_price] INT NOT NULL DEFAULT 0,
+    [promo_start] DATETIMEOFFSET NULL,
+    [promo_end] DATETIMEOFFSET NULL,
+    [duration_days] INT NOT NULL DEFAULT 90,
+    [duration_months] INT NOT NULL DEFAULT 3,
+    [contact_view_limit] INT NOT NULL DEFAULT 40,
+    [daily_contact_cap] INT NOT NULL DEFAULT 40,
+    [unlimited_messages] BIT NOT NULL DEFAULT 1,
+    [unlimited_horoscope] BIT NOT NULL DEFAULT 1,
+    [verified_photo_access] BIT NOT NULL DEFAULT 0,
+    [is_best_value] BIT NOT NULL DEFAULT 0,
+    [is_exclusive] BIT NOT NULL DEFAULT 0,
+    [ends_on_marriage] BIT NOT NULL DEFAULT 0,
     [features_json] NVARCHAR(MAX) NOT NULL,
     [sort_order] INT NOT NULL DEFAULT 1,
     [is_active] BIT NOT NULL DEFAULT 1
@@ -305,13 +330,37 @@ CREATE TABLE plans (
 CREATE TABLE subscriptions (
     [subscription_id] NVARCHAR(36) NOT NULL PRIMARY KEY,
     [user_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES users([user_id]),
-    [plan_id] INT NOT NULL FOREIGN KEY REFERENCES plans([plan_id]),
+    [plan_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES plans([plan_id]),
     [started_at] DATETIMEOFFSET NOT NULL,
     [expires_at] DATETIMEOFFSET NOT NULL,
     [payment_ref] NVARCHAR(64) NULL,
     [status] NVARCHAR(20) NOT NULL DEFAULT 'active',
     [created_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
     [updated_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
+);
+
+CREATE TABLE payments (
+    [payment_id] NVARCHAR(36) NOT NULL PRIMARY KEY,
+    [user_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES users([user_id]),
+    [plan_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES plans([plan_id]),
+    [amount_inr] INT NOT NULL,
+    [currency] NVARCHAR(10) NOT NULL DEFAULT 'INR',
+    [gateway] NVARCHAR(32) NOT NULL DEFAULT 'mock',
+    [gateway_ref] NVARCHAR(64) NULL,
+    [status] NVARCHAR(20) NOT NULL DEFAULT 'success',
+    [created_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
+);
+
+CREATE TABLE invoices (
+    [invoice_id] NVARCHAR(36) NOT NULL PRIMARY KEY,
+    [payment_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES payments([payment_id]),
+    [user_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [invoice_number] NVARCHAR(64) NOT NULL UNIQUE,
+    [base_amount] INT NOT NULL,
+    [gst_amount] INT NOT NULL,
+    [total_amount] INT NOT NULL,
+    [buyer_state] NVARCHAR(64) NOT NULL DEFAULT 'Puducherry',
+    [created_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
 );
 
 -- Consents (DPDP Act 2023)
@@ -334,4 +383,104 @@ CREATE TABLE audit_log (
     [entity_id] NVARCHAR(64) NOT NULL,
     [details] NVARCHAR(MAX) NULL,
     [created_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
+);
+
+-- V3 Features
+CREATE TABLE daily_recommendations (
+    [rec_id] NVARCHAR(36) NOT NULL PRIMARY KEY,
+    [user_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [rec_date] DATE NOT NULL,
+    [position] INT NOT NULL DEFAULT 1,
+    [status] NVARCHAR(32) NOT NULL DEFAULT 'shown',
+    [acted_at] DATETIMEOFFSET NULL,
+    CONSTRAINT uq_daily_rec UNIQUE ([user_profile_id], [rec_date], [profile_id])
+);
+
+CREATE TABLE hidden_profiles (
+    [hider_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [hidden_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [created_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    CONSTRAINT pk_hidden_profiles PRIMARY KEY ([hider_profile_id], [hidden_profile_id])
+);
+
+CREATE TABLE profile_locations (
+    [profile_id] NVARCHAR(36) NOT NULL PRIMARY KEY FOREIGN KEY REFERENCES profiles([profile_id]),
+    [lat_coarse] FLOAT NOT NULL,
+    [lng_coarse] FLOAT NOT NULL,
+    [geohash5] NVARCHAR(5) NOT NULL,
+    [share_mode] NVARCHAR(20) NOT NULL DEFAULT 'approx',
+    [source] NVARCHAR(20) NOT NULL DEFAULT 'manual',
+    [updated_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
+);
+
+CREATE TABLE user_filter_state (
+    [user_id] NVARCHAR(36) NOT NULL,
+    [scope] NVARCHAR(32) NOT NULL DEFAULT 'matches',
+    [filters_json_normalised] NVARCHAR(MAX) NOT NULL,
+    [sort_code] NVARCHAR(32) NOT NULL DEFAULT 'last_active',
+    [occupation_codes] NVARCHAR(256) NULL,
+    [updated_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    CONSTRAINT pk_user_filter_state PRIMARY KEY ([user_id], [scope])
+);
+
+CREATE TABLE user_filter_occupations (
+    [id] NVARCHAR(36) NOT NULL PRIMARY KEY,
+    [user_id] NVARCHAR(36) NOT NULL,
+    [scope] NVARCHAR(32) NOT NULL DEFAULT 'matches',
+    [occupation_code] NVARCHAR(64) NOT NULL,
+    [created_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
+);
+
+CREATE TABLE saved_searches (
+    [search_id] NVARCHAR(36) NOT NULL PRIMARY KEY,
+    [user_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [name] NVARCHAR(100) NOT NULL,
+    [filters_json] NVARCHAR(MAX) NOT NULL,
+    [created_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
+);
+
+CREATE TABLE field_visibility (
+    [field_code] NVARCHAR(64) NOT NULL PRIMARY KEY,
+    [free] BIT NOT NULL DEFAULT 1,
+    [gold] BIT NOT NULL DEFAULT 1,
+    [prime_gold] BIT NOT NULL DEFAULT 1,
+    [till_u_marry] BIT NOT NULL DEFAULT 1
+);
+
+CREATE TABLE exclusive_boosts (
+    [boost_id] NVARCHAR(36) NOT NULL PRIMARY KEY,
+    [profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [plan_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES plans([plan_id]),
+    [starts_at] DATETIMEOFFSET NOT NULL,
+    [ends_at] DATETIMEOFFSET NOT NULL
+);
+
+CREATE TABLE profile_photo_requests (
+    [request_id] NVARCHAR(36) NOT NULL PRIMARY KEY,
+    [requester_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [target_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [status] NVARCHAR(20) NOT NULL DEFAULT 'pending',
+    [created_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    [updated_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    CONSTRAINT uq_photo_req UNIQUE ([requester_profile_id], [target_profile_id])
+);
+
+CREATE TABLE app_open_log (
+    [log_id] NVARCHAR(36) NOT NULL PRIMARY KEY,
+    [user_profile_id] NVARCHAR(36) NOT NULL FOREIGN KEY REFERENCES profiles([profile_id]),
+    [open_date] DATE NOT NULL,
+    [opened_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET(),
+    CONSTRAINT uq_user_open_date UNIQUE ([user_profile_id], [open_date])
+);
+
+CREATE TABLE notification_settings (
+    [user_profile_id] NVARCHAR(36) NOT NULL PRIMARY KEY FOREIGN KEY REFERENCES profiles([profile_id]),
+    [daily_recommendations] BIT NOT NULL DEFAULT 1,
+    [interests] BIT NOT NULL DEFAULT 1,
+    [messages] BIT NOT NULL DEFAULT 1,
+    [shortlists] BIT NOT NULL DEFAULT 1,
+    [profile_views] BIT NOT NULL DEFAULT 1,
+    [marketing] BIT NOT NULL DEFAULT 0,
+    [updated_at] DATETIMEOFFSET NOT NULL DEFAULT SYSDATETIMEOFFSET()
 );
