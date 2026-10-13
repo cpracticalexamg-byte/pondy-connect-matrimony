@@ -47,6 +47,11 @@ class Entitlements {
     return fieldVisibility[fieldCode] == true;
   }
 
+  static Entitlements of(dynamic userOrProfile) {
+    if (userOrProfile == null) return free();
+    return free();
+  }
+
   static Entitlements free() {
     return const Entitlements(
       tier: 'free',

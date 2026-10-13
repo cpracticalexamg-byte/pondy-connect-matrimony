@@ -279,6 +279,24 @@ final List<RouteBase> appRoutes = [
       ),
     ),
     GoRoute(
+      path: '/upgrade',
+      name: 'upgrade',
+      pageBuilder: (context, state) {
+        final source = state.uri.queryParameters['source'];
+        final field = state.uri.queryParameters['field'];
+        final profileId = state.uri.queryParameters['profile'];
+        return buildSlidePage(
+          context: context,
+          state: state,
+          child: MembershipScreen(
+            source: source,
+            field: field,
+            profileId: profileId,
+          ),
+        );
+      },
+    ),
+    GoRoute(
       path: '/chat/:partnerId',
       name: 'chat_conversation',
       pageBuilder: (context, state) {

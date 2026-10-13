@@ -17,6 +17,18 @@ class MatchingEngine {
   static final MatchingEngine instance = MatchingEngine._();
   MatchingEngine._();
 
+  int calculateCompatibility({
+    required ProfileModel myProfile,
+    required ProfileModel candidate,
+    required PartnerPrefModel myPrefs,
+  }) {
+    return calculateMatch(
+      myProfile: myProfile,
+      myPrefs: myPrefs,
+      candidate: candidate,
+    ).score;
+  }
+
   MatchResult calculateMatch({
     required ProfileModel myProfile,
     required PartnerPrefModel myPrefs,

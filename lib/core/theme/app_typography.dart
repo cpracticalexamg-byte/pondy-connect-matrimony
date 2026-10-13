@@ -5,6 +5,15 @@ import 'app_colors.dart';
 class AppTypography {
   AppTypography._();
 
+  static bool disableGoogleFontsInTests = false;
+
+  static TextStyle _applyFont(TextStyle style, bool isTamil) {
+    if (disableGoogleFontsInTests) return style;
+    return isTamil
+        ? GoogleFonts.notoSansTamil(textStyle: style)
+        : GoogleFonts.lato(textStyle: style);
+  }
+
   static TextStyle get heading1 => titleLarge();
   static TextStyle get heading2 => sectionTitle();
   static TextStyle get heading3 => sectionTitle();
@@ -17,9 +26,7 @@ class AppTypography {
       color: color,
       height: 1.3,
     );
-    return isTamil
-        ? GoogleFonts.notoSansTamil(textStyle: style)
-        : GoogleFonts.lato(textStyle: style);
+    return _applyFont(style, isTamil);
   }
 
   static TextStyle sectionTitle({bool isTamil = false, Color color = AppColors.textPrimary}) {
@@ -29,9 +36,7 @@ class AppTypography {
       color: color,
       height: 1.3,
     );
-    return isTamil
-        ? GoogleFonts.notoSansTamil(textStyle: style)
-        : GoogleFonts.lato(textStyle: style);
+    return _applyFont(style, isTamil);
   }
 
   static TextStyle fieldText({bool isTamil = false, Color color = AppColors.textPrimary}) {
@@ -41,9 +46,7 @@ class AppTypography {
       color: color,
       height: 1.4,
     );
-    return isTamil
-        ? GoogleFonts.notoSansTamil(textStyle: style)
-        : GoogleFonts.lato(textStyle: style);
+    return _applyFont(style, isTamil);
   }
 
   static TextStyle bodyMedium({bool isTamil = false, Color color = AppColors.textPrimary}) {
@@ -53,9 +56,7 @@ class AppTypography {
       color: color,
       height: 1.4,
     );
-    return isTamil
-        ? GoogleFonts.notoSansTamil(textStyle: style)
-        : GoogleFonts.lato(textStyle: style);
+    return _applyFont(style, isTamil);
   }
 
   static TextStyle helper({bool isTamil = false, Color color = AppColors.textMuted}) {
@@ -65,9 +66,7 @@ class AppTypography {
       color: color,
       height: 1.3,
     );
-    return isTamil
-        ? GoogleFonts.notoSansTamil(textStyle: style)
-        : GoogleFonts.lato(textStyle: style);
+    return _applyFont(style, isTamil);
   }
 
   static TextStyle caption({bool isTamil = false, Color color = AppColors.textLight}) {
@@ -77,9 +76,7 @@ class AppTypography {
       color: color,
       height: 1.2,
     );
-    return isTamil
-        ? GoogleFonts.notoSansTamil(textStyle: style)
-        : GoogleFonts.lato(textStyle: style);
+    return _applyFont(style, isTamil);
   }
 
   static TextStyle buttonText({bool isTamil = false, Color color = Colors.white}) {
@@ -89,8 +86,6 @@ class AppTypography {
       color: color,
       letterSpacing: 0.3,
     );
-    return isTamil
-        ? GoogleFonts.notoSansTamil(textStyle: style)
-        : GoogleFonts.lato(textStyle: style);
+    return _applyFont(style, isTamil);
   }
 }

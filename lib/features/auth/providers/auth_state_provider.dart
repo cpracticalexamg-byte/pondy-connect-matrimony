@@ -170,6 +170,24 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<void> reloadProfile() async {
+    final userId = state.user?.userId;
+    if (userId != null && userId.isNotEmpty) {
+      final p = await _profileRepo.getProfileByUserId(userId);
+      if (p != null) {
+        state = state.copyWith(profile: p);
+        return;
+      }
+    }
+    final profileId = state.profile?.profileId;
+    if (profileId != null && profileId.isNotEmpty) {
+      final p = await _profileRepo.getProfileById(profileId);
+      if (p != null) {
+        state = state.copyWith(profile: p);
+      }
+    }
+  }
+
   Future<void> logout() async {
     await _authRepo.logout();
     state = const AuthState();

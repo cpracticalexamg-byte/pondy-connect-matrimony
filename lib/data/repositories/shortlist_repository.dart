@@ -7,6 +7,7 @@ abstract class ShortlistRepository {
   Future<bool> isShortlisted(String userProfile, String targetProfile);
   Future<void> toggleShortlist(String userProfile, String targetProfile);
   Future<List<ProfileModel>> getShortlistedProfiles(String userProfile);
+  Future<List<ProfileModel>> getProfilesWhoShortlistedMe(String userProfile);
 }
 
 class CsvShortlistRepository implements ShortlistRepository {
@@ -53,6 +54,21 @@ class CsvShortlistRepository implements ShortlistRepository {
     for (final r in rows) {
       final target = r['target_profile'] ?? '';
       final p = await _profileRepo.getProfileById(target);
+      if (p != null) results.add(p);
+    }
+    return results;
+  }
+
+  @override
+  Future<List<ProfileModel>> getProfilesWhoShortlistedMe(String userProfile) async {
+    final rows = await _store.query(
+      CsvSchema.shortlistsTable,
+      (r) => r['target_profile'] == userProfile,
+    );
+    final results = <ProfileModel>[];
+    for (final r in rows) {
+      final shielder = r['user_profile'] ?? '';
+      final p = await _profileRepo.getProfileById(shielder);
       if (p != null) results.add(p);
     }
     return results;

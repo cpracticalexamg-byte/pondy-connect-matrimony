@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../chat/screens/chat_list_screen.dart';
+import '../../interests/screens/interests_screen.dart';
 import '../../matches/screens/matches_screen.dart';
-import '../../profile/screens/my_profile_screen.dart';
-import '../../search/screens/search_screen.dart';
+import '../../membership/screens/upgrade_screen.dart';
 import '../providers/home_provider.dart';
 import 'home_screen.dart';
 
@@ -42,9 +42,9 @@ class _MainShellState extends ConsumerState<MainShell> {
         children: [
           HomeScreen(onSwitchTab: _onTabSelected),
           const MatchesScreen(),
-          const SearchScreen(),
+          const InterestsScreen(),
           const ChatListScreen(),
-          const MyProfileScreen(),
+          const UpgradeScreen(),
         ],
       ),
       bottomNavigationBar: Container(
@@ -64,7 +64,7 @@ class _MainShellState extends ConsumerState<MainShell> {
             onTap: _onTabSelected,
             type: BottomNavigationBarType.fixed,
             backgroundColor: Colors.white,
-            selectedItemColor: AppColors.saffronOrange,
+            selectedItemColor: _currentIndex == 4 ? AppColors.successGreen : AppColors.saffronOrange,
             unselectedItemColor: AppColors.textSecondary,
             selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
             unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 11),
@@ -80,41 +80,59 @@ class _MainShellState extends ConsumerState<MainShell> {
                 activeIcon: Icon(Icons.favorite),
                 label: 'Matches',
               ),
-              const BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                activeIcon: Icon(Icons.search, size: 28),
-                label: 'Search',
+              BottomNavigationBarItem(
+                icon: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    const Icon(Icons.thumb_up_alt_outlined),
+                    if (homeData.interestsReceivedCount > 0)
+                      Positioned(
+                        top: -3,
+                        right: -3,
+                        child: Container(
+                          width: 8,
+                          height: 8,
+                          decoration: const BoxDecoration(
+                            color: AppColors.saffronOrange,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                activeIcon: const Icon(Icons.thumb_up_alt),
+                label: 'Interests',
               ),
               BottomNavigationBarItem(
                 icon: Stack(
                   clipBehavior: Clip.none,
                   children: [
                     const Icon(Icons.chat_bubble_outline),
-                    if (homeData.interestsReceivedCount > 0)
+                    if (homeData.unreadNotificationsCount > 0)
                       Positioned(
-                        top: -4,
-                        right: -4,
+                        top: -3,
+                        right: -3,
                         child: Container(
-                          padding: const EdgeInsets.all(3),
+                          width: 8,
+                          height: 8,
                           decoration: const BoxDecoration(
-                            color: AppColors.saffronOrange,
+                            color: Colors.red,
                             shape: BoxShape.circle,
-                          ),
-                          child: Text(
-                            '${homeData.interestsReceivedCount}',
-                            style: const TextStyle(color: Colors.white, fontSize: 9, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                   ],
                 ),
                 activeIcon: const Icon(Icons.chat_bubble),
-                label: 'Inbox',
+                label: 'Messages',
               ),
               const BottomNavigationBarItem(
-                icon: Icon(Icons.person_outline),
-                activeIcon: Icon(Icons.person),
-                label: 'Profile',
+                icon: Icon(Icons.workspace_premium_outlined),
+                activeIcon: Icon(
+                  Icons.workspace_premium,
+                  color: AppColors.successGreen,
+                ),
+                label: 'Upgrade',
               ),
             ],
           ),

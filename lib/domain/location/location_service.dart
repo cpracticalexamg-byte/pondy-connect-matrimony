@@ -185,6 +185,10 @@ class LocationService {
     return matchingProfileIds;
   }
 
+  String? formatDistance(double distanceKm, {String shareMode = 'precise'}) {
+    return GeoUtils.formatDistance(distanceKm, shareMode: shareMode);
+  }
+
   ProfileLocationRecord? getLocationRecord(String profileId) => _locationsByProfileId[profileId];
 
   bool get isInitialized => _isInitialized;
