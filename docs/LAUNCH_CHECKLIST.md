@@ -1,121 +1,84 @@
-# Pondy Connect Matrimony — Production Launch Checklist (V2)
+# Pondy Connect Matrimony — Production Launch & Owner Decision Checklist (V3)
 
-**Target Launch Date:** Q4 2026  
+**Application Name:** Pondy Connect Matrimony (பாண்டி கனெக்ட் மேட்ரிமோனி)  
+**Version:** 3.0.0 (V3 Feature Upgrade)  
 **Application ID:** `com.pondyconnect.matrimony.pondy_connect_matrimony`  
 **Target Territory:** Puducherry (UT), Karaikal, Mahe, Yanam, and neighboring Tamil Nadu districts (Cuddalore, Villupuram, Chennai diaspora)  
-**Compliance Mandate:** Digital Personal Data Protection Act (DPDP Act 2023), Google Play Policy 2026  
+**Compliance Mandate:** Digital Personal Data Protection Act (DPDP Act 2023), Google Play / App Store Policies  
 
 ---
 
-## 1. Pre-Launch Configuration & Security Hardening
+## 1. Status of Mocked vs. Production Services
 
-- [x] **Brand Assets & Vector Icons**
-  - Generated native launcher icons across Android densities (`mipmap-mdpi` to `mipmap-xxxhdpi`) from `assets/images/logo.png`.
-  - Android 12+ Adaptive Vector Icons with warm saffron background (`#F5E6D3`).
-  - Animated cold start splash screen with micro-animations (`flutter_native_splash`).
-
-- [x] **Master Data (48 Tables)**
-  - All 48 master CSVs built and validated in `db/master/` and `assets/csv/master/`.
-  - Localized bilingual metadata (English and Tamil) for all communes, castes, and nakshatras.
-  - Integrity verified by automated test `test/master_data_integrity_test.dart`.
-
-- [x] **OTP Service Switchover**
-  - In `lib/core/config/app_config.dart`, change:
-    ```dart
-    static const bool useFakeOtp = false; // Set to false for live production
-    static const bool showOtpTestHint = false;
-    ```
-  - Configure SMS Gateway provider endpoint and API bearer tokens in production environment variables (`SMS_GATEWAY_URL`, `SMS_GATEWAY_KEY`).
-  - Rate limiting active: 3 OTP requests / 10-minute window, 5 invalid attempts triggers 10-minute lockout.
-
-- [x] **DPDP Act 2023 & Privacy Controls**
-  - Explicit consent captured on onboarding; stored in `consents` table with timestamp and version.
-  - Photo privacy selector: `all`, `members`, or `request` (blurred).
-  - Phone number visibility restricted until mutual interest acceptance.
-  - Full self-serve Account Deletion flow with reason capture under `SettingsScreen` cascading soft/hard delete to `users`, `profiles`, and `consents`.
+| Component | Current V3 Status | Action Required for Production Launch | Code Location |
+|---|---|---|---|
+| **OTP Authentication** | `FakeOtpService` (Code: `123456`) | Configure SMS Gateway provider credentials (e.g. Twilio, MSG91, Kaleyra) and set `AppConfig.useFakeOtp = false`. | `lib/core/config/app_config.dart` |
+| **Payment Gateway** | `MockPaymentGateway` (Always succeeds; generates invoices & receipts in test mode) | Integrate Google Play Billing / App Store In-App Purchases, or Razorpay payment gateway depending on store policy. | `lib/domain/payments/` |
+| **Government ID Verification** | In-app 2-step mock flow (captures ID type, verifies last-4 masked, sets `is_verified=1`) | Integrate automated DigiLocker API or HyperVerge/IDfy KYC provider. | `lib/domain/repositories/verification_repo.dart` |
+| **Cross-Device Nearby Data** | In-memory spatial index & Haversine calculation over local database / sample profiles | Deploy Azure SQL Backend (`db/azure/`) so users across different devices can query actual nearby matches. | `lib/domain/location/location_service.dart` |
+| **Sample Profiles** | 20 curated Puducherry/TN profiles (G1-G10, B1-B10) with AI synthetic portraits, flagged `is_sample=1` | Run `dart run tool/purge_samples.dart` before store submission or keep with `AppConfig.demoMode=false` in release builds. | `tool/purge_samples.dart` |
 
 ---
 
-## 2. Sample Data Management & Purge Procedure
+## 2. Mandatory Decisions for App Owner / Business Stakeholders
 
-- [x] **Curated Sample Profiles**
-  - Exactly 10 authentic men and 10 authentic women seeded in `db/data/profiles.csv` and `db/data/users.csv`.
-  - Every sample profile represents real Puducherry institutions (PEC, PTU, JIPMER, Pondicherry Univ), authentic communes (Lawspet, Muthialpet, Oulgaret, Villianur, Bahour, White Town, Karaikal), and real Vedic star/rasi pairings.
-  - Every sample row is explicitly marked with `is_sample = '1'`.
-- [x] **One-Command Purge Tool**
-  - Run the following command at any time to instantly remove all sample data before live launch:
-    ```bash
-    dart run tool/purge_samples.dart
-    ```
-  - To re-seed for testing/demo environments:
-    ```bash
-    dart run tool/seed_curated_samples.dart
-    ```
+Before publishing to Google Play Store and Apple App Store, the business owner must finalize the following decisions:
 
----
+### Decision 1: In-App Billing Rail vs External Payment Gateway
+- **Policy Context:** Google Play and Apple App Store enforce in-app digital content / subscription billing through Google Play Billing and Apple StoreKit (which incurs store transaction fees of 15% - 30%). In certain jurisdictions (e.g., India user choice billing), alternative billing options may be allowed subject to store requirements.
+- **Owner Action:** Confirm whether subscriptions (`gold_3m`, `prime_gold_3m`, `prime_till_marry`) should be registered as in-app products on Google Play Console / App Store Connect, or if external web payment rails (Razorpay/PayU) are permitted.
 
-## 3. Azure SQL Database Migration Runbook
+### Decision 2: Refund Policy Text
+- **Guardrail (§0):** V3 strictly forbids fake "100% money-back guarantee" claims.
+- **Owner Action:** Provide exact legal refund policy text to be configured in `app_config.refundPolicy`. If no refunds are offered for digital contact unlocks, the refund text must explicitly state: *"Membership fees are non-refundable once contact views have been consumed."*
 
-For cloud scale, the local CSV architecture maps 1:1 with Azure SQL:
-1. **Schema Deployment:**
-   - Execute `db/schema/schema.sql` against your Azure SQL Database server.
-2. **Bulk Ingestion via BCP:**
-   - Run the automated loader in `db/azure/load_azure.bat` (or `db/azure/load_azure.sh` on Linux/macOS):
-     ```cmd
-     cd db\azure
-     load_azure.bat <server>.database.windows.net pondy_matrimony_db <user> <password>
-     ```
-3. **Verify Integrity:**
-   - Execute verification query:
-     ```sql
-     SELECT table_name, count(*) FROM sys.tables;
-     ```
+### Decision 3: Fair-Use Daily Contact Cap for "Unlimited" Tiers
+- **Context:** To prevent database harvesting, scrapers, and account sharing, `prime_gold_3m` and `prime_till_marry` feature "unlimited" phone numbers subject to a reasonable daily cap.
+- **Default Config:** 50 new contact views per 24-hour rolling window.
+- **Owner Action:** Confirm whether 50/day is appropriate or adjust in `plans.csv` (`daily_contact_cap`).
+
+### Decision 4: Profile Highlighter Add-on Pricing
+- **Proposed Pricing in V3:**
+  - 15 days: ₹199
+  - 45 days: ₹499
+  - 90 days: ₹899
+- **Owner Action:** Confirm or adjust the prices in `plans.csv` / `exclusive_products.csv`.
+
+### Decision 5: "Prime – Till U Marry" Plan Expiration Rule
+- **Definition:** The longest validity membership designed to support members until they find a match.
+- **Current Logic:** Valid indefinitely until the member marks their status as 'Married', or after 24 months of total account inactivity (no logins).
+- **Owner Action:** Confirm or customize the inactivity threshold.
+
+### Decision 6: Legal Terms of Service & Privacy Policy Review
+- **Owner Action:** Review generated policies at `docs/store/` with legal counsel for compliance with the DPDP Act 2023 and matrimonial arbitration guidelines.
 
 ---
 
-## 4. Release Build & Android App Bundle (AAB) Generation
+## 3. Sample Data Management & Database Audit
 
-1. **Keystore Generation:**
-   ```bash
-   keytool -genkey -v -keystore android/app/pondy-release-key.jks -alias pondy_key -keyalg RSA -keysize 2048 -validity 10000
-   ```
-2. **Create `android/key.properties`:**
-   ```properties
-   storePassword=<your-store-password>
-   keyPassword=<your-key-password>
-   keyAlias=pondy_key
-   storeFile=pondy-release-key.jks
-   ```
-3. **Generate Obfuscated Production App Bundle:**
-   ```bash
-   flutter build appbundle --release --obfuscate --split-debug-info=build/app/outputs/symbols
-   ```
-   *R8/ProGuard configuration in `android/app/proguard-rules.pro` will automatically optimize and preserve Flutter engines and data models.*
+- **Seeding Sample Profiles:**
+  ```bash
+  dart run tool/seed_samples.dart
+  ```
+- **Purging Sample Profiles:**
+  ```bash
+  dart run tool/purge_samples.dart
+  ```
+- **Auditing Database Integrity (CI/CD Quality Gate):**
+  ```bash
+  dart run tool/db_audit.dart
+  ```
+  *Zero errors and zero warnings are required for any deployment.*
 
 ---
 
-## 5. Google Play Console Submission Checklist
+## 4. Production Release Build Commands
 
-- [ ] **Store Listing (`docs/store/PLAY_STORE.md`)**
-  - App Title: `Pondy Connect Matrimony` (23 chars)
-  - Short Description: 75 chars
-  - Full Description: High-conversion bilingual copy with regional keywords
-- [ ] **Data Safety Questionnaire**
-  - Declare Approximate Location, Personal Info (Name, Mobile, DOB), Messages, and Photos.
-  - Data encrypted in transit: `Yes` (TLS 1.3).
-  - Data deletion URL provided: `https://pondyconnect.com/delete-account`.
-- [ ] **Content Rating (IARC)**
-  - Matrimonial social app, strictly 18+ age gate, no adult/explicit content.
-- [ ] **8 Production Screenshots**
-  - Capture 1080x2400 phone and 1200x1920 tablet screenshots per checklist in `docs/store/PLAY_STORE.md`.
-- [ ] **App Access Credentials for Play Reviewers**
-  - Mobile: `+919840001001`
-  - Test OTP: `123456`
-
----
-
-## 6. Post-Launch Operations Runbook
-
-1. **Daily Database Backups:** Automated nightly snapshot of Azure SQL / local store.
-2. **Crash & Anomaly Logging:** Monitor `AppLogger` logs; zero silent exceptions tolerated.
-3. **Grievance Redressal SLA:** In compliance with DPDP Act 2023, resolve user profile inquiries and data deletion requests at `grievance@pondyconnect.com` within 72 business hours.
+To build the production Android App Bundle:
+```bash
+flutter build appbundle --release --obfuscate --split-debug-info=build/app/outputs/symbols --android-skip-build-dependency-validation
+```
+To build release APK:
+```bash
+flutter build apk --release --android-skip-build-dependency-validation
+```
