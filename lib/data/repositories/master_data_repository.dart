@@ -23,6 +23,37 @@ class MasterDataRepository {
   static final MasterDataRepository instance = MasterDataRepository._();
   MasterDataRepository._();
 
+  static const Map<String, String> _alternateFilenames = {
+    'religions.csv': 'religion.csv',
+    'religion.csv': 'religions.csv',
+    'castes.csv': 'caste.csv',
+    'caste.csv': 'castes.csv',
+    'divisions.csv': 'religion_division.csv',
+    'religion_division.csv': 'divisions.csv',
+    'mother_tongues.csv': 'mother_tongue.csv',
+    'mother_tongue.csv': 'mother_tongues.csv',
+    'doshams.csv': 'dosham.csv',
+    'dosham.csv': 'doshams.csv',
+    'heights.csv': 'height.csv',
+    'height.csv': 'heights.csv',
+    'districts.csv': 'district.csv',
+    'district.csv': 'districts.csv',
+    'rasis.csv': 'rasi.csv',
+    'rasi.csv': 'rasis.csv',
+    'stars.csv': 'nakshatra.csv',
+    'nakshatra.csv': 'stars.csv',
+    'education_levels.csv': 'education_level.csv',
+    'education_level.csv': 'education_levels.csv',
+    'employment_types.csv': 'employment_type.csv',
+    'employment_type.csv': 'employment_types.csv',
+    'marital_statuses.csv': 'marital_status.csv',
+    'marital_status.csv': 'marital_statuses.csv',
+    'income_ranges.csv': 'income_range.csv',
+    'income_range.csv': 'income_ranges.csv',
+    'occupations.csv': 'occupation.csv',
+    'occupation.csv': 'occupations.csv',
+  };
+
   final Map<String, List<MasterItem>> _cache = {};
 
   Future<List<MasterItem>> _loadMaster(String filename, MasterItem Function(Map<String, String>) mapper) async {
@@ -32,22 +63,58 @@ class MasterDataRepository {
 
     try {
       String raw = '';
-      final file = File('assets/csv/master/$filename');
-      if (await file.exists()) {
-        raw = await file.readAsString();
-      } else {
-        final dbFile = File('db/master/$filename');
-        if (await dbFile.exists()) {
-          raw = await dbFile.readAsString();
-        } else {
-          raw = await rootBundle.loadString('assets/csv/master/$filename');
+
+      // 1. Primary: load from Flutter rootBundle (reliable cross-platform on Android, iOS, Web)
+      try {
+        raw = await rootBundle.loadString('assets/csv/master/$filename');
+      } catch (_) {
+        final alt = _alternateFilenames[filename];
+        if (alt != null) {
+          try {
+            raw = await rootBundle.loadString('assets/csv/master/$alt');
+          } catch (_) {}
         }
       }
 
+      // 2. Secondary fallback for local CLI scripts or tests
       if (raw.trim().isEmpty) {
         try {
-          raw = await rootBundle.loadString('assets/csv/master/$filename');
+          final file = File('assets/csv/master/$filename');
+          if (await file.exists()) {
+            raw = await file.readAsString();
+          } else {
+            final alt = _alternateFilenames[filename];
+            if (alt != null) {
+              final altFile = File('assets/csv/master/$alt');
+              if (await altFile.exists()) {
+                raw = await altFile.readAsString();
+              }
+            }
+          }
         } catch (_) {}
+      }
+
+      // 3. Third fallback for local CLI scripts: db/master
+      if (raw.trim().isEmpty) {
+        try {
+          final dbFile = File('db/master/$filename');
+          if (await dbFile.exists()) {
+            raw = await dbFile.readAsString();
+          } else {
+            final alt = _alternateFilenames[filename];
+            if (alt != null) {
+              final altDbFile = File('db/master/$alt');
+              if (await altDbFile.exists()) {
+                raw = await altDbFile.readAsString();
+              }
+            }
+          }
+        } catch (_) {}
+      }
+
+      if (raw.trim().isEmpty) {
+        AppLogger.warning('Master CSV $filename content is empty across all sources', tag: 'MasterDataRepository');
+        return [];
       }
 
       final normalized = raw.replaceAll('\r\n', '\n').replaceAll('\r', '\n');
@@ -75,40 +142,106 @@ class MasterDataRepository {
     }
   }
 
+  static String _normalizeReligionId(String id) {
+    switch (id.toLowerCase().trim()) {
+      case '1':
+      case 'hindu':
+        return 'hindu';
+      case '2':
+      case 'muslim_sunni':
+        return 'muslim_sunni';
+      case '3':
+      case 'muslim_shia':
+        return 'muslim_shia';
+      case '4':
+      case 'muslim_others':
+        return 'muslim_others';
+      case '5':
+      case 'christian':
+        return 'christian';
+      case '6':
+      case 'sikh':
+        return 'sikh';
+      case '7':
+      case 'jain_digambar':
+        return 'jain_digambar';
+      case '8':
+      case 'jain_shwetambar':
+        return 'jain_shwetambar';
+      case '9':
+      case 'jain_others':
+        return 'jain_others';
+      case '10':
+      case 'parsi':
+        return 'parsi';
+      case '11':
+      case 'buddhist':
+        return 'buddhist';
+      case '12':
+      case 'jewish':
+        return 'jewish';
+      case '13':
+      case 'inter_religion':
+        return 'inter_religion';
+      default:
+        return id;
+    }
+  }
+
   Future<List<MasterItem>> getReligions() {
-    return _loadMaster('religions.csv', (m) => MasterItem(id: m['id'] ?? '', nameEn: m['name_en'] ?? '', nameTa: m['name_ta'] ?? ''));
+    return _loadMaster('religions.csv', (m) {
+      final code = (m['code']?.isNotEmpty ?? false) ? m['code']! : (m['id'] ?? '');
+      return MasterItem(id: code, nameEn: m['name_en'] ?? '', nameTa: m['name_ta'] ?? '');
+    });
   }
 
   Future<List<MasterItem>> getDivisions({String? religionId}) async {
-    final list = await _loadMaster('divisions.csv', (m) => MasterItem(
-      id: m['id'] ?? '',
-      nameEn: m['name_en'] ?? '',
-      nameTa: m['name_ta'] ?? '',
-      extras: {'religion_id': m['religion_id'] ?? ''},
-    ));
+    final list = await _loadMaster('divisions.csv', (m) {
+      final code = (m['code']?.isNotEmpty ?? false) ? m['code']! : (m['id'] ?? '');
+      final rawRel = m['religion_id'] ?? '';
+      final normRel = _normalizeReligionId(rawRel);
+      return MasterItem(
+        id: code,
+        nameEn: m['name_en'] ?? '',
+        nameTa: m['name_ta'] ?? '',
+        extras: {'religion_id': normRel, 'raw_religion_id': rawRel},
+      );
+    });
     if (religionId == null || religionId.isEmpty) return list;
+    final targetNorm = _normalizeReligionId(religionId);
     return list.where((item) {
       final rel = item.extras['religion_id'] as String? ?? '';
-      return rel == 'all' || rel == religionId || item.id == 'none';
+      final raw = item.extras['raw_religion_id'] as String? ?? '';
+      return rel == 'all' || rel == targetNorm || raw == religionId || item.id == 'none';
     }).toList();
   }
 
   Future<List<MasterItem>> getCastes({String? religionId}) async {
-    final list = await _loadMaster('castes.csv', (m) => MasterItem(
-      id: m['id'] ?? '',
-      nameEn: m['name_en'] ?? '',
-      nameTa: m['name_ta'] ?? '',
-      extras: {'religion_id': m['religion_id'] ?? ''},
-    ));
+    final list = await _loadMaster('castes.csv', (m) {
+      final code = (m['code']?.isNotEmpty ?? false) ? m['code']! : (m['id'] ?? '');
+      final rawRel = m['religion_id'] ?? '';
+      final normRel = _normalizeReligionId(rawRel);
+      return MasterItem(
+        id: code,
+        nameEn: m['name_en'] ?? '',
+        nameTa: m['name_ta'] ?? '',
+        extras: {'religion_id': normRel, 'raw_religion_id': rawRel},
+      );
+    });
     if (religionId == null || religionId.isEmpty) return list;
+    final targetNorm = _normalizeReligionId(religionId);
     return list.where((item) {
       final rel = item.extras['religion_id'] as String? ?? '';
-      return rel == 'all' || rel == religionId || item.id == 'caste_none';
+      final raw = item.extras['raw_religion_id'] as String? ?? '';
+      return rel == 'all' || rel == targetNorm || raw == religionId || item.id == 'caste_none';
     }).toList();
   }
 
   Future<List<MasterItem>> getMotherTongues() {
-    return _loadMaster('mother_tongues.csv', (m) => MasterItem(id: m['id'] ?? '', nameEn: m['name_en'] ?? '', nameTa: m['name_ta'] ?? ''));
+    return _loadMaster('mother_tongues.csv', (m) {
+      final code = (m['code']?.isNotEmpty ?? false) ? m['code']! : (m['id'] ?? '');
+      return MasterItem(id: code, nameEn: m['name_en'] ?? '', nameTa: m['name_ta'] ?? '');
+    });
   }
 
   Future<List<MasterItem>> getStars() {

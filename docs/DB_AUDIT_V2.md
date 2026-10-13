@@ -1,15 +1,15 @@
 # Pondy Connect Matrimony — Database Audit Report V2
 
-**Audit Date:** 2026-10-07T10:00:11.643413Z  
+**Audit Date:** 2026-10-13T07:23:06.691604Z  
 **Target:** Production-Ready V2 Database Quality Verification  
 
 | Table Name | Expected Columns | Actual Columns | Rows | PK Unique | Integrity Status |
 |---|---|---|---|---|---|
 | `schema_meta` | 4 | 4 | 0 | Pass | PASSED ✅ |
-| `users` | 12 | 12 | 0 | Pass | PASSED ✅ |
+| `users` | 12 | 12 | 20 | Pass | PASSED ✅ |
 | `user_sessions` | 8 | 8 | 0 | Pass | PASSED ✅ |
 | `otp_requests` | 8 | 8 | 0 | Pass | PASSED ✅ |
-| `profiles` | 33 | 33 | 0 | Pass | PASSED ✅ |
+| `profiles` | 33 | 33 | 20 | Pass | PASSED ✅ |
 | `profile_horoscopes` | 20 | 20 | 0 | Pass | PASSED ✅ |
 | `profile_family` | 18 | 18 | 0 | Pass | PASSED ✅ |
 | `profile_lifestyle` | 10 | 10 | 0 | Pass | PASSED ✅ |
