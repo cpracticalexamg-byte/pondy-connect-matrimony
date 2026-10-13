@@ -398,16 +398,24 @@ class _ProfileDetailScreenState extends ConsumerState<ProfileDetailScreen> {
                                   ],
                                 ),
                               ),
-                            if (p.isSample)
+                            if (p.isSample) ...[
+                              const SizedBox(width: 8),
                               Container(
-                                margin: const EdgeInsets.only(left: 6),
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                                 decoration: BoxDecoration(
-                                  color: Colors.brown.shade800,
-                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.blueGrey.shade800.withValues(alpha: 0.85),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
-                                child: const Text('Sample Profile', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
+                                child: const Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(Icons.info_outline, color: Colors.white, size: 14),
+                                    SizedBox(width: 4),
+                                    Text('Sample profile', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                                  ],
+                                ),
                               ),
+                            ],
                           ],
                         ),
                       ),
@@ -675,6 +683,17 @@ class _ProfileDetailScreenState extends ConsumerState<ProfileDetailScreen> {
                       ? null
                       : () async {
                           HapticFeedback.mediumImpact();
+                          if (p.isSample) {
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('This is a sample profile for demonstration.'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            }
+                            return;
+                          }
                           await ref.read(matchesProvider.notifier).sendInterest(p.profileId);
                           if (context.mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(

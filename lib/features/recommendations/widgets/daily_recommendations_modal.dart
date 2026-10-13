@@ -96,22 +96,34 @@ class _DailyRecommendationsModalState extends ConsumerState<DailyRecommendations
     HapticFeedback.mediumImpact();
     final current = _currentMatch;
     if (current != null) {
-      await ref.read(matchesProvider.notifier).sendInterest(current.profile.profileId);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                const Icon(Icons.favorite, color: Colors.white, size: 20),
-                const SizedBox(width: 8),
-                Text('Interest sent to ${current.profile.name}!'),
-              ],
+      if (current.profile.isSample) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('This is a sample profile for demonstration.'),
+              duration: Duration(seconds: 2),
+              behavior: SnackBarBehavior.floating,
             ),
-            backgroundColor: AppColors.successGreen,
-            duration: const Duration(seconds: 3),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+          );
+        }
+      } else {
+        await ref.read(matchesProvider.notifier).sendInterest(current.profile.profileId);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(Icons.favorite, color: Colors.white, size: 20),
+                  const SizedBox(width: 8),
+                  Text('Interest sent to ${current.profile.name}!'),
+                ],
+              ),
+              backgroundColor: AppColors.successGreen,
+              duration: const Duration(seconds: 3),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
       }
     }
     _nextCard('interest_sent');

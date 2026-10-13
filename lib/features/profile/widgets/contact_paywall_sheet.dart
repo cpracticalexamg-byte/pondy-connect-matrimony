@@ -110,6 +110,17 @@ class _ContactPaywallSheetState extends ConsumerState<ContactPaywallSheet> {
   }
 
   Future<void> _launchCall(String phone) async {
+    if (widget.targetProfile.isSample) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('This is a sample profile for demonstration.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+      return;
+    }
     final clean = phone.replaceAll(RegExp(r'[^\d+]'), '');
     final uri = Uri.parse('tel:$clean');
     if (await canLaunchUrl(uri)) {
@@ -118,6 +129,17 @@ class _ContactPaywallSheetState extends ConsumerState<ContactPaywallSheet> {
   }
 
   Future<void> _launchWhatsApp(String phone, String name) async {
+    if (widget.targetProfile.isSample) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('This is a sample profile for demonstration.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+      return;
+    }
     final clean = phone.replaceAll(RegExp(r'\D'), '');
     final msg = Uri.encodeComponent(
       'Vanakkam $name! I came across your profile on Pondy Connect Matrimony and would love to connect.',

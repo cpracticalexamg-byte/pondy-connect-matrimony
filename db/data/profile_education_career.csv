@@ -1,1 +1,21 @@
 edu_career_id,profile_id,education_level_id,education_degree_id,degree_detail,institution,employment_type_id,occupation_category_id,occupation_id,employer,job_location,currency_id,annual_income_range_id,created_at,updated_at,deleted_at,row_version
+EDC_PRF_SMP_G01,PRF_SMP_G01,3,1,B.E.,Pondicherry Engineering College,1,2,201,ZoHo Corporation,"Lawspet, Puducherry",1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_G02,PRF_SMP_G02,3,1,"MBBS, MD",JIPMER Puducherry,1,1,101,JIPMER Super Specialty Hospital,"Muthialpet, Puducherry",1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_G03,PRF_SMP_G03,3,1,"B.L., LLB","Dr. Ambedkar Govt Law College, Puducherry",1,3,301,Puducherry High Court Bar / Independent Practice,"Villianur, Puducherry",1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_G04,PRF_SMP_G04,3,1,B.Tech,B.S. Abdur Rahman Crescent Institute,1,4,401,Al-Noor Trade & Logistics,Chennai,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_G05,PRF_SMP_G05,3,1,M.E.,Anna University,1,5,501,Govt Engineering College,Tirunelveli,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_G06,PRF_SMP_G06,3,1,"B.Sc, B.Ed","St. Joseph's College, Cuddalore",1,5,502,St. Patrick Higher Secondary School,Cuddalore,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_G07,PRF_SMP_G07,3,1,MBA,PSG Institute of Management,1,4,402,Kongu Eco Textiles & Agro,Coimbatore,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_G08,PRF_SMP_G08,3,1,CA,ICAI Chennai,1,6,601,Ernst & Young / Private Advisory,"White Town, Puducherry",1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_G09,PRF_SMP_G09,3,1,M.Sc,Madras Christian College,1,7,701,National Institute of Ocean Technology,Chennai,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_G10,PRF_SMP_G10,3,1,"B.E., M.S.",National University of Singapore,1,2,202,Grab Technologies Singapore,Singapore,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_B01,PRF_SMP_B01,3,1,B.Tech,Pondicherry Engineering College,1,2,201,Tata Consultancy Services,"Reddiarpalayam, Puducherry",1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_B02,PRF_SMP_B02,3,1,B.Sc Nursing,Mother Theresa Post Graduate Institute,1,1,102,Indira Gandhi Govt General Hospital,Puducherry,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_B03,PRF_SMP_B03,3,1,MBBS,JIPMER Puducherry,1,1,101,Apollo Hospitals / Resident Doctor,"Ariyankuppam, Puducherry",1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_B04,PRF_SMP_B04,3,1,LLB,Central Law College,1,3,301,Legal Aid & Chamber Practice,Karaikal,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_B05,PRF_SMP_B05,3,1,MBA,Thiagarajar School of Management,1,8,801,HCL Technologies,Madurai,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_B06,PRF_SMP_B06,3,1,"B.A., B.Ed","V.O.C. College, Tuticorin",1,5,502,Spic Nagar Matriculation School,Thoothukudi,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_B07,PRF_SMP_B07,3,1,M.Sc,Loyola College Chennai,1,5,503,WCC Chennai / Assistant Professor,Chennai,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_B08,PRF_SMP_B08,3,1,B.Arch,School of Planning & Architecture,1,9,901,Urban Design Collective,Bengaluru,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_B09,PRF_SMP_B09,3,1,"B.Pharm, M.Pharm",Vinayaka Missions University,1,1,103,Fortis Healthcare / Clinical Research,Salem,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1
+EDC_PRF_SMP_B10,PRF_SMP_B10,3,1,MS (UK),London School of Economics,1,6,602,Barclays Capital London,London,1,4,2026-10-13T11:09:27.885784Z,2026-10-13T11:09:27.885784Z,,1

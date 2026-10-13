@@ -4,6 +4,12 @@ class AppConfig {
   static const String supportPhoneNumber = '+91 98400 12345';
   static const String supportEmail = 'support@pondyconnectmatrimony.com';
 
+  /// When true, sample profiles are counted and visible in matches for demonstration
+  static const bool demoMode = true;
+
+  /// Payment gateway mode: 'mock' for local development/testing, 'gateway' for production
+  static const String paymentMode = 'mock';
+
   /// When true, OTP is printed to debug banner / snackbar instead of SMS gateway
   static const bool devOtp = true;
 

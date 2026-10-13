@@ -95,15 +95,7 @@ class ProfileCard extends StatelessWidget {
                       PondyWatermark(
                         opacity: 0.15,
                         fontSize: 16,
-                        child: (profile.primaryPhoto != null && profile.primaryPhoto!.isNotEmpty)
-                            ? Image.network(
-                                profile.primaryPhoto!,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: 220,
-                                errorBuilder: (_, __, ___) => _buildPlaceholderPhoto(profile),
-                              )
-                            : _buildPlaceholderPhoto(profile),
+                        child: _buildCardPhoto(profile),
                       ),
 
                       // Bottom gradient scrim for readability
@@ -194,6 +186,41 @@ class ProfileCard extends StatelessWidget {
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                // Sample Profile Badge (§9)
+                if (profile.isSample)
+                  Positioned(
+                    top: _isNewlyJoined ? 44 : 12,
+                    left: 12,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.blueGrey.shade800.withAlpha(220),
+                        borderRadius: BorderRadius.circular(6),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(50),
+                            blurRadius: 4,
+                          ),
+                        ],
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.info_outline, size: 12, color: Colors.white),
+                          SizedBox(width: 4),
+                          Text(
+                            'Sample profile',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -386,8 +413,20 @@ class ProfileCard extends StatelessWidget {
                           text: isInterestSent ? 'Interest Sent ✓' : 'Send Interest',
                           backgroundColor: isInterestSent ? AppColors.successGreen : AppColors.saffronOrange,
                           icon: isInterestSent ? Icons.check : Icons.favorite,
-                          height: 40,
-                          onPressed: isInterestSent ? null : onSendInterest,
+                          onPressed: isInterestSent
+                              ? null
+                              : () {
+                                  if (profile.isSample) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('This is a sample profile for demonstration.'),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
+                                  } else {
+                                    onSendInterest?.call();
+                                  }
+                                },
                         ),
                       ),
                     ],
@@ -398,6 +437,29 @@ class ProfileCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildCardPhoto(ProfileModel profile) {
+    final photo = profile.primaryPhoto;
+    if (photo == null || photo.isEmpty) {
+      return _buildPlaceholderPhoto(profile);
+    }
+    if (photo.startsWith('assets/')) {
+      return Image.asset(
+        photo,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 220,
+        errorBuilder: (_, __, ___) => _buildPlaceholderPhoto(profile),
+      );
+    }
+    return Image.network(
+      photo,
+      fit: BoxFit.cover,
+      width: double.infinity,
+      height: 220,
+      errorBuilder: (_, __, ___) => _buildPlaceholderPhoto(profile),
     );
   }
 

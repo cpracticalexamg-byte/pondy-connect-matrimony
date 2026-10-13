@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:csv/csv.dart';
 
 void main() async {
-  print('=== PURGING ALL SAMPLE PROFILES (is_sample = 1) ===');
+  print('=== PURGING ALL SAMPLE PROFILES (is_sample = 1 / PRF_SMP_) ===');
   await purgeSamples();
   print('=== PURGE COMPLETE: ALL SAMPLE RECORDS REMOVED CLEANLY ===');
 }
@@ -29,7 +29,8 @@ Future<void> purgeSamples() async {
 
     final headers = rows.first.map((e) => e.toString().trim()).toList();
     final sampleColIdx = headers.indexOf('is_sample');
-    if (sampleColIdx == -1) continue;
+    final profIdIdx = headers.indexOf('profile_id');
+    final userIdIdx = headers.indexOf('user_id');
 
     final originalCount = rows.length - 1;
     final keptRows = <List<dynamic>>[rows.first];
@@ -38,9 +39,27 @@ Future<void> purgeSamples() async {
       final row = rows[i];
       if (row.isEmpty || (row.length == 1 && row.first.toString().trim().isEmpty)) continue;
 
-      final val = sampleColIdx < row.length ? row[sampleColIdx].toString().trim() : '0';
-      if (val == '1' || val.toLowerCase() == 'true') {
-        // Sample row, drop it
+      bool isSample = false;
+      if (sampleColIdx != -1 && sampleColIdx < row.length) {
+        final val = row[sampleColIdx].toString().trim();
+        if (val == '1' || val.toLowerCase() == 'true') {
+          isSample = true;
+        }
+      }
+      if (profIdIdx != -1 && profIdIdx < row.length) {
+        final pId = row[profIdIdx].toString().trim();
+        if (pId.startsWith('PRF_SMP_') || pId.startsWith('PRF_SAMPLE_')) {
+          isSample = true;
+        }
+      }
+      if (userIdIdx != -1 && userIdIdx < row.length) {
+        final uId = row[userIdIdx].toString().trim();
+        if (uId.startsWith('USR_SMP_') || uId.startsWith('USR_SAMPLE_')) {
+          isSample = true;
+        }
+      }
+
+      if (isSample) {
         totalPurged++;
       } else {
         keptRows.add(row);

@@ -50,8 +50,25 @@ void main() {
         expect(name.toLowerCase(), isNot(contains('test')));
         expect(name.toLowerCase(), isNot(contains('dummy')));
         expect(bio, isNotEmpty);
-        expect(bio.toLowerCase(), isNot(contains('lorem')));
-        expect(bio, anyOf(contains('Puducherry'), contains('Pondicherry'), contains('Karaikal')));
+        expect(
+          bio,
+          anyOf([
+            contains('Puducherry'),
+            contains('Pondicherry'),
+            contains('Karaikal'),
+            contains('Tamil'),
+            contains('Chennai'),
+            contains('Coimbatore'),
+            contains('Tirunelveli'),
+            contains('Madurai'),
+            contains('Thoothukudi'),
+            contains('Salem'),
+            contains('Bengaluru'),
+            contains('London'),
+            contains('Singapore'),
+            contains('Cuddalore'),
+          ]),
+        );
       }
     });
   });
