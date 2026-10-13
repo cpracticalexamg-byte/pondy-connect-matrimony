@@ -47,6 +47,10 @@ class ProfileModel {
   final String createdAt;
   final String updatedAt;
   final bool isDemo;
+  final bool isSample;
+  final bool isVerified;
+  final String profileSource;
+  final String? phone;
   final String? primaryPhotoUrl;
   String? get primaryPhoto => primaryPhotoUrl;
 
@@ -99,10 +103,21 @@ class ProfileModel {
     required this.createdAt,
     required this.updatedAt,
     this.isDemo = false,
+    this.isSample = false,
+    this.isVerified = false,
+    this.profileSource = 'user',
+    this.phone,
     this.primaryPhotoUrl,
   });
 
   factory ProfileModel.fromMap(Map<String, String> map, [String? photoUrl]) {
+    final isSampleFlag = (map['is_sample'] == '1' ||
+        map['is_sample'] == 'true' ||
+        map['profile_source'] == 'sample' ||
+        map['is_demo'] == 'true' ||
+        (map['profile_id']?.startsWith('PC_SAMPLE') ?? false) ||
+        (map['profile_id']?.startsWith('SAMPLE') ?? false));
+
     return ProfileModel(
       profileId: map['profile_id'] ?? '',
       userId: map['user_id'] ?? '',
@@ -152,6 +167,10 @@ class ProfileModel {
       createdAt: map['created_at'] ?? '',
       updatedAt: map['updated_at'] ?? '',
       isDemo: (map['is_demo'] ?? 'false').toLowerCase() == 'true',
+      isSample: isSampleFlag,
+      isVerified: (map['is_verified'] == '1' || map['is_verified'] == 'true'),
+      profileSource: map['profile_source'] ?? (isSampleFlag ? 'sample' : 'user'),
+      phone: map['phone'] ?? map['mobile'] ?? map['contact_number'],
       primaryPhotoUrl: photoUrl,
     );
   }

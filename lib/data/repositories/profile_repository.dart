@@ -16,6 +16,11 @@ abstract class ProfileRepository {
   Future<void> recordView(String viewerProfile, String viewedProfile);
   Future<List<ProfileModel>> getProfilesWhoViewedMe(String myProfile);
   Future<List<ProfileModel>> getRecentlyViewedByMe(String myProfile);
+  Future<bool> hasViewedContact(String viewerProfileId, String viewedProfileId);
+  Future<void> recordContactView(String viewerProfileId, String viewedProfileId, {String quotaWindowId = ''});
+  Future<void> hideProfile(String hiderProfileId, String hiddenProfileId);
+  Future<void> unhideProfile(String hiderProfileId, String hiddenProfileId);
+  Future<List<String>> getHiddenProfileIds(String hiderProfileId);
 }
 
 class CsvProfileRepository implements ProfileRepository {
@@ -262,5 +267,57 @@ class CsvProfileRepository implements ProfileRepository {
       if (p != null) results.add(p);
     }
     return results;
+  }
+
+  @override
+  Future<bool> hasViewedContact(String viewerProfileId, String viewedProfileId) async {
+    final rows = await _store.query(
+      CsvSchema.contactViewsTable,
+      (r) =>
+          (r['viewer_profile_id'] == viewerProfileId || r['viewer_profile'] == viewerProfileId) &&
+          (r['viewed_profile_id'] == viewedProfileId || r['viewed_profile'] == viewedProfileId),
+    );
+    return rows.isNotEmpty;
+  }
+
+  @override
+  Future<void> recordContactView(String viewerProfileId, String viewedProfileId, {String quotaWindowId = ''}) async {
+    final already = await hasViewedContact(viewerProfileId, viewedProfileId);
+    if (already) return; // Free re-viewing of the same profile
+
+    final id = 'CV_${DateTime.now().millisecondsSinceEpoch}';
+    await _store.insert(CsvSchema.contactViewsTable, {
+      'id': id,
+      'viewer_profile_id': viewerProfileId,
+      'viewed_profile_id': viewedProfileId,
+      'quota_window_id': quotaWindowId,
+      'viewed_at': DateTime.now().toIso8601String(),
+    });
+  }
+
+  @override
+  Future<void> hideProfile(String hiderProfileId, String hiddenProfileId) async {
+    await _store.insert(CsvSchema.hiddenProfilesTable, {
+      'hider_profile_id': hiderProfileId,
+      'hidden_profile_id': hiddenProfileId,
+      'created_at': DateTime.now().toIso8601String(),
+    });
+  }
+
+  @override
+  Future<void> unhideProfile(String hiderProfileId, String hiddenProfileId) async {
+    await _store.delete(
+      CsvSchema.hiddenProfilesTable,
+      (r) => r['hider_profile_id'] == hiderProfileId && r['hidden_profile_id'] == hiddenProfileId,
+    );
+  }
+
+  @override
+  Future<List<String>> getHiddenProfileIds(String hiderProfileId) async {
+    final rows = await _store.query(
+      CsvSchema.hiddenProfilesTable,
+      (r) => r['hider_profile_id'] == hiderProfileId,
+    );
+    return rows.map((r) => r['hidden_profile_id'] ?? '').where((id) => id.isNotEmpty).toList();
   }
 }

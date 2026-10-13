@@ -49,6 +49,8 @@ class CsvStore {
 
   Directory? get dbDirectory => _dbDirectory;
 
+  void clearCache() => _memoryCache.clear();
+
   Future<void> initialize({Directory? customDir}) async {
     if (_initialized && customDir == null) return;
 
