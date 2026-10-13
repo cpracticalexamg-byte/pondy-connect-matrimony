@@ -8,10 +8,13 @@ class AppTypography {
   static bool disableGoogleFontsInTests = false;
 
   static TextStyle _applyFont(TextStyle style, bool isTamil) {
-    if (disableGoogleFontsInTests) return style;
+    final effectiveStyle = isTamil && (style.height == null || style.height! < 1.35)
+        ? style.copyWith(height: 1.35)
+        : style;
+    if (disableGoogleFontsInTests) return effectiveStyle;
     return isTamil
-        ? GoogleFonts.notoSansTamil(textStyle: style)
-        : GoogleFonts.lato(textStyle: style);
+        ? GoogleFonts.notoSansTamil(textStyle: effectiveStyle)
+        : GoogleFonts.lato(textStyle: effectiveStyle);
   }
 
   static TextStyle get heading1 => titleLarge();

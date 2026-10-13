@@ -97,7 +97,16 @@ class AppLocalizationsTa extends AppLocalizations {
   String get navHome => 'முகப்பு';
 
   @override
-  String get navMatches => 'பொருத்தங்கள்';
+  String get navMatches => 'வரன்கள்';
+
+  @override
+  String get navInterests => 'விருப்பங்கள்';
+
+  @override
+  String get navMessages => 'மெசேஜ்கள்';
+
+  @override
+  String get navUpgrade => 'அப்கிரேடு';
 
   @override
   String get navSearch => 'தேடல்';
@@ -107,6 +116,37 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get navProfile => 'சுயவிவரம்';
+
+  @override
+  String get tabRegular => 'ரெகுலர்';
+
+  @override
+  String get tabPrime => 'ப்ரைம்';
+
+  @override
+  String get freeMember => 'இலவச சேவை உறுப்பினர்';
+
+  @override
+  String get goldMember => 'தங்க உறுப்பினர்';
+
+  @override
+  String get primeGoldMember => 'ப்ரைம் தங்க உறுப்பினர்';
+
+  @override
+  String get primeTillUMarry => 'ப்ரைம் – திருமணம் வரை';
+
+  @override
+  String get allMatches => 'அனைத்து வரன்கள்';
+
+  @override
+  String get viewAllMatches => 'அனைவரையும் பார்க்கவும்';
+
+  @override
+  String get ageYears => 'வயது';
+
+  @override
+  String get matchesMatchingPreferences =>
+      'உங்கள் விருப்பங்களுடன் பொருந்தும் வரன்கள்';
 
   @override
   String get dailyRecommendations => 'தினசரி பரிந்துரைகள்';
@@ -139,10 +179,16 @@ class AppLocalizationsTa extends AppLocalizations {
   String get shortlist => 'பட்டியலிடு';
 
   @override
+  String get shortlisted => 'பட்டியலிடப்பட்டது';
+
+  @override
   String get chat => 'அரட்டை';
 
   @override
   String get call => 'அழை';
+
+  @override
+  String get whatsApp => 'வாட்ஸ்அப்';
 
   @override
   String get more => 'மேலும்';
@@ -209,4 +255,134 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get verifyAndProceed => 'சரிபார்த்து தொடரவும்';
+
+  @override
+  String get becomePaidMember => 'கட்டண உறுப்பினராகுங்கள்!';
+
+  @override
+  String get regularPacks => 'வழக்கமான திட்டங்கள்';
+
+  @override
+  String get exclusives => 'பிரத்தியேக சலுகைகள்';
+
+  @override
+  String get payNow => 'இப்போதே செலுத்தவும்';
+
+  @override
+  String get bestValue => 'சிறந்த மதிப்பு';
+
+  @override
+  String get currentPlan => 'தற்போதைய திட்டம்';
+
+  @override
+  String get upgrade => 'மேம்படுத்து';
+
+  @override
+  String get dontShow => 'காண்பிக்காதே';
+
+  @override
+  String get dailyRecommendationTitle => 'தினசரி பரிந்துரை';
+
+  @override
+  String get allCaughtUp => 'அனைத்தையும் பார்த்துவிட்டீர்கள்';
+
+  @override
+  String get newRecommendationsTomorrow => 'நாளை புதிய பரிந்துரைகள் வரும்';
+
+  @override
+  String get filter => 'வடிகட்டி';
+
+  @override
+  String get sortBy => 'வரிசைப்படுத்து';
+
+  @override
+  String get newlyJoined => 'புதிதாக சேர்ந்தவர்கள்';
+
+  @override
+  String get notSeen => 'பார்க்காதவை';
+
+  @override
+  String get profilesWithPhoto => 'புகைப்படம் உள்ள வரன்கள்';
+
+  @override
+  String get verified => 'சரிபார்க்கப்பட்டவை';
+
+  @override
+  String get nearby => 'அருகில் உள்ளவை';
+
+  @override
+  String get sameProfessionAsMe => 'என் தொழில் போன்ற வரன்கள்';
+
+  @override
+  String get clearFilters => 'வடிகட்டிகளை நீக்கு';
+
+  @override
+  String get saveThisSearch => 'இந்தத் தேடலை சேமி';
+
+  @override
+  String get upgradeToPaidMembership => 'கட்டண உறுப்பினராக மேம்படுத்துக';
+
+  @override
+  String get viewContact => 'தொடர்பு விவரத்தைக் காண்க';
+
+  @override
+  String get upgradeToView => 'பார்க்க மேம்படுத்தவும்';
+
+  @override
+  String get privacyAndLocation => 'தனியுரிமை மற்றும் இருப்பிடம்';
+
+  @override
+  String get partnerPreferences => 'துணை விருப்பங்கள்';
+
+  @override
+  String get hiddenProfiles => 'மறைக்கப்பட்ட வரன்கள்';
+
+  @override
+  String get settings => 'அமைப்புகள்';
+
+  @override
+  String get help => 'உதவி';
+
+  @override
+  String get about => 'பற்றி';
+
+  @override
+  String get stepOneOfTwo => 'படி 1/2';
+
+  @override
+  String get stepTwoOfTwo => 'படி 2/2';
+
+  @override
+  String get mandatoryPhotoPrimeTitle =>
+      'ப்ரைம் வரன்களைப் பார்க்க உங்கள் புகைப்படத்தைச் சேர்ப்பது கட்டாயமாகும்.';
+
+  @override
+  String get mandatoryPhotoPrimeSubtitle =>
+      'ப்ரைம் வரன்களைப் பார்ப்பதற்கு முன் மேலும் இரண்டு படிகள் மட்டுமே.';
+
+  @override
+  String get addYourPhoto => 'உங்கள் புகைப்படத்தைச் சேர்க்கவும்';
+
+  @override
+  String get verifyYourId => 'உங்கள் அடையாளத்தை சரிபார்க்கவும்';
+
+  @override
+  String get privacyControlGuaranteed =>
+      '100% தனியுரிமைக் கட்டுப்பாடு — உங்கள் புகைப்படத்தை யார் பார்க்கலாம் என்பதை நீங்கள் தேர்வுசெய்யலாம்';
+
+  @override
+  String get uploadPhoto => 'புகைப்படம் பதிவேற்றுக';
+
+  @override
+  String get addPhotoLater => 'பிறகு புகைப்படம் சேர்க்கிறேன்';
+
+  @override
+  String get sampleProfile => 'மாதிரி வரன்';
+
+  @override
+  String get sampleProfileDemoNotice =>
+      'இது விளக்கக்காட்சிக்கான மாதிரி வரன் மட்டுமே.';
+
+  @override
+  String get perMonth => 'மாதத்திற்கு';
 }

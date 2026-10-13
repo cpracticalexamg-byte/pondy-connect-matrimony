@@ -272,6 +272,24 @@ abstract class AppLocalizations {
   /// **'Matches'**
   String get navMatches;
 
+  /// No description provided for @navInterests.
+  ///
+  /// In en, this message translates to:
+  /// **'Interests'**
+  String get navInterests;
+
+  /// No description provided for @navMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get navMessages;
+
+  /// No description provided for @navUpgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade'**
+  String get navUpgrade;
+
   /// No description provided for @navSearch.
   ///
   /// In en, this message translates to:
@@ -289,6 +307,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Profile'**
   String get navProfile;
+
+  /// No description provided for @tabRegular.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular'**
+  String get tabRegular;
+
+  /// No description provided for @tabPrime.
+  ///
+  /// In en, this message translates to:
+  /// **'Prime'**
+  String get tabPrime;
+
+  /// No description provided for @freeMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Free Member'**
+  String get freeMember;
+
+  /// No description provided for @goldMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Gold Member'**
+  String get goldMember;
+
+  /// No description provided for @primeGoldMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Prime Gold Member'**
+  String get primeGoldMember;
+
+  /// No description provided for @primeTillUMarry.
+  ///
+  /// In en, this message translates to:
+  /// **'Prime – Till U Marry'**
+  String get primeTillUMarry;
+
+  /// No description provided for @allMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'All matches'**
+  String get allMatches;
+
+  /// No description provided for @viewAllMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'View all'**
+  String get viewAllMatches;
+
+  /// No description provided for @ageYears.
+  ///
+  /// In en, this message translates to:
+  /// **'yrs'**
+  String get ageYears;
+
+  /// No description provided for @matchesMatchingPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Matches based on your preferences'**
+  String get matchesMatchingPreferences;
 
   /// No description provided for @dailyRecommendations.
   ///
@@ -350,6 +428,12 @@ abstract class AppLocalizations {
   /// **'Shortlist'**
   String get shortlist;
 
+  /// No description provided for @shortlisted.
+  ///
+  /// In en, this message translates to:
+  /// **'Shortlisted'**
+  String get shortlisted;
+
   /// No description provided for @chat.
   ///
   /// In en, this message translates to:
@@ -361,6 +445,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Call'**
   String get call;
+
+  /// No description provided for @whatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get whatsApp;
 
   /// No description provided for @more.
   ///
@@ -493,6 +583,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Verify & Proceed'**
   String get verifyAndProceed;
+
+  /// No description provided for @becomePaidMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Become a paid member now!'**
+  String get becomePaidMember;
+
+  /// No description provided for @regularPacks.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular Packs'**
+  String get regularPacks;
+
+  /// No description provided for @exclusives.
+  ///
+  /// In en, this message translates to:
+  /// **'Exclusives'**
+  String get exclusives;
+
+  /// No description provided for @payNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Pay Now'**
+  String get payNow;
+
+  /// No description provided for @bestValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Best Value'**
+  String get bestValue;
+
+  /// No description provided for @currentPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Plan'**
+  String get currentPlan;
+
+  /// No description provided for @upgrade.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade'**
+  String get upgrade;
+
+  /// No description provided for @dontShow.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t Show'**
+  String get dontShow;
+
+  /// No description provided for @dailyRecommendationTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Recommendation'**
+  String get dailyRecommendationTitle;
+
+  /// No description provided for @allCaughtUp.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re all caught up'**
+  String get allCaughtUp;
+
+  /// No description provided for @newRecommendationsTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'New recommendations tomorrow'**
+  String get newRecommendationsTomorrow;
+
+  /// No description provided for @filter.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter'**
+  String get filter;
+
+  /// No description provided for @sortBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort by'**
+  String get sortBy;
+
+  /// No description provided for @newlyJoined.
+  ///
+  /// In en, this message translates to:
+  /// **'Newly joined'**
+  String get newlyJoined;
+
+  /// No description provided for @notSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Not seen'**
+  String get notSeen;
+
+  /// No description provided for @profilesWithPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Profiles with photo'**
+  String get profilesWithPhoto;
+
+  /// No description provided for @verified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get verified;
+
+  /// No description provided for @nearby.
+  ///
+  /// In en, this message translates to:
+  /// **'Nearby'**
+  String get nearby;
+
+  /// No description provided for @sameProfessionAsMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Same profession as me'**
+  String get sameProfessionAsMe;
+
+  /// No description provided for @clearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get clearFilters;
+
+  /// No description provided for @saveThisSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Save this search'**
+  String get saveThisSearch;
+
+  /// No description provided for @upgradeToPaidMembership.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to Paid Membership'**
+  String get upgradeToPaidMembership;
+
+  /// No description provided for @viewContact.
+  ///
+  /// In en, this message translates to:
+  /// **'View contact'**
+  String get viewContact;
+
+  /// No description provided for @upgradeToView.
+  ///
+  /// In en, this message translates to:
+  /// **'Upgrade to view'**
+  String get upgradeToView;
+
+  /// No description provided for @privacyAndLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & location'**
+  String get privacyAndLocation;
+
+  /// No description provided for @partnerPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner preferences'**
+  String get partnerPreferences;
+
+  /// No description provided for @hiddenProfiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden profiles'**
+  String get hiddenProfiles;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @help.
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get help;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// No description provided for @stepOneOfTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 1/2'**
+  String get stepOneOfTwo;
+
+  /// No description provided for @stepTwoOfTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Step 2/2'**
+  String get stepTwoOfTwo;
+
+  /// No description provided for @mandatoryPhotoPrimeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'It is mandatory to add your photo to view Prime matches.'**
+  String get mandatoryPhotoPrimeTitle;
+
+  /// No description provided for @mandatoryPhotoPrimeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Just two more steps before you view Prime matches.'**
+  String get mandatoryPhotoPrimeSubtitle;
+
+  /// No description provided for @addYourPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Your Photo'**
+  String get addYourPhoto;
+
+  /// No description provided for @verifyYourId.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify your ID'**
+  String get verifyYourId;
+
+  /// No description provided for @privacyControlGuaranteed.
+  ///
+  /// In en, this message translates to:
+  /// **'100% privacy control — choose who can view your photo'**
+  String get privacyControlGuaranteed;
+
+  /// No description provided for @uploadPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Photo'**
+  String get uploadPhoto;
+
+  /// No description provided for @addPhotoLater.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ll add photo later'**
+  String get addPhotoLater;
+
+  /// No description provided for @sampleProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample profile'**
+  String get sampleProfile;
+
+  /// No description provided for @sampleProfileDemoNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a sample profile for demonstration.'**
+  String get sampleProfileDemoNotice;
+
+  /// No description provided for @perMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'per month'**
+  String get perMonth;
 }
 
 class _AppLocalizationsDelegate
