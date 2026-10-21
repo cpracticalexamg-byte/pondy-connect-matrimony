@@ -63,7 +63,8 @@ class CsvSchema {
     metaTable: ['key', 'value', 'created_at', 'updated_at'],
     usersTable: [
       'user_id', 'mobile', 'email', 'password_hash', 'salt', 'status',
-      'is_verified', 'is_sample', 'created_at', 'updated_at', 'deleted_at', 'row_version'
+      'is_verified', 'is_sample', 'created_at', 'updated_at', 'deleted_at', 'row_version',
+      'locality', 'city'
     ],
     userSessionsTable: [
       'session_id', 'user_id', 'token_hash', 'device_info', 'ip_address',
@@ -80,7 +81,8 @@ class CsvSchema {
       'children_living_with_me', 'mother_tongue_id', 'religion_id', 'division_id',
       'caste_id', 'sub_caste_id', 'gothram_id', 'willing_other_caste',
       'about_me', 'profile_photo_privacy', 'profile_source', 'is_sample',
-      'completeness_pct', 'created_at', 'updated_at', 'deleted_at', 'row_version'
+      'completeness_pct', 'created_at', 'updated_at', 'deleted_at', 'row_version',
+      'locality', 'city'
     ],
     profileHoroscopesTable: [
       'horoscope_id', 'profile_id', 'nakshatra_id', 'padam', 'rasi_id', 'lagnam_id',

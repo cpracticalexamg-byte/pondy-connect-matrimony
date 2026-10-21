@@ -504,4 +504,19 @@ class MasterDataRepository {
       nameTa: m['name_ta'] ?? '',
     ));
   }
+
+  Future<List<MasterItem>> getLocalities({String? city}) async {
+    final list = await _loadMaster('localities.csv', (m) => MasterItem(
+      id: m['id'] ?? '',
+      nameEn: m['locality'] ?? '',
+      nameTa: m['locality'] ?? '',
+      extras: {
+        'city': m['city'] ?? 'Puducherry',
+        'lat': double.tryParse(m['lat'] ?? ''),
+        'lng': double.tryParse(m['lng'] ?? ''),
+      },
+    ));
+    if (city == null || city.isEmpty || city.toLowerCase() == 'all') return list;
+    return list.where((item) => item.extras['city'].toString().toLowerCase() == city.toLowerCase()).toList();
+  }
 }

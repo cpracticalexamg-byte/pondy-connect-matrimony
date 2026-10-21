@@ -436,7 +436,9 @@ class _DailyRecommendationsModalState extends ConsumerState<DailyRecommendations
                                   const SizedBox(width: 4),
                                   Expanded(
                                     child: Text(
-                                      '${profile.city}, ${profile.district}',
+                                      profile.locality.isNotEmpty
+                                          ? '${profile.locality}, ${profile.city}'
+                                          : '${profile.city}, ${profile.district}',
                                       style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                                     ),
                                   ),

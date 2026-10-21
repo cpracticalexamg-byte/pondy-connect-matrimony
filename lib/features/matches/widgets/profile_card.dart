@@ -342,7 +342,9 @@ class ProfileCard extends StatelessWidget {
                       const SizedBox(width: 2),
                       Expanded(
                         child: Text(
-                          '${profile.city}, ${profile.district}',
+                          profile.locality.isNotEmpty
+                              ? '${profile.locality}, ${profile.city}'
+                              : '${profile.city}, ${profile.district}',
                           style: AppTypography.caption(color: AppColors.textSecondary),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

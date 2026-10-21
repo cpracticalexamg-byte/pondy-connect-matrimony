@@ -93,6 +93,7 @@ class CsvProfileRepository implements ProfileRepository {
       state: profile.state,
       district: profile.district,
       city: profile.city,
+      locality: profile.locality,
       citizenship: profile.citizenship,
       education: profile.education,
       educationDetail: profile.educationDetail,

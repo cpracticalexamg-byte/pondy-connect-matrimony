@@ -19,6 +19,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _cityController;
+  late TextEditingController _localityController;
   late TextEditingController _occupationController;
   late TextEditingController _educationController;
   late TextEditingController _aboutMeController;
@@ -32,6 +33,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     final p = ref.read(authStateProvider).profile;
     _nameController = TextEditingController(text: p?.name ?? '');
     _cityController = TextEditingController(text: p?.city ?? 'Puducherry');
+    _localityController = TextEditingController(text: p?.locality ?? 'Mudaliarpet');
     _occupationController = TextEditingController(text: p?.occupation ?? '');
     _educationController = TextEditingController(text: p?.education ?? '');
     _aboutMeController = TextEditingController(text: p?.aboutMe ?? '');
@@ -43,6 +45,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
   void dispose() {
     _nameController.dispose();
     _cityController.dispose();
+    _localityController.dispose();
     _occupationController.dispose();
     _educationController.dispose();
     _aboutMeController.dispose();
@@ -86,6 +89,7 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
         state: p.state,
         district: p.district,
         city: _cityController.text.trim(),
+        locality: _localityController.text.trim(),
         citizenship: p.citizenship,
         education: _educationController.text.trim(),
         educationDetail: p.educationDetail,
@@ -150,7 +154,9 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
               _buildSectionTitle('Basic Information'),
               _buildTextField('Full Name', _nameController, (v) => v?.isEmpty == true ? 'Please enter name' : null),
               const SizedBox(height: 12),
-              _buildTextField('City / Area', _cityController, null),
+              _buildTextField('City / Town', _cityController, null),
+              const SizedBox(height: 12),
+              _buildTextField('Locality / Neighbourhood', _localityController, null),
               const SizedBox(height: 12),
 
               const Text('Marital Status', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),

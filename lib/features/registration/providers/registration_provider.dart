@@ -43,6 +43,7 @@ class RegistrationState {
   final String state;
   final String district;
   final String city;
+  final String locality;
   final String citizenship;
 
   // Step 4: Professional
@@ -104,6 +105,7 @@ class RegistrationState {
     this.state = 'Puducherry',
     this.district = 'puducherry',
     this.city = 'Puducherry',
+    this.locality = 'Mudaliarpet',
     this.citizenship = 'Indian',
     this.education = 'be_btech',
     this.educationDetail = '',
@@ -187,6 +189,7 @@ class RegistrationState {
     String? state,
     String? district,
     String? city,
+    String? locality,
     String? citizenship,
     String? education,
     String? educationDetail,
@@ -238,6 +241,7 @@ class RegistrationState {
       state: state ?? this.state,
       district: district ?? this.district,
       city: city ?? this.city,
+      locality: locality ?? this.locality,
       citizenship: citizenship ?? this.citizenship,
       education: education ?? this.education,
       educationDetail: educationDetail ?? this.educationDetail,
@@ -320,6 +324,7 @@ class RegistrationNotifier extends StateNotifier<RegistrationState> {
       'caste': state.caste,
       'district': state.district,
       'city': state.city,
+      'locality': state.locality,
       'education': state.education,
       'occupation': state.occupation,
       'annualIncomeRange': state.annualIncomeRange,
@@ -387,6 +392,7 @@ class RegistrationNotifier extends StateNotifier<RegistrationState> {
     String? stateName,
     String? district,
     String? city,
+    String? locality,
     String? citizenship,
   }) {
     state = state.copyWith(
@@ -394,6 +400,7 @@ class RegistrationNotifier extends StateNotifier<RegistrationState> {
       state: stateName,
       district: district,
       city: city,
+      locality: locality,
       citizenship: citizenship,
     );
     _persistDraft();
@@ -577,6 +584,7 @@ class RegistrationNotifier extends StateNotifier<RegistrationState> {
         state: state.state,
         district: state.district,
         city: state.city,
+        locality: state.locality,
         citizenship: state.citizenship,
         education: state.education,
         educationDetail: state.educationDetail,

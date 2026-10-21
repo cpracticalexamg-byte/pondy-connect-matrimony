@@ -235,10 +235,40 @@ final List<RouteBase> appRoutes = [
       name: 'profile_detail',
       pageBuilder: (context, state) {
         final profileId = state.pathParameters['id'] ?? '';
+        final extra = state.extra as Map<String, dynamic>?;
+        final candidateIds = extra?['candidateIds'] as List<String>?;
+        final initialIndex = extra?['initialIndex'] as int?;
+        final sourceTitle = extra?['sourceTitle'] as String?;
         return buildSlidePage(
           context: context,
           state: state,
-          child: ProfileDetailScreen(profileId: profileId),
+          child: ProfileDetailScreen(
+            profileId: profileId,
+            candidateIds: candidateIds,
+            initialIndex: initialIndex,
+            sourceTitle: sourceTitle,
+          ),
+        );
+      },
+    ),
+    GoRoute(
+      path: '/profile/:id',
+      name: 'profile_detail_alias',
+      pageBuilder: (context, state) {
+        final profileId = state.pathParameters['id'] ?? '';
+        final extra = state.extra as Map<String, dynamic>?;
+        final candidateIds = extra?['candidateIds'] as List<String>?;
+        final initialIndex = extra?['initialIndex'] as int?;
+        final sourceTitle = extra?['sourceTitle'] as String?;
+        return buildSlidePage(
+          context: context,
+          state: state,
+          child: ProfileDetailScreen(
+            profileId: profileId,
+            candidateIds: candidateIds,
+            initialIndex: initialIndex,
+            sourceTitle: sourceTitle,
+          ),
         );
       },
     ),

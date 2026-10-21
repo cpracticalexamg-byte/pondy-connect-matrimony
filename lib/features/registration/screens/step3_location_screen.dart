@@ -18,9 +18,10 @@ class Step3LocationScreen extends ConsumerStatefulWidget {
 }
 
 class _Step3LocationScreenState extends ConsumerState<Step3LocationScreen> {
-  final List<String> _countries = ['India', 'United States', 'United Arab Emirates', 'Singapore', 'Malaysia', 'United Kingdom', 'Other'];
+  final List<String> _countries = ['India', 'France', 'United States', 'United Arab Emirates', 'Singapore', 'Malaysia', 'United Kingdom', 'Other'];
   final List<String> _states = ['Puducherry', 'Tamil Nadu', 'Karnataka', 'Kerala', 'Andhra Pradesh', 'Telangana', 'Maharashtra', 'Other'];
   List<MasterItem> _districts = [];
+  List<MasterItem> _localities = [];
   late final TextEditingController _cityController;
   late final TextEditingController _citizenshipController;
 
@@ -31,6 +32,7 @@ class _Step3LocationScreenState extends ConsumerState<Step3LocationScreen> {
     _cityController = TextEditingController(text: reg.city);
     _citizenshipController = TextEditingController(text: reg.citizenship);
     _loadDistricts();
+    _loadLocalities();
   }
 
   @override
@@ -45,6 +47,15 @@ class _Step3LocationScreenState extends ConsumerState<Step3LocationScreen> {
     if (mounted) {
       setState(() {
         _districts = list;
+      });
+    }
+  }
+
+  Future<void> _loadLocalities() async {
+    final list = await MasterDataRepository.instance.getLocalities();
+    if (mounted) {
+      setState(() {
+        _localities = list;
       });
     }
   }
@@ -85,6 +96,7 @@ class _Step3LocationScreenState extends ConsumerState<Step3LocationScreen> {
         district: chosen == 'Puducherry' ? 'puducherry' : 'chennai',
         city: chosen == 'Puducherry' ? 'Puducherry' : 'Chennai',
       );
+      _cityController.text = chosen == 'Puducherry' ? 'Puducherry' : 'Chennai';
     }
   }
 
@@ -110,7 +122,75 @@ class _Step3LocationScreenState extends ConsumerState<Step3LocationScreen> {
         district: chosen,
         city: name,
       );
+      _cityController.text = name;
     }
+  }
+
+  void _selectLocality() async {
+    final reg = ref.read(registrationProvider);
+    final List<PickerOption<String>> options = _localities
+        .map((l) => PickerOption<String>(value: l.nameEn, title: l.nameEn))
+        .toList();
+
+    // Add "Other" option
+    options.add(const PickerOption<String>(value: '__other__', title: 'Other (Type your Locality / Area)...'));
+
+    final chosen = await PickerSheet.show<String>(
+      context: context,
+      title: 'Select Locality / Area',
+      options: options,
+      showSearch: true,
+      selectedValue: reg.locality,
+    );
+
+    if (chosen == null) return;
+
+    if (chosen == '__other__') {
+      _promptCustomLocality();
+    } else {
+      ref.read(registrationProvider.notifier).updateLocation(locality: chosen);
+    }
+  }
+
+  void _promptCustomLocality() {
+    final customCtrl = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Enter Locality / Area', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        content: TextField(
+          controller: customCtrl,
+          autofocus: true,
+          textCapitalization: TextCapitalization.words,
+          decoration: const InputDecoration(
+            hintText: 'e.g. Mudaliarpet, Lawspet, etc.',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: AppColors.saffronOrange),
+            onPressed: () {
+              final text = customCtrl.text.trim();
+              if (text.isNotEmpty) {
+                // Title-case the locality
+                final formatted = text.split(' ').map((word) {
+                  if (word.isEmpty) return '';
+                  return word[0].toUpperCase() + word.substring(1).toLowerCase();
+                }).join(' ');
+
+                ref.read(registrationProvider.notifier).updateLocation(locality: formatted);
+              }
+              Navigator.pop(ctx);
+            },
+            child: const Text('Save', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -119,7 +199,7 @@ class _Step3LocationScreenState extends ConsumerState<Step3LocationScreen> {
     final reg = ref.watch(registrationProvider);
     final prefix = auth.relationPrefix;
 
-    final isStepValid = reg.country.isNotEmpty && reg.state.isNotEmpty && reg.district.isNotEmpty;
+    final isStepValid = reg.country.isNotEmpty && reg.state.isNotEmpty && reg.district.isNotEmpty && reg.locality.isNotEmpty;
 
     return StepScaffold(
       title: 'Location Details (3/5)',
@@ -139,7 +219,7 @@ class _Step3LocationScreenState extends ConsumerState<Step3LocationScreen> {
           ),
           const SizedBox(height: 6),
           Text(
-            'Connect with matches living in your city, district or overseas',
+            'Connect with matches living in your locality, city, district or overseas',
             style: AppTypography.bodyMedium(color: AppColors.textSecondary),
           ),
           const SizedBox(height: 24),
@@ -176,11 +256,20 @@ class _Step3LocationScreenState extends ConsumerState<Step3LocationScreen> {
             controller: _cityController,
             decoration: const InputDecoration(
               labelText: 'City / Town',
-              hintText: 'e.g. Puducherry, Oulgaret, Heritage Town, Karaikal',
+              hintText: 'e.g. Puducherry, Karaikal',
             ),
             onChanged: (val) {
               ref.read(registrationProvider.notifier).updateLocation(city: val.trim());
             },
+          ),
+          const SizedBox(height: 18),
+
+          // Locality / Area dropdown
+          OutlinedDropdownField(
+            label: 'Locality / Area (உள்ளூர் பகுதி)',
+            valueText: reg.locality.isNotEmpty ? reg.locality : 'Select Locality',
+            onTap: _selectLocality,
+            isRequired: true,
           ),
           const SizedBox(height: 18),
 

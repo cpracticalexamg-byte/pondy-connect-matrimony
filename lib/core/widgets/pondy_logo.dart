@@ -19,11 +19,17 @@ class PondyLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconWidget = SizedBox(
+    final iconWidget = Image.asset(
+      'assets/images/logo.png',
       width: size,
       height: size,
-      child: CustomPaint(
-        painter: _PondyLogoPainter(),
+      fit: BoxFit.contain,
+      errorBuilder: (context, error, stackTrace) => SizedBox(
+        width: size,
+        height: size,
+        child: CustomPaint(
+          painter: _PondyLogoPainter(),
+        ),
       ),
     );
 

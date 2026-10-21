@@ -16,20 +16,20 @@ class LocaleNotifier extends StateNotifier<Locale> {
   Future<void> _loadSavedLocale() async {
     final prefs = await SharedPreferences.getInstance();
     final code = prefs.getString(_prefLocaleKey);
-    if (code != null && (code == 'en' || code == 'ta')) {
+    if (code != null && (code == 'en' || code == 'ta' || code == 'fr')) {
       state = Locale(code);
     }
   }
 
   Future<void> toggleLocale() async {
-    final newCode = state.languageCode == 'en' ? 'ta' : 'en';
+    final newCode = state.languageCode == 'en' ? 'ta' : (state.languageCode == 'ta' ? 'fr' : 'en');
     state = Locale(newCode);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_prefLocaleKey, newCode);
   }
 
   Future<void> setLocale(String languageCode) async {
-    if (languageCode != 'en' && languageCode != 'ta') return;
+    if (languageCode != 'en' && languageCode != 'ta' && languageCode != 'fr') return;
     state = Locale(languageCode);
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_prefLocaleKey, languageCode);

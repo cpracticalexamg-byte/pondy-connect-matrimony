@@ -39,6 +39,8 @@ class MatchesFilterCriteria {
   final int? distanceRadiusKm;
   final String? diet;
   final bool? hasHoroscope;
+  final List<String> localities;
+  final List<String> cities;
 
   const MatchesFilterCriteria({
     this.ageMin,
@@ -57,6 +59,8 @@ class MatchesFilterCriteria {
     this.distanceRadiusKm,
     this.diet,
     this.hasHoroscope,
+    this.localities = const [],
+    this.cities = const [],
   });
 
   bool get isEmpty =>
@@ -75,7 +79,9 @@ class MatchesFilterCriteria {
       state == null &&
       distanceRadiusKm == null &&
       diet == null &&
-      hasHoroscope == null;
+      hasHoroscope == null &&
+      localities.isEmpty &&
+      cities.isEmpty;
 
   int get activeCount {
     int c = 0;
@@ -93,6 +99,8 @@ class MatchesFilterCriteria {
     if (distanceRadiusKm != null) c++;
     if (diet != null && diet != 'all') c++;
     if (hasHoroscope == true) c++;
+    if (localities.isNotEmpty) c += localities.length;
+    if (cities.isNotEmpty) c += cities.length;
     return c;
   }
 
@@ -113,6 +121,8 @@ class MatchesFilterCriteria {
         'distanceRadiusKm': distanceRadiusKm,
         'diet': diet,
         'hasHoroscope': hasHoroscope,
+        'localities': localities,
+        'cities': cities,
       };
 
   factory MatchesFilterCriteria.fromJson(Map<String, dynamic> json) => MatchesFilterCriteria(
@@ -132,7 +142,51 @@ class MatchesFilterCriteria {
         distanceRadiusKm: json['distanceRadiusKm'] as int?,
         diet: json['diet'] as String?,
         hasHoroscope: json['hasHoroscope'] as bool?,
+        localities: (json['localities'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? const [],
+        cities: (json['cities'] as List<dynamic>?)?.map((e) => e.toString()).toList() ?? const [],
       );
+
+  MatchesFilterCriteria copyWith({
+    int? ageMin,
+    int? ageMax,
+    int? heightMinCm,
+    int? heightMaxCm,
+    String? maritalStatus,
+    String? religion,
+    String? caste,
+    String? motherTongue,
+    String? education,
+    String? employmentType,
+    String? annualIncome,
+    String? district,
+    String? state,
+    int? distanceRadiusKm,
+    String? diet,
+    bool? hasHoroscope,
+    List<String>? localities,
+    List<String>? cities,
+  }) {
+    return MatchesFilterCriteria(
+      ageMin: ageMin ?? this.ageMin,
+      ageMax: ageMax ?? this.ageMax,
+      heightMinCm: heightMinCm ?? this.heightMinCm,
+      heightMaxCm: heightMaxCm ?? this.heightMaxCm,
+      maritalStatus: maritalStatus ?? this.maritalStatus,
+      religion: religion ?? this.religion,
+      caste: caste ?? this.caste,
+      motherTongue: motherTongue ?? this.motherTongue,
+      education: education ?? this.education,
+      employmentType: employmentType ?? this.employmentType,
+      annualIncome: annualIncome ?? this.annualIncome,
+      district: district ?? this.district,
+      state: state ?? this.state,
+      distanceRadiusKm: distanceRadiusKm ?? this.distanceRadiusKm,
+      diet: diet ?? this.diet,
+      hasHoroscope: hasHoroscope ?? this.hasHoroscope,
+      localities: localities ?? this.localities,
+      cities: cities ?? this.cities,
+    );
+  }
 }
 
 class MatchesState {
@@ -275,6 +329,16 @@ class MatchesState {
           if (dist != null && dist > filterCriteria.distanceRadiusKm!) return false;
         }
         if (filterCriteria.hasHoroscope == true && (p.star.isEmpty || p.star == 'none')) return false;
+        if (filterCriteria.localities.isNotEmpty) {
+          if (!filterCriteria.localities.any((loc) => p.locality.toLowerCase() == loc.toLowerCase())) {
+            return false;
+          }
+        }
+        if (filterCriteria.cities.isNotEmpty) {
+          if (!filterCriteria.cities.any((c) => p.city.toLowerCase() == c.toLowerCase())) {
+            return false;
+          }
+        }
         return true;
       }).toList();
     }
@@ -654,6 +718,45 @@ class MatchesNotifier extends StateNotifier<MatchesState> {
   void applyFilterCriteria(MatchesFilterCriteria criteria) {
     state = state.copyWith(filterCriteria: criteria);
     _persistFilterState();
+  }
+
+  void toggleLocality(String locality) {
+    final current = List<String>.from(state.filterCriteria.localities);
+    if (current.any((l) => l.toLowerCase() == locality.toLowerCase())) {
+      current.removeWhere((l) => l.toLowerCase() == locality.toLowerCase());
+    } else {
+      current.add(locality);
+    }
+    state = state.copyWith(
+      filterCriteria: state.filterCriteria.copyWith(localities: current),
+    );
+    _persistFilterState();
+  }
+
+  void setLocality(String? locality) {
+    final current = locality != null && locality.isNotEmpty ? [locality] : <String>[];
+    state = state.copyWith(
+      filterCriteria: state.filterCriteria.copyWith(localities: current),
+    );
+    _persistFilterState();
+  }
+
+  void clearLocalities() {
+    state = state.copyWith(
+      filterCriteria: state.filterCriteria.copyWith(localities: []),
+    );
+    _persistFilterState();
+  }
+
+  Map<String, int> getLocalityCounts() {
+    final counts = <String, int>{};
+    for (final m in state.allMatches) {
+      final loc = m.profile.locality.trim();
+      if (loc.isNotEmpty) {
+        counts[loc] = (counts[loc] ?? 0) + 1;
+      }
+    }
+    return counts;
   }
 
   void clearAllFilters() {

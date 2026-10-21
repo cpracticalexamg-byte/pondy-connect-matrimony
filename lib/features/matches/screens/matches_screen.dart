@@ -35,6 +35,16 @@ class MatchesScreen extends ConsumerWidget {
     final matchesState = ref.watch(matchesProvider);
     final notifier = ref.read(matchesProvider.notifier);
     final displayedList = matchesState.filteredMatches;
+    final localityCounts = notifier.getLocalityCounts();
+
+    // Top localities sorted by count
+    final sortedLocalities = localityCounts.keys.toList()
+      ..sort((a, b) => (localityCounts[b] ?? 0).compareTo(localityCounts[a] ?? 0));
+
+    // Active source title for swipe session
+    final String currentSourceTitle = matchesState.filterCriteria.localities.isNotEmpty
+        ? '${matchesState.filterCriteria.localities.join(", ")} matches'
+        : (matchesState.activeMoreQueryTitle != null ? matchesState.activeMoreQueryTitle! : 'All matches');
 
     return Scaffold(
       backgroundColor: AppColors.bgCream,
@@ -148,7 +158,7 @@ class MatchesScreen extends ConsumerWidget {
       ),
       body: Column(
         children: [
-          // Subheader: Live count + active query / filter status
+          // Subheader: Live count + active query / locality filter status
           Container(
             color: Colors.grey.shade50,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -156,9 +166,11 @@ class MatchesScreen extends ConsumerWidget {
               children: [
                 Expanded(
                   child: Text(
-                    matchesState.activeMoreQueryTitle != null
-                        ? '${displayedList.length} ${matchesState.activeMoreQueryTitle}'
-                        : '${displayedList.length} Matches based on your preferences',
+                    matchesState.filterCriteria.localities.isNotEmpty
+                        ? '${matchesState.filterCriteria.localities.join(", ")} matches (${displayedList.length})'
+                        : (matchesState.activeMoreQueryTitle != null
+                            ? '${displayedList.length} ${matchesState.activeMoreQueryTitle}'
+                            : '${displayedList.length} Matches based on your preferences'),
                     style: const TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
@@ -168,7 +180,7 @@ class MatchesScreen extends ConsumerWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                if (matchesState.hasActiveFilters)
+                if (matchesState.hasActiveFilters || matchesState.filterCriteria.localities.isNotEmpty)
                   TextButton.icon(
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -185,7 +197,63 @@ class MatchesScreen extends ConsumerWidget {
             ),
           ),
 
-          // Scrollable Chip Row (§3.1)
+          // Browse by Locality Horizontal Strip (§Feature 4.5)
+          if (sortedLocalities.isNotEmpty)
+            Container(
+              color: const Color(0xFFF9FBF4),
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(left: 12, right: 6),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.place, size: 15, color: Color(0xFF808000)),
+                        SizedBox(width: 4),
+                        Text(
+                          'Area:',
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFF808000)),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Row(
+                        children: sortedLocalities.map((loc) {
+                          final count = localityCounts[loc] ?? 0;
+                          final isSelected = matchesState.filterCriteria.localities
+                              .any((l) => l.toLowerCase() == loc.toLowerCase());
+
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 6),
+                            child: FilterChip(
+                              label: Text('$loc ($count)'),
+                              selected: isSelected,
+                              selectedColor: const Color(0xFF808000).withAlpha(40),
+                              checkmarkColor: const Color(0xFF808000),
+                              visualDensity: VisualDensity.compact,
+                              padding: const EdgeInsets.symmetric(horizontal: 4),
+                              labelStyle: TextStyle(
+                                fontSize: 11,
+                                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                                color: isSelected ? const Color(0xFF808000) : AppColors.textPrimary,
+                              ),
+                              onSelected: (_) => notifier.toggleLocality(loc),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+          // Scrollable Quick Chip Row
           Container(
             color: Colors.white,
             padding: const EdgeInsets.symmetric(vertical: 6),
@@ -228,7 +296,22 @@ class MatchesScreen extends ConsumerWidget {
                   ),
                   const SizedBox(width: 8),
 
-                  // Active Occupation Chips (Removable e.g. "Occupation: Doctor ✕")
+                  // Active Locality Chips (Removable §Feature 4.3)
+                  ...matchesState.filterCriteria.localities.map((loc) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: InputChip(
+                        avatar: const Icon(Icons.location_on, size: 14, color: Colors.white),
+                        label: Text(loc),
+                        labelStyle: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.bold),
+                        backgroundColor: const Color(0xFF808000),
+                        deleteIconColor: Colors.white,
+                        onDeleted: () => notifier.toggleLocality(loc),
+                      ),
+                    );
+                  }),
+
+                  // Active Occupation Chips (Removable)
                   ...matchesState.selectedOccupations.map((code) {
                     return Padding(
                       padding: const EdgeInsets.only(right: 8),
@@ -298,7 +381,7 @@ class MatchesScreen extends ConsumerWidget {
             ),
           ),
 
-          // Horizontal Occupation Quick Filter Strip (§3.5)
+          // Horizontal Occupation Quick Filter Strip
           OccupationChipsStrip(
             selectedOccupations: matchesState.selectedOccupations,
             onToggleOccupation: (code) => notifier.toggleOccupationFilter(code),
@@ -331,28 +414,59 @@ class MatchesScreen extends ConsumerWidget {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Icon(Icons.people_outline, size: 64, color: AppColors.textSecondary),
+                                    Icon(
+                                      matchesState.filterCriteria.localities.isNotEmpty
+                                          ? Icons.location_off_outlined
+                                          : Icons.people_outline,
+                                      size: 64,
+                                      color: AppColors.textSecondary,
+                                    ),
                                     const SizedBox(height: 16),
                                     Text(
-                                      'No matches found',
+                                      matchesState.filterCriteria.localities.isNotEmpty
+                                          ? 'No matches in ${matchesState.filterCriteria.localities.join(", ")} yet'
+                                          : 'No matches found',
                                       style: AppTypography.heading3,
                                       textAlign: TextAlign.center,
                                     ),
                                     const SizedBox(height: 8),
                                     Text(
-                                      'Try adjusting your filters or switching to All Matches.',
+                                      matchesState.filterCriteria.localities.isNotEmpty
+                                          ? 'Expand your search to nearby Pondicherry communes or clear locality filter.'
+                                          : 'Try adjusting your filters or switching to All Matches.',
                                       style: AppTypography.bodySmall,
                                       textAlign: TextAlign.center,
                                     ),
                                     const SizedBox(height: 20),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: AppColors.saffronOrange,
-                                        foregroundColor: Colors.white,
+                                    if (matchesState.filterCriteria.localities.isNotEmpty) ...[
+                                      ElevatedButton.icon(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color(0xFF808000),
+                                          foregroundColor: Colors.white,
+                                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                        ),
+                                        icon: const Icon(Icons.near_me, size: 18),
+                                        label: const Text('Show nearby localities'),
+                                        onPressed: () {
+                                          notifier.clearLocalities();
+                                          notifier.toggleNearbyFilter();
+                                        },
                                       ),
-                                      onPressed: () => notifier.clearAllFilters(),
-                                      child: const Text('Show All Matches'),
-                                    ),
+                                      const SizedBox(height: 10),
+                                      OutlinedButton(
+                                        onPressed: () => notifier.clearAllFilters(),
+                                        child: const Text('Clear All Filters'),
+                                      ),
+                                    ] else ...[
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.saffronOrange,
+                                          foregroundColor: Colors.white,
+                                        ),
+                                        onPressed: () => notifier.clearAllFilters(),
+                                        child: const Text('Show All Matches'),
+                                      ),
+                                    ],
                                   ],
                                 ),
                               ),
@@ -371,7 +485,16 @@ class MatchesScreen extends ConsumerWidget {
                                 isShortlisted: isShortlisted,
                                 isInterestSent: isInterestSent,
                                 onTap: () {
-                                  context.push('/profile-detail/${match.profile.profileId}');
+                                  // Open Swipeable Profile Detail PageView with session candidates!
+                                  final candidateIds = displayedList.map((m) => m.profile.profileId).toList();
+                                  context.push(
+                                    '/profile-detail/${match.profile.profileId}',
+                                    extra: {
+                                      'candidateIds': candidateIds,
+                                      'initialIndex': index,
+                                      'sourceTitle': currentSourceTitle,
+                                    },
+                                  );
                                 },
                                 onShortlistToggle: () async {
                                   final added = await notifier.toggleShortlist(match.profile.profileId);
@@ -423,6 +546,7 @@ class MatchesScreen extends ConsumerWidget {
       initialVerifiedOnly: state.filterVerifiedOnly,
       initialNotSeenOnly: state.filterNotSeenOnly,
       initialNearbyOnly: state.filterNearbyOnly,
+      localityCounts: notifier.getLocalityCounts(),
       onApply: ({
         required criteria,
         required occupations,
@@ -472,7 +596,7 @@ class MatchesScreen extends ConsumerWidget {
               style: TextStyle(
                 color: isSelected ? Colors.white : AppColors.textPrimary,
                 fontSize: 13,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
             ),
             if (icon != null) ...[

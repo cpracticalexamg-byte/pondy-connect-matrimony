@@ -23,6 +23,7 @@ class ProfileModel {
   final String state;
   final String district;
   final String city;
+  final String locality;
   final String citizenship;
   final String education;
   final String educationDetail;
@@ -79,6 +80,7 @@ class ProfileModel {
     this.state = 'Puducherry',
     this.district = 'puducherry',
     this.city = 'Puducherry',
+    this.locality = 'Mudaliarpet',
     this.citizenship = 'Indian',
     this.education = 'be_btech',
     this.educationDetail = '',
@@ -143,6 +145,7 @@ class ProfileModel {
       state: map['state'] ?? 'Puducherry',
       district: map['district'] ?? 'puducherry',
       city: map['city'] ?? 'Puducherry',
+      locality: map['locality']?.isNotEmpty == true ? map['locality']! : 'Mudaliarpet',
       citizenship: map['citizenship'] ?? 'Indian',
       education: map['education'] ?? 'be_btech',
       educationDetail: map['education_detail'] ?? '',
@@ -209,6 +212,7 @@ class ProfileModel {
       'state': state,
       'district': district,
       'city': city,
+      'locality': locality,
       'citizenship': citizenship,
       'education': education,
       'education_detail': educationDetail,
@@ -261,6 +265,7 @@ class ProfileModel {
     String? state,
     String? district,
     String? city,
+    String? locality,
     String? citizenship,
     String? education,
     String? educationDetail,
@@ -316,6 +321,7 @@ class ProfileModel {
       state: state ?? this.state,
       district: district ?? this.district,
       city: city ?? this.city,
+      locality: locality ?? this.locality,
       citizenship: citizenship ?? this.citizenship,
       education: education ?? this.education,
       educationDetail: educationDetail ?? this.educationDetail,

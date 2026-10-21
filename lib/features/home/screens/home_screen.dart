@@ -9,7 +9,6 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_skeleton.dart';
 import '../../../core/widgets/pondy_watermark.dart';
 import '../../../core/widgets/profile_avatar.dart';
-import '../../../data/repositories/repository_providers.dart';
 import '../../../domain/entitlements/entitlements_model.dart';
 import '../../../domain/location/location_service.dart';
 import '../../../domain/matching/matching_engine.dart';
@@ -21,6 +20,7 @@ import '../../profile/widgets/add_photo_prompt_sheet.dart';
 import '../../profile/widgets/contact_paywall_sheet.dart';
 import '../../profile/widgets/prime_photo_gate_sheet.dart';
 import '../../recommendations/widgets/daily_recommendations_modal.dart';
+import '../../../core/widgets/app_drawer.dart';
 import '../providers/home_provider.dart';
 
 enum HomeMode { regular, prime }
@@ -35,6 +35,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   HomeMode _currentMode = HomeMode.regular;
   bool _checkedDailyModal = false;
 
@@ -90,173 +91,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     setState(() => _currentMode = mode);
   }
 
-  void _openHamburgerMenu(BuildContext context, ProfileModel? profile) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (_) => SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.person_outline, color: AppColors.saffronOrange),
-                title: const Text('Edit Profile'),
-                onTap: () {
-                  Navigator.pop(context);
-                  context.push('/profile-edit');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.tune, color: AppColors.saffronOrange),
-                title: const Text('Partner Preferences'),
-                onTap: () {
-                  Navigator.pop(context);
-                  context.push('/partner-preferences');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.visibility_off_outlined, color: AppColors.saffronOrange),
-                title: const Text('Hidden Profiles'),
-                onTap: () {
-                  Navigator.pop(context);
-                  _showHiddenProfilesSheet(context, profile);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.location_on_outlined, color: AppColors.saffronOrange),
-                title: const Text('Privacy & Location'),
-                onTap: () {
-                  Navigator.pop(context);
-                  context.push('/privacy-location');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.settings_outlined, color: AppColors.saffronOrange),
-                title: const Text('Settings'),
-                onTap: () {
-                  Navigator.pop(context);
-                  context.push('/settings');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.help_outline, color: AppColors.saffronOrange),
-                title: const Text('Help & Support'),
-                onTap: () {
-                  Navigator.pop(context);
-                  context.push('/help');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.info_outline, color: AppColors.saffronOrange),
-                title: const Text('About Pondy Connect'),
-                onTap: () {
-                  Navigator.pop(context);
-                  context.push('/about');
-                },
-              ),
-              const Divider(),
-              ListTile(
-                leading: const Icon(Icons.logout, color: Colors.red),
-                title: const Text('Logout', style: TextStyle(color: Colors.red)),
-                onTap: () async {
-                  Navigator.pop(context);
-                  await ref.read(authStateProvider.notifier).logout();
-                  if (context.mounted) context.go('/login');
-                },
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _showHiddenProfilesSheet(BuildContext context, ProfileModel? profile) async {
-    if (profile == null) return;
-    final profileRepo = ref.read(profileRepoProvider);
-    final hiddenIds = await profileRepo.getHiddenProfileIds(profile.profileId);
-
-    if (!context.mounted) return;
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (ctx) => StatefulBuilder(
-        builder: (ctx, setSheetState) => SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Hidden Profiles (${hiddenIds.length})', style: AppTypography.heading3),
-                    IconButton(
-                      icon: const Icon(Icons.close),
-                      onPressed: () => Navigator.pop(ctx),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                if (hiddenIds.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24),
-                    child: Center(
-                      child: Text(
-                        'You have not hidden any profiles.',
-                        style: TextStyle(color: AppColors.textSecondary),
-                      ),
-                    ),
-                  )
-                else
-                  Flexible(
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: hiddenIds.length,
-                      separatorBuilder: (_, __) => const Divider(),
-                      itemBuilder: (_, i) {
-                        final hid = hiddenIds[i];
-                        return ListTile(
-                          title: Text('Profile $hid'),
-                          trailing: TextButton(
-                            onPressed: () async {
-                              await profileRepo.unhideProfile(profile.profileId, hid);
-                              hiddenIds.remove(hid);
-                              setSheetState(() {});
-                              ref.read(homeDashboardProvider.notifier).refreshDashboard();
-                            },
-                            child: const Text('Unhide'),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final homeData = ref.watch(homeDashboardProvider);
@@ -267,6 +101,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final entitlements = Entitlements.of(profile);
 
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: const AppDrawer(),
       backgroundColor: AppColors.bgCream,
       body: SafeArea(
         top: false,
@@ -701,7 +537,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   // Hamburger Menu
                   IconButton(
                     icon: const Icon(Icons.menu_rounded, color: AppColors.textPrimary, size: 24),
-                    onPressed: () => _openHamburgerMenu(context, profile),
+                    onPressed: () => _scaffoldKey.currentState?.openDrawer(),
                     padding: const EdgeInsets.all(6),
                     constraints: const BoxConstraints(),
                   ),
@@ -979,6 +815,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       return _buildMiniProfileCard(
                         context: context,
                         match: match,
+                        candidateIds: matches.map((m) => m.profile.profileId).toList(),
+                        initialIndex: i,
+                        sourceTitle: title,
                         isNewlyJoined: isNewlyJoined,
                         showDistance: showDistance,
                       );
@@ -994,6 +833,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget _buildMiniProfileCard({
     required BuildContext context,
     required MatchResult match,
+    required List<String> candidateIds,
+    required int initialIndex,
+    required String sourceTitle,
     bool isNewlyJoined = false,
     bool showDistance = false,
   }) {
@@ -1001,7 +843,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final distance = LocationService.instance.getDistanceToCandidate(p.profileId, targetDistrict: p.district);
 
     return InkWell(
-      onTap: () => context.push('/profile/${p.profileId}'),
+      onTap: () => context.push(
+        '/profile/${p.profileId}',
+        extra: {
+          'candidateIds': candidateIds,
+          'initialIndex': initialIndex,
+          'sourceTitle': sourceTitle,
+        },
+      ),
       borderRadius: BorderRadius.circular(14),
       child: Container(
         width: 160,
@@ -1108,6 +957,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   Text(
                     '${p.age} yrs, ${_formatHeight(p.heightCm)}',
                     style: const TextStyle(color: AppColors.textSecondary, fontSize: 11),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    '${p.locality.isNotEmpty ? p.locality : "Mudaliarpet"}, ${p.city.isNotEmpty ? p.city : "Puducherry"}',
+                    style: const TextStyle(color: AppColors.textSecondary, fontSize: 10, fontWeight: FontWeight.w500),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 2),
                   Text(

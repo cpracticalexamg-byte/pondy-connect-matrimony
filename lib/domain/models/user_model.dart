@@ -12,6 +12,8 @@ class UserModel {
   final String planExpiry;
   final bool isVerified;
   final bool isDemo;
+  final String locality;
+  final String city;
 
   const UserModel({
     required this.userId,
@@ -27,6 +29,8 @@ class UserModel {
     this.planExpiry = '',
     this.isVerified = false,
     this.isDemo = false,
+    this.locality = 'Mudaliarpet',
+    this.city = 'Puducherry',
   });
 
   factory UserModel.fromMap(Map<String, String> map) {
@@ -44,6 +48,8 @@ class UserModel {
       planExpiry: map['plan_expiry'] ?? '',
       isVerified: (map['is_verified'] ?? 'false').toLowerCase() == 'true',
       isDemo: (map['is_demo'] ?? 'false').toLowerCase() == 'true',
+      locality: map['locality']?.isNotEmpty == true ? map['locality']! : 'Mudaliarpet',
+      city: map['city']?.isNotEmpty == true ? map['city']! : 'Puducherry',
     );
   }
 
@@ -62,6 +68,8 @@ class UserModel {
       'plan_expiry': planExpiry,
       'is_verified': isVerified.toString(),
       'is_demo': isDemo.toString(),
+      'locality': locality,
+      'city': city,
     };
   }
 
@@ -77,6 +85,8 @@ class UserModel {
     String? planExpiry,
     bool? isVerified,
     bool? isDemo,
+    String? locality,
+    String? city,
   }) {
     return UserModel(
       userId: userId,
@@ -92,6 +102,8 @@ class UserModel {
       planExpiry: planExpiry ?? this.planExpiry,
       isVerified: isVerified ?? this.isVerified,
       isDemo: isDemo ?? this.isDemo,
+      locality: locality ?? this.locality,
+      city: city ?? this.city,
     );
   }
 }

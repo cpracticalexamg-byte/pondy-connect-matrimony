@@ -9,6 +9,7 @@ class FilterSheet extends StatefulWidget {
   final bool initialVerifiedOnly;
   final bool initialNotSeenOnly;
   final bool initialNearbyOnly;
+  final Map<String, int>? localityCounts;
   final void Function({
     required MatchesFilterCriteria criteria,
     required Set<String> occupations,
@@ -26,6 +27,7 @@ class FilterSheet extends StatefulWidget {
     required this.initialVerifiedOnly,
     required this.initialNotSeenOnly,
     required this.initialNearbyOnly,
+    this.localityCounts,
     required this.onApply,
   });
 
@@ -37,6 +39,7 @@ class FilterSheet extends StatefulWidget {
     required bool initialVerifiedOnly,
     required bool initialNotSeenOnly,
     required bool initialNearbyOnly,
+    Map<String, int>? localityCounts,
     required void Function({
       required MatchesFilterCriteria criteria,
       required Set<String> occupations,
@@ -60,6 +63,7 @@ class FilterSheet extends StatefulWidget {
         initialVerifiedOnly: initialVerifiedOnly,
         initialNotSeenOnly: initialNotSeenOnly,
         initialNearbyOnly: initialNearbyOnly,
+        localityCounts: localityCounts,
         onApply: onApply,
       ),
     );
@@ -85,6 +89,32 @@ class _FilterSheetState extends State<FilterSheet> {
   late bool _verifiedOnly;
   late bool _notSeenOnly;
   late bool _nearbyOnly;
+  late Set<String> _selectedLocalities;
+  String _localitySearch = '';
+
+  static const List<String> _allLocalityList = [
+    'Mudaliarpet',
+    'Nellithope',
+    'Lawspet',
+    'Muthialpet',
+    'Reddiarpalayam',
+    'White Town',
+    'Heritage Town',
+    'Ariyankuppam',
+    'Villianur',
+    'Ozhukarai',
+    'Kalapet',
+    'Auroville',
+    'Bahour',
+    'Embalam',
+    'Kurumbapet',
+    'Thattanchavady',
+    'Saram',
+    'Rainbow Nagar',
+    'Anna Nagar',
+    'Uppalam',
+    'Karaikal Town',
+  ];
 
   @override
   void initState() {
@@ -111,6 +141,7 @@ class _FilterSheetState extends State<FilterSheet> {
     _verifiedOnly = widget.initialVerifiedOnly;
     _notSeenOnly = widget.initialNotSeenOnly;
     _nearbyOnly = widget.initialNearbyOnly;
+    _selectedLocalities = Set<String>.from(c.localities);
   }
 
   int get _activeCount {
@@ -129,6 +160,7 @@ class _FilterSheetState extends State<FilterSheet> {
     if (_verifiedOnly) count++;
     if (_notSeenOnly) count++;
     if (_nearbyOnly) count++;
+    count += _selectedLocalities.length;
     return count;
   }
 
@@ -148,12 +180,14 @@ class _FilterSheetState extends State<FilterSheet> {
       _verifiedOnly = false;
       _notSeenOnly = false;
       _nearbyOnly = false;
+      _selectedLocalities.clear();
+      _localitySearch = '';
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height * 0.88;
+    final height = MediaQuery.of(context).size.height * 0.90;
 
     return SizedBox(
       height: height,
@@ -190,17 +224,20 @@ class _FilterSheetState extends State<FilterSheet> {
                 const Spacer(),
                 TextButton(
                   onPressed: _resetAll,
-                  child: const Text('Reset', style: TextStyle(color: AppColors.saffronOrange, fontWeight: FontWeight.bold)),
+                  child: const Text(
+                    'Clear All',
+                    style: TextStyle(color: AppColors.saffronOrange, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ],
             ),
           ),
           const Divider(height: 1),
 
-          // Scrollable Filter Body
+          // Scrollable Filter Sections
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               children: [
                 // Quick Occupation Filter Chips
                 _buildSectionTitle('Quick Occupation Filter'),
@@ -249,46 +286,100 @@ class _FilterSheetState extends State<FilterSheet> {
                       onSelected: (val) => setState(() => _notSeenOnly = val),
                     ),
                     FilterChip(
-                      label: const Text('Nearby Only'),
+                      label: const Text('Nearby (Pondy/TN)'),
                       selected: _nearbyOnly,
                       selectedColor: AppColors.saffronOrange.withAlpha(40),
                       checkmarkColor: AppColors.saffronOrange,
                       onSelected: (val) => setState(() => _nearbyOnly = val),
                     ),
-                    FilterChip(
-                      label: const Text('Has Horoscope'),
-                      selected: _hasHoroscope,
-                      selectedColor: AppColors.saffronOrange.withAlpha(40),
-                      checkmarkColor: AppColors.saffronOrange,
-                      onSelected: (val) => setState(() => _hasHoroscope = val),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
 
+                // Locality Filter Section (§Feature 4)
+                _buildSectionTitle('Locality / Neighbourhood (Puducherry & Karaikal)'),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Search locality (e.g. Mudaliarpet, Lawspet...)',
+                          prefixIcon: const Icon(Icons.search, size: 18),
+                          isDense: true,
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                        ),
+                        onChanged: (val) => setState(() => _localitySearch = val.toLowerCase().trim()),
+                      ),
+                    ),
+                    if (_selectedLocalities.isNotEmpty) ...[
+                      const SizedBox(width: 8),
+                      TextButton(
+                        onPressed: () => setState(() => _selectedLocalities.clear()),
+                        child: const Text('Clear', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                      ),
+                    ],
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: _allLocalityList
+                      .where((loc) => _localitySearch.isEmpty || loc.toLowerCase().contains(_localitySearch))
+                      .map((loc) {
+                    final isSel = _selectedLocalities.contains(loc);
+                    final count = widget.localityCounts?[loc] ?? 0;
+                    final countStr = count > 0 ? ' ($count)' : '';
+                    return FilterChip(
+                      label: Text('$loc$countStr'),
+                      selected: isSel,
+                      selectedColor: AppColors.saffronOrange.withAlpha(40),
+                      checkmarkColor: AppColors.saffronOrange,
+                      labelStyle: TextStyle(
+                        fontSize: 12,
+                        color: isSel ? AppColors.saffronOrange : AppColors.textPrimary,
+                        fontWeight: isSel ? FontWeight.bold : FontWeight.normal,
+                      ),
+                      onSelected: (selected) {
+                        setState(() {
+                          if (selected) {
+                            _selectedLocalities.add(loc);
+                          } else {
+                            _selectedLocalities.remove(loc);
+                          }
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+                const SizedBox(height: 24),
+
                 // Age Range
-                _buildSectionTitle('Age: ${_ageRange.start.round()} - ${_ageRange.end.round()} yrs'),
+                _buildSectionTitle('Age Range: ${_ageRange.start.round()} - ${_ageRange.end.round()} yrs'),
                 RangeSlider(
                   values: _ageRange,
                   min: 18,
                   max: 60,
                   divisions: 42,
                   activeColor: AppColors.saffronOrange,
+                  inactiveColor: Colors.grey.shade300,
                   labels: RangeLabels('${_ageRange.start.round()}', '${_ageRange.end.round()}'),
-                  onChanged: (vals) => setState(() => _ageRange = vals),
+                  onChanged: (v) => setState(() => _ageRange = v),
                 ),
                 const SizedBox(height: 16),
 
                 // Height Range
-                _buildSectionTitle('Height: ${_formatHeight(_heightRange.start.round())} - ${_formatHeight(_heightRange.end.round())}'),
+                _buildSectionTitle('Height Range: ${_formatCmToFtIn(_heightRange.start.round())} - ${_formatCmToFtIn(_heightRange.end.round())}'),
                 RangeSlider(
                   values: _heightRange,
                   min: 130,
                   max: 210,
                   divisions: 80,
                   activeColor: AppColors.saffronOrange,
-                  labels: RangeLabels(_formatHeight(_heightRange.start.round()), _formatHeight(_heightRange.end.round())),
-                  onChanged: (vals) => setState(() => _heightRange = vals),
+                  inactiveColor: Colors.grey.shade300,
+                  labels: RangeLabels('${_heightRange.start.round()} cm', '${_heightRange.end.round()} cm'),
+                  onChanged: (v) => setState(() => _heightRange = v),
                 ),
                 const SizedBox(height: 16),
 
@@ -298,11 +389,11 @@ class _FilterSheetState extends State<FilterSheet> {
                   value: _maritalStatus,
                   decoration: _inputDecoration(),
                   items: const [
-                    DropdownMenuItem(value: 'all', child: Text('All Marital Statuses')),
+                    DropdownMenuItem(value: 'all', child: Text('Any Marital Status')),
                     DropdownMenuItem(value: 'never_married', child: Text('Never Married')),
+                    DropdownMenuItem(value: 'widower', child: Text('Widower / Widow')),
                     DropdownMenuItem(value: 'divorced', child: Text('Divorced')),
-                    DropdownMenuItem(value: 'widowed', child: Text('Widowed')),
-                    DropdownMenuItem(value: 'separated', child: Text('Separated')),
+                    DropdownMenuItem(value: 'awaiting_divorce', child: Text('Awaiting Divorce')),
                   ],
                   onChanged: (v) => setState(() => _maritalStatus = v ?? 'all'),
                 ),
@@ -314,7 +405,7 @@ class _FilterSheetState extends State<FilterSheet> {
                   value: _religion,
                   decoration: _inputDecoration(),
                   items: const [
-                    DropdownMenuItem(value: 'all', child: Text('All Religions')),
+                    DropdownMenuItem(value: 'all', child: Text('Any Religion')),
                     DropdownMenuItem(value: 'hindu', child: Text('Hindu')),
                     DropdownMenuItem(value: 'christian', child: Text('Christian')),
                     DropdownMenuItem(value: 'muslim', child: Text('Muslim')),
@@ -324,13 +415,34 @@ class _FilterSheetState extends State<FilterSheet> {
                 ),
                 const SizedBox(height: 16),
 
-                // District / Location
-                _buildSectionTitle('Location / District'),
+                // Caste / Subcaste
+                _buildSectionTitle('Caste'),
+                DropdownButtonFormField<String>(
+                  value: _caste,
+                  decoration: _inputDecoration(),
+                  items: const [
+                    DropdownMenuItem(value: 'all', child: Text('Any Caste / Willing Other Caste')),
+                    DropdownMenuItem(value: 'mudaliar', child: Text('Mudaliar')),
+                    DropdownMenuItem(value: 'vanniyar', child: Text('Vanniyar / Padayachi')),
+                    DropdownMenuItem(value: 'pillai', child: Text('Pillai')),
+                    DropdownMenuItem(value: 'brahmin', child: Text('Brahmin (Iyer / Iyengar)')),
+                    DropdownMenuItem(value: 'nadar', child: Text('Nadar')),
+                    DropdownMenuItem(value: 'chettiar', child: Text('Chettiar')),
+                    DropdownMenuItem(value: 'thevar', child: Text('Thevar / Mukkalathor')),
+                    DropdownMenuItem(value: 'yadava', child: Text('Yadava')),
+                    DropdownMenuItem(value: 'meenavar', child: Text('Meenavar / Pattanavar')),
+                  ],
+                  onChanged: (v) => setState(() => _caste = v ?? 'all'),
+                ),
+                const SizedBox(height: 16),
+
+                // District
+                _buildSectionTitle('District / Region'),
                 DropdownButtonFormField<String>(
                   value: _district,
                   decoration: _inputDecoration(),
                   items: const [
-                    DropdownMenuItem(value: 'all', child: Text('All Districts')),
+                    DropdownMenuItem(value: 'all', child: Text('Any Location')),
                     DropdownMenuItem(value: 'puducherry', child: Text('Puducherry')),
                     DropdownMenuItem(value: 'karaikal', child: Text('Karaikal')),
                     DropdownMenuItem(value: 'cuddalore', child: Text('Cuddalore')),
@@ -341,11 +453,22 @@ class _FilterSheetState extends State<FilterSheet> {
                 ),
                 const SizedBox(height: 16),
 
+                // Horoscope
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  activeColor: AppColors.saffronOrange,
+                  title: const Text('Horoscope available only', style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+                  subtitle: const Text('Filters profiles with Raasi/Star info', style: TextStyle(fontSize: 12)),
+                  value: _hasHoroscope,
+                  onChanged: (v) => setState(() => _hasHoroscope = v),
+                ),
+                const SizedBox(height: 16),
+
                 // Distance Radius
                 _buildSectionTitle('Distance Radius'),
                 Wrap(
                   spacing: 8,
-                  children: [null, 5, 10, 25, 50, 100].map((radius) {
+                  children: [null, 10, 25, 50, 100].map((radius) {
                     final isSel = _distanceRadius == radius;
                     return ChoiceChip(
                       label: Text(radius == null ? 'Any' : '$radius km'),
@@ -414,6 +537,7 @@ class _FilterSheetState extends State<FilterSheet> {
                     diet: _diet == 'all' ? null : _diet,
                     distanceRadiusKm: _distanceRadius,
                     hasHoroscope: _hasHoroscope ? true : null,
+                    localities: _selectedLocalities.toList(),
                   );
 
                   widget.onApply(
@@ -474,16 +598,24 @@ class _FilterSheetState extends State<FilterSheet> {
 
   InputDecoration _inputDecoration() {
     return InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey.shade300)),
-      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide(color: Colors.grey.shade300)),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      filled: true,
+      fillColor: Colors.grey.shade50,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(color: Colors.grey.shade300),
+      ),
     );
   }
 
-  String _formatHeight(int cm) {
-    final inches = (cm / 2.54).round();
-    final ft = inches ~/ 12;
-    final inch = inches % 12;
-    return '$ft\'$inch" ($cm cm)';
+  String _formatCmToFtIn(int cm) {
+    final totalInches = cm / 2.54;
+    final feet = totalInches ~/ 12;
+    final inches = (totalInches % 12).round();
+    return "$feet'$inches\"";
   }
 }
